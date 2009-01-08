@@ -78,6 +78,7 @@ function htmlmail_menu() {
 
 function htmlmail_settings() {
   $form = array();
+
   $form['htmlmail_settings']['htmlmail_testaddr'] = array(
     '#type' => 'textfield',
     '#title' => t('Address for test emails'),
@@ -121,6 +122,7 @@ function htmlmail_settings() {
 }
 
 function htmlmail_admin_test_form($form_values = NULL) {
+
   $form['test_subject'] = array(
     '#type' => 'textfield',
     '#title' => t('Subject'),
@@ -128,6 +130,7 @@ function htmlmail_admin_test_form($form_values = NULL) {
     '#default_value' => variable_get('htmlmail_test_subject', ''),
     '#maxlength' => 128,
   );
+
   $form['test_body'] = array(
     '#type' => 'textarea',
     '#title' => t('Body'),
@@ -135,10 +138,12 @@ function htmlmail_admin_test_form($form_values = NULL) {
     '#default_value' => variable_get('htmlmail_test_body', ''),
     '#description' => t('Formatted in HTML.'),
   );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
   );
+
   return $form;
 }
 
@@ -231,12 +236,9 @@ function _htmlmail_url_trim($text, $length = NULL) {
   if ($length !== NULL) {
     $_length = $length;
   }
-
-  //if (strlen($text) > $_length) {
   if ($_length != 0 && strlen($text) > $_length) {
     $text = substr($text, 0, $_length) .'...';
   }
-
   return $text;
 }
 
@@ -248,11 +250,12 @@ function _htmlmail_url_trim($text, $length = NULL) {
 function _htmlmail_autop($text) {
   // All block level tags
   $block = '(?:table|thead|tfoot|caption|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|select|form|blockquote|address|p|h[1-6])';
-
-  // Split at <pre>, <script>, <style> and </pre>, </script>, </style> tags.
-  // We don't apply any processing to the contents of these tags to avoid messing
-  // up code. We look for matched pairs and allow basic nesting. For example:
-  // "processed <pre> ignored <script> ignored </script> ignored </pre> processed"
+  /*
+    Split at <pre>, <script>, <style> and </pre>, </script>, </style> tags.
+    We don't apply any processing to the contents of these tags to avoid messing
+    up code. We look for matched pairs and allow basic nesting. For example:
+    "processed <pre> ignored <script> ignored </script> ignored </pre> processed"
+  */ 
   $chunks = preg_split('@(</?(?:pre|script|style)[^>]*>)@i', $text, -1, PREG_SPLIT_DELIM_CAPTURE);
   // Note: PHP ensures the array consists of alternating delimiters and literals
   // and begins and ends with a literal (inserting NULL as required).
