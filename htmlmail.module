@@ -31,17 +31,42 @@ function htmlmail_mail_alter(&$message) {
   // Insert the preformatted HTML so the end user only needs to enter what goes between the <body> tags.
   // this of course can be overridden in the admin settings for this module.
   if (variable_get('htmlmail_preformat', '1') == 1) {
-    $message['body'] = "<html>\n" . 
-                       "<head>\n" .
-                       "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n" . 
-                       "</head>\n" .
-                       "<body>\n". $message['body'] ."</body>\n" . 
-                       "</html>\n";
+
+    $message['body'] = theme('htmlmail', $message['body']);
+
+//    $message['body'] = "<html>\n" . 
+//                       "<head>\n" .
+//                       "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n" . 
+//                       "</head>\n" .
+//                       "<body>\n". $message['body'] ."</body>\n" . 
+//                       "</html>\n";
+
   }
 
   if (variable_get('htmlmail_urlfilter', '1') == 1) {
     $message['body'] = _htmlmail_url($message['body']);
   }
+}
+
+function htmlmail_theme(){
+  return array(
+    'htmlmail' => array(
+    'arguments' => array('body' => null),
+    ),
+  );
+}
+
+function theme_htmlmail($body){
+  $output = '';
+
+  $output .= "<html>\n";
+  $output .= "<head>\n";
+  $output .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
+  $output .= "</head>\n";
+  $output .= "<body id=\"htmlmail-body\">\n". $body ."\n</body>\n";
+  $output .= "</html>\n";
+  
+  return $output;
 }
 
 function htmlmail_menu() {
@@ -67,7 +92,7 @@ function htmlmail_menu() {
    );
 
    $items['admin/settings/htmlmail/test'] = array(
-     'title' => 'Test mail',
+     'title' => 'Send Test',
      'page callback' => 'drupal_get_form',
      'page arguments' => array('htmlmail_admin_test_form'),
      'type' => MENU_LOCAL_TASK,
@@ -190,8 +215,8 @@ function htmlmail_admin_test_form_submit($form, &$form_state) {
 function _htmlmail_url($text) {
   // Pass length to regexp callback
   //_htmlmail_url_trim(NULL, 72);
-  _htmlmail_url_trim(NULL, variable_get('htmlmail_urllength', 72));
 
+  _htmlmail_url_trim(NULL, variable_get('htmlmail_urllength', 72));
 
   $text   = ' '. $text .' ';
 
