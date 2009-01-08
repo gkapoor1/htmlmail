@@ -1,4 +1,5 @@
 ; $Id$
 name = HTML Mail
-description = "Enable HTML in system emails."
+description = "Enable HTML in system emails"
+package = Mail
 core = 6.x
