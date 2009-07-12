@@ -17,9 +17,9 @@ function htmlmail_help($path, $arg) {
 }
 
 function htmlmail_mail_alter(&$message) {
-  $message['headers'] = array(
-    'Content-Type' => 'text/html; charset=UTF-8;',
-  );
+  if (!preg_match('/text\/html/', $message['headers']['Content-Type'])) {
+    $message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
+  }
 
   // as of d6 body may be array
   $message['body'] = is_array($message['body']) ? implode("\n\n", $message['body']) : $message['body'];
