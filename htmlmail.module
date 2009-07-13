@@ -12,6 +12,7 @@
 function htmlmail_help($path, $arg) {
   switch ($path) {
     case 'admin/help#htmlmail':
+    case 'admin/settings/htmlmail':
       $output = '<p>'.  t("HTML Mail provides formatting and semantic markup capabilities in e-mail that are not available with plain text. All system emails are effected if this module is enabled.") .'</p>';
   }
   return $output;
