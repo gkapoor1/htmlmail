@@ -17,7 +17,7 @@ function htmlmail_help($path, $arg) {
 }
 
 function htmlmail_mail_alter(&$message) {
-	
+
   if (!preg_match('/text\/html/', $message['headers']['Content-Type'])) {
     $message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
   }
@@ -39,22 +39,22 @@ function htmlmail_mail_alter(&$message) {
   if (variable_get('htmlmail_urlfilter', '1') == 1) {
     $message['body'] = _htmlmail_url($message['body']);
   }
-	
-	if (variable_get('htmlmail_emogrifier', '0') == 1) {
+
+  if (variable_get('htmlmail_emogrifier', '0') == 1) {
     $message['body'] = _htmlmail_emogrify($message);
-	}
+  }
 
 }
 
-function htmlmail_theme(){
+function htmlmail_theme() {
   return array(
     'htmlmail' => array(
-    'arguments' => array('body' => null),
+    'arguments' => array('body' => NULL),
     ),
   );
 }
 
-function theme_htmlmail($body){
+function theme_htmlmail($body) {
   $output = '';
 
   $output .= "<html>\n";
@@ -64,13 +64,13 @@ function theme_htmlmail($body){
   $css = variable_get('htmlmail_css', '');
   if (!empty($css)) {
     $output .= '<style type="text/css">'."\n". $css ."\n</style>\n";
-	}
-	
+  }
+
   $output .= "</head>\n";
   $output .= "<body id=\"htmlmail-body\">\n". 
-	              variable_get('htmlmail_header', '') ."\n". 
-								$body ."\n". 
-								variable_get('htmlmail_footer', '') ."\n</body>\n";
+                variable_get('htmlmail_header', '') ."\n". 
+                $body ."\n". 
+                variable_get('htmlmail_footer', '') ."\n</body>\n";
   $output .= "</html>\n";
   
   return $output;
@@ -156,7 +156,7 @@ function htmlmail_settings() {
     '#description' => t('Enter the email address for test emails, defaults to site email. '. l('Send Test', 'admin/settings/htmlmail/test')),
   );
 
-  $form['htmlmail_settings']['header_footer'] = array (
+  $form['htmlmail_settings']['header_footer'] = array(
     '#type' => 'fieldset',
     '#title' => t('Header, Footer and CSS'),
     '#collapsible' => TRUE,
@@ -169,7 +169,7 @@ function htmlmail_settings() {
     '#title' => t('Header HTML'),
     '#default_value' => variable_get('htmlmail_header', ''),
   );
-	
+
   $form['htmlmail_settings']['header_footer']['htmlmail_footer'] = array(
     '#type' => 'textarea',
     '#title' => t('Footer HTML'),
@@ -237,7 +237,7 @@ function htmlmail_admin_test_form_submit($form, &$form_state) {
     'body' => $form_state['values']['test_body'],
     'subject' => $form_state['values']['test_subject']
   );
-	
+
   if (drupal_mail('htmlmail', 'htmlmail_test', $to, language_default(), $params, $to)) {
     drupal_set_message('HTML Mail test message sent.');
   }
@@ -333,17 +333,17 @@ function _htmlmail_url_trim($text, $length = NULL) {
  *           The modified message body string with inlined CSS applied.
  */
 function _htmlmail_emogrify(&$message) {
-  $path = drupal_get_path('module', 'htmlmail') . "/emogrifier/emogrifier.php";
+  $path = drupal_get_path('module', 'htmlmail') ."/emogrifier/emogrifier.php";
   //$path = "./$path/emogrifier.php";
   if (is_file($path)) {
     $style = array();
     //Pull out the contents of any style tags
-    if(preg_match_all("@<style[^>]*>(.*)</style>@Usi", $message['body'], $matches, PREG_PATTERN_ORDER)) {
+    if (preg_match_all("@<style[^>]*>(.*)</style>@Usi", $message['body'], $matches, PREG_PATTERN_ORDER)) {
       $style = $matches[1];
     }
     // Emogrify can't handle several CSS rules on one line. As a precaution,
     // we therefore insert LF after each closing bracket.
-    $style = preg_replace('/}\s*/', "}\n", implode("\n",$style));
+    $style = preg_replace('/}\s*/', "}\n", implode("\n", $style));
 
     // Inline the CSS rules.
     include_once $path;
