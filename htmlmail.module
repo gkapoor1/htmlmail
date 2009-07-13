@@ -31,21 +31,17 @@ function htmlmail_mail_alter(&$message) {
   // Insert the preformatted HTML so the end user only needs to enter what goes between the <body> tags.
   // this of course can be overridden in the admin settings for this module.
   if (variable_get('htmlmail_preformat', '1') == 1) {
-
     $message['body'] = theme('htmlmail', $message['body']);
-
-//    $message['body'] = "<html>\n" . 
-//                       "<head>\n" .
-//                       "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n" . 
-//                       "</head>\n" .
-//                       "<body>\n". $message['body'] ."</body>\n" . 
-//                       "</html>\n";
-
   }
 
   if (variable_get('htmlmail_urlfilter', '1') == 1) {
     $message['body'] = _htmlmail_url($message['body']);
   }
+	
+	if (variable_get('htmlmail_emogrifier', '1') == 1) {
+    $message['body'] = _htmlmail_emogrify($message);
+	}
+
 }
 
 function htmlmail_theme(){
@@ -62,8 +58,17 @@ function theme_htmlmail($body){
   $output .= "<html>\n";
   $output .= "<head>\n";
   $output .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
+
+  $css = variable_get('htmlmail_css', '');
+  if (!empty($css)) {
+    $output .= '<style type="text/css">'."\n". $css ."\n</style>\n";
+	}
+	
   $output .= "</head>\n";
-  $output .= "<body id=\"htmlmail-body\">\n". $body ."\n</body>\n";
+  $output .= "<body id=\"htmlmail-body\">\n". 
+	              variable_get('htmlmail_header', '') ."\n". 
+								$body ."\n". 
+								variable_get('htmlmail_footer', '') ."\n</body>\n";
   $output .= "</html>\n";
   
   return $output;
@@ -104,27 +109,11 @@ function htmlmail_menu() {
 function htmlmail_settings() {
   $form = array();
 
-  $form['htmlmail_settings']['htmlmail_testaddr'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Address for test emails'),
-    '#default_value' => variable_get('htmlmail_testaddr', variable_get('site_mail', '')),
-    '#size' => 40,
-    '#maxlength' => 128,
-    '#description' => t('Enter the email address for test emails, defaults to site email. '. l("Send test email", "admin/settings/htmlmail/test")),
-  );
-
   $form['htmlmail_settings']['htmlmail_autop'] = array(
     '#type' => 'checkbox',
     '#title' => t('Line break converter'),
     '#default_value' => variable_get('htmlmail_autop', '1'),
     '#description' => t('Converts line breaks into HTML (i.e. &lt;br&gt; and &lt;p&gt; tags, ala filter.module).'),
-  );
-
-  $form['htmlmail_settings']['htmlmail_preformat'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Preformat HTML code'),
-    '#default_value' => variable_get('htmlmail_preformat', '1'),
-    '#description' => t('Automagically inserts the &lt;HTML&gt; &lt;HEAD&gt; &lt;BODY&gt; tags, untick if you want control over this. You should check this if using a WYSIWYG editor.'),
   );
 
   $form['htmlmail_settings']['htmlmail_urlfilter'] = array(
@@ -134,6 +123,19 @@ function htmlmail_settings() {
     '#description' => t('Automatically converts text web addresses (URLs, e-mail addresses, ftp links, etc.) into hyperlinks.'),
   );
 
+  $form['htmlmail_settings']['htmlmail_emogrifier'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Emogrifier'),
+    '#default_value' => variable_get('htmlmail_emogrifier', '0'),
+    '#description' => t('Emogrifier automagically transmogrifies your HTML by parsing your CSS and inserting your CSS definitions into tags within your HTML based on your CSS selectors.<br />Requires <a href="http://www.pelagodesign.com/sidecar/emogrifier">Emogrifier</a> residing in module directory'),
+  );
+
+  $form['htmlmail_settings']['htmlmail_preformat'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Preformat HTML code'),
+    '#default_value' => variable_get('htmlmail_preformat', '1'),
+    '#description' => t('Automagically inserts the &lt;HTML&gt; &lt;HEAD&gt; &lt;BODY&gt; tags, untick if you want control over this. You should check this if using a WYSIWYG editor.'),
+  );
 
   $form['htmlmail_settings']['htmlmail_urllength'] = array(
     '#type' => 'textfield',
@@ -143,11 +145,45 @@ function htmlmail_settings() {
     '#description' => t('Trim URL displays to this length. This does not affect the href attribute. Enter "0" to disable trimming. Default is 72.'),
   );
 
+  $form['htmlmail_settings']['htmlmail_test_email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Send Test E-mail to'),
+    '#default_value' => variable_get('htmlmail_test_email', variable_get('site_mail', '')),
+    '#size' => 40,
+    '#maxlength' => 128,
+    '#description' => t('Enter the email address for test emails, defaults to site email. '. l('Send Test', 'admin/settings/htmlmail/test')),
+  );
+
+  $form['htmlmail_settings']['header_footer'] = array (
+    '#type' => 'fieldset',
+    '#title' => t('Header, Footer and CSS'),
+    '#collapsible' => TRUE,
+    '#collapsed'   => TRUE,
+    '#description' => t('System wide HTML header and footer template.'),
+  );
+
+  $form['htmlmail_settings']['header_footer']['htmlmail_header'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Header HTML'),
+    '#default_value' => variable_get('htmlmail_header', ''),
+  );
+	
+  $form['htmlmail_settings']['header_footer']['htmlmail_footer'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Footer HTML'),
+    '#default_value' => variable_get('htmlmail_footer', ''),
+  );
+
+  $form['htmlmail_settings']['header_footer']['htmlmail_css'] = array(
+    '#type' => 'textarea',
+    '#title' => t('CSS'),
+    '#default_value' => variable_get('htmlmail_css', ''),
+  );
+
   return system_settings_form($form);
 }
 
 function htmlmail_admin_test_form($form_values = NULL) {
-
   $form['test_subject'] = array(
     '#type' => 'textfield',
     '#title' => t('Subject'),
@@ -190,15 +226,16 @@ function htmlmail_admin_test_form_submit($form, &$form_state) {
   }
   
   $message['id'] = 'htmlmail_test';
-  $message['to'] = variable_get('htmlmail_testaddr', variable_get('site_mail', ''));
+  $message['to'] = variable_get('htmlmail_test_email', variable_get('site_mail', ''));
   $message['subject'] = $form_state['values']['test_subject'];
   $message['body'] = $form_state['values']['test_body'];
 
-  $to = variable_get('htmlmail_testaddr', variable_get('site_mail', ''));
+  $to = variable_get('htmlmail_test_email', variable_get('site_mail', ''));
   $params = array(
     'body' => $form_state['values']['test_body'],
     'subject' => $form_state['values']['test_subject']
   );
+	
   if (drupal_mail('htmlmail', 'htmlmail_test', $to, language_default(), $params, $to)) {
     drupal_set_message('HTML Mail test message sent.');
   }
@@ -325,5 +362,50 @@ function _htmlmail_autop($text) {
     $output .= $chunk;
   }
   return $output;
+}
+
+/**
+ * If the Emogrifier <http://www.pelagodesign.com/sidecar/emogrifier/> exists,
+ * the CSS styles inside the the $message['body'] are inserted into the other
+ * HTML tags within the same $message['body'] as inline style attributes, 
+ * based on CSS selectors.
+ *
+ * This function is based on code in the simplenews_template module.
+ *
+ * This emogrifier differs from that of simplenews_template in that it permits
+ * modules or users to adjoin CSS into the $message['body'] using the HTML 
+ * <style> tag.  The function searches the entire body for style tags, 
+ * concatenates them in order of appearance in the file, then sends them to
+ * the Emogrifier script. 
+ *
+ * Note that the method modifies the $message['body'] directly, and the 
+ * return value is the modified $message['body'] string as well. 
+ *
+ *
+ * @param $message
+ *           The message array to be sent. This function works directly 
+ *           on the $message['body'].
+ * @return $message['body']
+ *           The modified message body string with inlined CSS applied.
+ */
+function _htmlmail_emogrify(&$message) {
+  $path = drupal_get_path('module', 'htmlmail') . "/emogrifier/emogrifier.php";
+  //$path = "./$path/emogrifier.php";
+  if (is_file($path)) {
+    $style = array();
+    //Pull out the contents of any style tags
+    if(preg_match_all("@<style[^>]*>(.*)</style>@Usi", $message['body'], $matches, PREG_PATTERN_ORDER)) {
+      $style = $matches[1];
+    }
+    // Emogrify can't handle several CSS rules on one line. As a precaution,
+    // we therefore insert LF after each closing bracket.
+    $style = preg_replace('/}\s*/', "}\n", implode("\n",$style));
+
+    // Inline the CSS rules.
+    include_once $path;
+    $emogrifier = new Emogrifier($message['body'], $style);
+    $message['body'] = $emogrifier->emogrify();
+  }
+  return $message['body'];
 }
 
