@@ -37,7 +37,8 @@ function htmlmail_mail_alter(&$message) {
   }
 
   if (variable_get('htmlmail_urlfilter', '1') == 1) {
-    $message['body'] = _htmlmail_url($message['body']);
+		// defaults to 72 as there is no filter 0 -- make filters a configuration option?
+    $message['body'] = _filter_url($message['body'], 0);
   }
 
   if (variable_get('htmlmail_emogrifier', '0') == 1) {
@@ -139,14 +140,6 @@ function htmlmail_settings() {
     '#description' => t('Automagically inserts the &lt;HTML&gt; &lt;HEAD&gt; &lt;BODY&gt; tags, untick if you want control over this. You should check this if using a WYSIWYG editor.'),
   );
 
-  $form['htmlmail_settings']['htmlmail_urllength'] = array(
-    '#type' => 'textfield',
-    '#title' => t('URL Trim Length'),
-    '#default_value' => variable_get('htmlmail_urllength', '72'),
-    '#size' => 3,
-    '#description' => t('Trim URL displays to this length. This does not affect the href attribute. Enter "0" to disable trimming. Default is 72.'),
-  );
-
   $form['htmlmail_settings']['htmlmail_test_email'] = array(
     '#type' => 'textfield',
     '#title' => t('Send Test E-mail to'),
@@ -246,67 +239,6 @@ function htmlmail_admin_test_form_submit($form, &$form_state) {
     drupal_set_message('drupal_mail failed');
   }
 }
-
-/**
- * URL filter. Automatically converts text web addresses (URLs, e-mail addresses,
- * ftp links, etc.) into hyperlinks.
- */
-function _htmlmail_url($text) {
-  // Pass length to regexp callback
-  //_htmlmail_url_trim(NULL, 72);
-
-  _htmlmail_url_trim(NULL, variable_get('htmlmail_urllength', 72));
-
-  $text   = ' '. $text .' ';
-
-  // Match absolute URLs.
-  $text = preg_replace_callback("`(<p>|<li>|<br\s*/?>|[ \n\r\t\(])((http://|https://|ftp://|mailto:|smb://|afp://|file://|gopher://|news://|ssl://|sslv2://|sslv3://|tls://|tcp://|udp://)([a-zA-Z0-9@:%_+*~#?&=.,/;-]*[a-zA-Z0-9@:%_+*~#&=/;-]))([.,?!]*?)(?=(</p>|</li>|<br\s*/?>|[ \n\r\t\)]))`i", '_htmlmail_url_parse_full_links', $text);
-
-  // Match e-mail addresses.
-  $text = preg_replace("`(<p>|<li>|<br\s*/?>|[ \n\r\t\(])([A-Za-z0-9._-]+@[A-Za-z0-9._+-]+\.[A-Za-z]{2,4})([.,?!]*?)(?=(</p>|</li>|<br\s*/?>|[ \n\r\t\)]))`i", '\1<a href="mailto:\2">\2</a>\3', $text);
-
-  // Match www domains/addresses.
-  $text = preg_replace_callback("`(<p>|<li>|[ \n\r\t\(])(www\.[a-zA-Z0-9@:%_+*~#?&=.,/;-]*[a-zA-Z0-9@:%_+~#\&=/;-])([.,?!]*?)(?=(</p>|</li>|<br\s*/?>|[ \n\r\t\)]))`i", '_htmlmail_url_parse_partial_links', $text);
-  $text = substr($text, 1, -1);
-
-  return $text;
-}
-
-/**
- * Make links out of absolute URLs.
- */
-function _htmlmail_url_parse_full_links($match) {
-  $match[2] = decode_entities($match[2]);
-  $caption = check_plain(_htmlmail_url_trim($match[2]));
-  $match[2] = check_url($match[2]);
-  return $match[1] .'<a href="'. $match[2] .'" title="'. $match[2] .'">'. $caption .'</a>'. $match[5];
-}
-
-/**
- * Make links out of domain names starting with "www."
- */
-function _htmlmail_url_parse_partial_links($match) {
-  $match[2] = decode_entities($match[2]);
-  $caption = check_plain(_htmlmail_url_trim($match[2]));
-  $match[2] = check_plain($match[2]);
-  return $match[1] .'<a href="http://'. $match[2] .'" title="'. $match[2] .'">'. $caption .'</a>'. $match[3];
-}
-
-/**
- * Shortens long URLs to http://www.example.com/long/url...
- */
-function _htmlmail_url_trim($text, $length = NULL) {
-  static $_length;
-  if ($length !== NULL) {
-    $_length = $length;
-  }
-  if ($_length != 0 && strlen($text) > $_length) {
-    $text = substr($text, 0, $_length) .'...';
-  }
-  return $text;
-}
-
-
 
 /**
  * If the Emogrifier <http://www.pelagodesign.com/sidecar/emogrifier/> exists,
