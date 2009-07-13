@@ -145,7 +145,6 @@ function htmlmail_mail($key, &$message, $params) {
  * Note that the method modifies the $message['body'] directly, and the 
  * return value is the modified $message['body'] string as well. 
  *
- *
  * @param $message
  *           The message array to be sent. This function works directly 
  *           on the $message['body'].
@@ -156,7 +155,7 @@ function _htmlmail_emogrify(&$message) {
   $path = drupal_get_path('module', 'htmlmail') ."/emogrifier/emogrifier.php";
   if (is_file($path)) {
     $style = array();
-    //Pull out the contents of any style tags
+    // Pull out the contents of any style tags
     if (preg_match_all("@<style[^>]*>(.*)</style>@Usi", $message['body'], $matches, PREG_PATTERN_ORDER)) {
       $style = $matches[1];
     }

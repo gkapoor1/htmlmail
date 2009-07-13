@@ -18,13 +18,13 @@ function htmlmail_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t('Emogrifier'),
     '#default_value' => variable_get('htmlmail_emogrifier', '0'),
-    '#description' => t('Emogrifier automagically transmogrifies your HTML by parsing your CSS and inserting your CSS definitions into tags within your HTML based on your CSS selectors.<br />Requires <a href="http://www.pelagodesign.com/sidecar/emogrifier">Emogrifier</a> residing in module directory'),
+    '#description' => t('Emogrifier automagically transmogrifies your HTML by parsing your CSS and inserting your CSS definitions into tags within your HTML based on your CSS selectors.<br /><strong><a href="http://www.pelagodesign.com/sidecar/emogrifier">Emogrifier</a></strong> needs to be installed in the module\'s emogrifier directory. <em>Recommended when using CSS.</em>'),
   );
   $form['htmlmail_preformat'] = array(
     '#type' => 'checkbox',
     '#title' => t('Preformat HTML code'),
     '#default_value' => variable_get('htmlmail_preformat', '1'),
-    '#description' => t('Automagically inserts the &lt;HTML&gt; &lt;HEAD&gt; &lt;BODY&gt; tags, untick if you want control over this. You should check this if using a WYSIWYG editor.'),
+    '#description' => t('Automagically inserts the &lt;HTML&gt; &lt;HEAD&gt; &lt;BODY&gt; tags, untick if you want control over this. Leave checked when using a WYSIWYG editor.<br /><em>Recommended when using template.</em>'),
   );
   return system_settings_form($form);
 }
