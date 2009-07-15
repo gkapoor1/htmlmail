@@ -61,16 +61,16 @@ function htmlmail_menu() {
 function htmlmail_mail_alter(&$message) {
 
   $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed;';
-
-  // as of d6 body may be array
+  
+  // message body may be an array
   $message['body'] = is_array($message['body']) ? implode("\n\n", $message['body']) : $message['body'];
-
 
   // The paragraph an break stuff
   if (variable_get('htmlmail_autop', '1') == 1) {
     $message['body'] = _filter_autop($message['body']);
   }
 
+  // Note: this is now coming from theme template html.tpl.php
   // Insert the preformatted HTML so the end user only needs to enter what goes between the <body> tags.
   // this of course can be overridden in the admin settings for this module.
   if (variable_get('htmlmail_preformat', '1') == 1) {
@@ -94,9 +94,7 @@ function htmlmail_theme() {
   return array(
     'htmlmail' => array(
       'template' => 'htmlmail',
-      'arguments' => array(
-        'body' => NULL,
-      ),
+      'arguments' => array('body' => NULL),
     ),
   );
 }
@@ -112,6 +110,9 @@ function template_preprocess_htmlmail(&$variables) {
   $variables['css'] = variable_get('htmlmail_css', '');
 }
 
+/**
+ * Implementation of hook_mail().
+ */
 function htmlmail_mail($key, &$message, $params) {
   switch ($key) {
   case 'htmlmail_test':
@@ -163,4 +164,3 @@ function _htmlmail_emogrify(&$message) {
   }
   return $message['body'];
 }
-
