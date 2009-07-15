@@ -70,17 +70,13 @@ function htmlmail_mail_alter(&$message) {
     $message['body'] = _filter_autop($message['body']);
   }
 
-  // Note: this is now coming from theme template html.tpl.php
-  // Insert the preformatted HTML so the end user only needs to enter what goes between the <body> tags.
-  // this of course can be overridden in the admin settings for this module.
-  if (variable_get('htmlmail_preformat', '1') == 1) {
-    $message['body'] = theme('htmlmail', $message['body']);
-  }
-
   if (variable_get('htmlmail_urlfilter', '1') == 1) {
 		// defaults to 72 as there is no filter 0 -- make filters a configuration option?
     $message['body'] = _filter_url($message['body'], 0);
   }
+
+  // Theme from template html.tpl.php
+  $message['body'] = theme('htmlmail', $message['body']);
 
   if (variable_get('htmlmail_emogrifier', '0') == 1) {
     $message['body'] = _htmlmail_emogrify($message);
