@@ -59,24 +59,29 @@ function htmlmail_menu() {
  * Implementation of hook_mail_alter().
  */
 function htmlmail_mail_alter(&$message) {
-  if (!preg_match('/text\/html/', $message['headers']['Content-Type'])) {
-    $message['headers']['Content-Type'] = 'text/html; charset=UTF-8;';
-  }
+
+  $message['headers']['Content-Type'] = 'text/html; charset=UTF-8; format=flowed;';
+
   // as of d6 body may be array
   $message['body'] = is_array($message['body']) ? implode("\n\n", $message['body']) : $message['body'];
+
+
   // The paragraph an break stuff
   if (variable_get('htmlmail_autop', '1') == 1) {
     $message['body'] = _filter_autop($message['body']);
   }
+
   // Insert the preformatted HTML so the end user only needs to enter what goes between the <body> tags.
   // this of course can be overridden in the admin settings for this module.
   if (variable_get('htmlmail_preformat', '1') == 1) {
     $message['body'] = theme('htmlmail', $message['body']);
   }
+
   if (variable_get('htmlmail_urlfilter', '1') == 1) {
 		// defaults to 72 as there is no filter 0 -- make filters a configuration option?
     $message['body'] = _filter_url($message['body'], 0);
   }
+
   if (variable_get('htmlmail_emogrifier', '0') == 1) {
     $message['body'] = _htmlmail_emogrify($message);
   }
