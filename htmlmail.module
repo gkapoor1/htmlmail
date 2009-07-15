@@ -93,36 +93,24 @@ function htmlmail_mail_alter(&$message) {
 function htmlmail_theme() {
   return array(
     'htmlmail' => array(
-      'arguments' => array('body' => NULL),
+      'template' => 'htmlmail',
+      'arguments' => array(
+        'body' => NULL,
+      ),
     ),
   );
 }
 
 /**
- * Theme HTML Mail body
+ * Process variables to format e-mail.
+ *
+ * @see htmlmail.tpl.php
  */
-function theme_htmlmail($body) {
-  $output = '';
-
-  $output .= "<html>\n";
-  $output .= "<head>\n";
-  $output .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
-
-  $css = variable_get('htmlmail_css', '');
-  if (!empty($css)) {
-    $output .= '<style type="text/css">'."\n". $css ."\n</style>\n";
-  }
-
-  $output .= "</head>\n";
-  $output .= "<body id=\"htmlmail-body\">\n". 
-                variable_get('htmlmail_header', '') ."\n". 
-                $body ."\n". 
-                variable_get('htmlmail_footer', '') ."\n</body>\n";
-  $output .= "</html>\n";
-  
-  return $output;
+function template_preprocess_htmlmail(&$variables) {
+  $variables['header'] = variable_get('htmlmail_header', '');
+  $variables['footer'] = variable_get('htmlmail_footer', '');
+  $variables['css'] = variable_get('htmlmail_css', '');
 }
-
 
 function htmlmail_mail($key, &$message, $params) {
   switch ($key) {
