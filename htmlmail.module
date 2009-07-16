@@ -87,12 +87,11 @@ function htmlmail_mail_alter(&$message) {
  * Implementation of hook_theme().
  */
 function htmlmail_theme() {
-  $template = variable_get('htmlmail_template', '');
   return array(
     'htmlmail' => array(
-      'template' => empty($template) ? 'htmlmail' : basename($template, '.tpl.php'),
+      'template' => _htmlmail_template('file'),
       'arguments' => array('body' => NULL),
-      'path' => empty($template) ? drupal_get_path('module', 'htmlmail') : dirname($template),
+      'path' => _htmlmail_template('path'),
     ),
   );
 }
@@ -103,7 +102,10 @@ function htmlmail_theme() {
  * @see htmlmail.tpl.php
  */
 function template_preprocess_htmlmail(&$variables) {
-  $variables['path'] = url(dirname(variable_get('htmlmail_template', drupal_get_path('module', 'htmlmail'))), array('absolute' => TRUE));
+ // $template = variable_get('htmlmail_template', '');
+ // $path = empty($template) ? drupal_get_path('module', 'htmlmail') : dirname($template);
+
+  $variables['path'] = url(_htmlmail_template('path'), array('absolute' => TRUE));
   $variables['header'] = variable_get('htmlmail_header', '');
   $variables['footer'] = variable_get('htmlmail_footer', '');
   $variables['css'] = variable_get('htmlmail_css', '');
@@ -178,4 +180,20 @@ function _htmlmail_get_templates() {
     $templates[$file->filename] = $file->name;
   }
   return $templates;
+}
+
+/**
+ * Build and return template path or filename, module directory if no template selected.
+ */
+function _htmlmail_template($type) {
+  $template = variable_get('htmlmail_template', '');
+  switch ($type) {
+    case 'file':
+      $output = empty($template) ? 'htmlmail' : basename($template, '.tpl.php');
+      break;
+    case 'path':
+      $output = empty($template) ? drupal_get_path('module', 'htmlmail') : dirname($template);
+      break;
+  }
+  return $output;
 }
