@@ -155,8 +155,12 @@ function _htmlmail_emogrify(&$message) {
 
     // Inline the CSS rules.
     include_once $path;
+    // get and reset error levels so we dont get DOMDocument::loadHTML() errors
+    $errorlevel = error_reporting();
+    error_reporting(0);
     $emogrifier = new Emogrifier($message['body'], $style);
     $message['body'] = $emogrifier->emogrify();
+    error_reporting($errorlevel);
   }
   return $message['body'];
 }
