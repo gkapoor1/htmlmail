@@ -1,6 +1,11 @@
 <?php
 // $Id$
 
+/**
+ * @file
+ * Admin forms for HTML Mail
+ */
+
 function htmlmail_admin_settings() {
   $form['htmlmail_autop'] = array(
     '#type' => 'checkbox',
@@ -18,7 +23,8 @@ function htmlmail_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t('Emogrifier'),
     '#default_value' => variable_get('htmlmail_emogrifier', '0'),
-    '#description' => t('Emogrifier automagically transmogrifies your HTML by parsing your CSS and inserting your CSS definitions into tags within your HTML based on your CSS selectors.<br /><strong><a href="http://www.pelagodesign.com/sidecar/emogrifier">Emogrifier</a></strong> needs to be installed in the module\'s emogrifier directory. <em>Recommended when using CSS.</em>'),
+    '#description' => t('Insert your CSS definitions as inline styles into HTML tags for Outlook 2007 and Google Gmail.'),
+    '#disabled' => !extension_loaded('dom'),
   );
   return system_settings_form($form);
 }
