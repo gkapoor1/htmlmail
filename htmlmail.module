@@ -102,7 +102,7 @@ function htmlmail_theme() {
  * @see htmlmail.tpl.php
  */
 function template_preprocess_htmlmail(&$variables) {
-  $variables['path'] = dirname(variable_get('htmlmail_template', drupal_get_path('module', 'htmlmail')));
+  $variables['path'] = url(dirname(variable_get('htmlmail_template', drupal_get_path('module', 'htmlmail'))), array('absolute' => TRUE));
   $variables['header'] = variable_get('htmlmail_header', '');
   $variables['footer'] = variable_get('htmlmail_footer', '');
   $variables['css'] = variable_get('htmlmail_css', '');
