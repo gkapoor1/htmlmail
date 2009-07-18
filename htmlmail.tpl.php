@@ -19,6 +19,7 @@
  *  - $header  : template header
  *  - $footer  : template footer
  *  - $css     : template css
+ *  - $path    : path to theme template (for images, etc)
  *
  * For tips and resources on building HTML e-mails see:
  * http://www.campaignmonitor.com/css/
