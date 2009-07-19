@@ -40,10 +40,10 @@
 </head>
 
 <body class="htmlmail">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="5">
   <tr>
     <td valign="top" align="center">
-      <table width="600" border="0" cellspacing="0" cellpadding="0">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <?php if ($header): ?>
         <tr>
           <td valign="top" class="htmlmail-header">
