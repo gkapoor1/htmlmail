@@ -86,11 +86,14 @@ function htmlmail_test_form($form_values = NULL) {
 }
 
 function htmlmail_test_form_submit($form, &$form_state) {
-  variable_set('htmlmail_test', array(
+  // Save form values
+  $defaults = array(
     'to' => $form_state['values']['to'],
     'subject' => $form_state['values']['subject'],
-    'body' => $form_state['values']['body'])
+    'body' => $form_state['values']['body'],
   );
+  variable_set('htmlmail_test', $defaults);
+  // Send email
   $params = array(
     'subject' => $form_state['values']['subject'],
     'body' => $form_state['values']['body'],

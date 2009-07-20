@@ -24,7 +24,7 @@ function htmlmail_help($path, $arg) {
 function htmlmail_menu() {
   $items['admin/settings/htmlmail'] = array(
     'title' => 'HTML Mail',
-    'description' => 'Configure HTML Mail system-wide settings',
+    'description' => 'Configure HTML Mail system-wide settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('htmlmail_admin_settings'),
     'access arguments' => array('administer site configuration'),
@@ -75,7 +75,7 @@ function htmlmail_mail_alter(&$message) {
     $message['body'] = _filter_url($message['body'], 0);
   }
 
-  // Theme from template html.tpl.php
+  // Theme from template htmlmail.tpl.php
   $message['body'] = theme('htmlmail', $message['body']);
 
   if (variable_get('htmlmail_emogrifier', '0') == 1) {
@@ -102,9 +102,6 @@ function htmlmail_theme() {
  * @see htmlmail.tpl.php
  */
 function template_preprocess_htmlmail(&$variables) {
- // $template = variable_get('htmlmail_template', '');
- // $path = empty($template) ? drupal_get_path('module', 'htmlmail') : dirname($template);
-
   $variables['path'] = url(_htmlmail_template('path'), array('absolute' => TRUE));
   $variables['header'] = variable_get('htmlmail_header', '');
   $variables['footer'] = variable_get('htmlmail_footer', '');
