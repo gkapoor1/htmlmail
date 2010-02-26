@@ -7,22 +7,22 @@
  */
 
 /**
- * Implementation of hook_help().
+ * Implements hook_help().
  */
 function htmlmail_help($path, $arg) {
   switch ($path) {
     case 'admin/help#htmlmail':
     case 'admin/settings/htmlmail':
-      $output = '<p>'.  t("HTML Mail provides formatting and semantic markup capabilities in e-mail that are not available with plain text. All system emails are effected if this module is enabled.") .'</p>';
+      $output = '<p>' .  t("HTML Mail provides formatting and semantic markup capabilities in e-mail that are not available with plain text. All system emails are effected if this module is enabled.") . '</p>';
+    return $output;
   }
-  return $output;
 }
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function htmlmail_menu() {
-  $items['admin/settings/htmlmail'] = array(
+  $items['admin/config/system/htmlmail'] = array(
     'title' => 'HTML Mail',
     'description' => 'Configure HTML Mail system-wide settings.',
     'page callback' => 'drupal_get_form',
@@ -30,12 +30,12 @@ function htmlmail_menu() {
     'access arguments' => array('administer site configuration'),
     'file' => 'htmlmail.admin.inc',
    );
-  $items['admin/settings/htmlmail/settings'] = array(
+  $items['admin/config/system/htmlmail/settings'] = array(
     'title' => 'Settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => '-2'
   );
-  $items['admin/settings/htmlmail/template'] = array(
+  $items['admin/config/system/htmlmail/template'] = array(
      'title' => 'Template',
      'page callback' => 'drupal_get_form',
      'page arguments' => array('htmlmail_template_settings'),
@@ -44,7 +44,7 @@ function htmlmail_menu() {
      'weight' => '-1',
      'file' => 'htmlmail.admin.inc',
    );
-  $items['admin/settings/htmlmail/test'] = array(
+  $items['admin/config/system/htmlmail/test'] = array(
      'title' => 'Send Test',
      'page callback' => 'drupal_get_form',
      'page arguments' => array('htmlmail_test_form'),
@@ -56,7 +56,7 @@ function htmlmail_menu() {
 }
 
 /**
- * Implementation of hook_mail_alter().
+ * Implements hook_mail_alter().
  */
 function htmlmail_mail_alter(&$message) {
 
@@ -71,7 +71,7 @@ function htmlmail_mail_alter(&$message) {
   }
 
   if (variable_get('htmlmail_urlfilter', '1') == 1) {
-		// defaults to 72 as there is no filter 0 -- make filters a configuration option?
+    // defaults to 72 as there is no filter 0 -- make filters a configuration option?
     $message['body'] = _filter_url($message['body'], 0);
   }
 
@@ -84,7 +84,7 @@ function htmlmail_mail_alter(&$message) {
 }
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_theme().
  */
 function htmlmail_theme() {
   return array(
@@ -109,7 +109,7 @@ function template_preprocess_htmlmail(&$variables) {
 }
 
 /**
- * Implementation of hook_mail().
+ * Implements hook_mail().
  */
 function htmlmail_mail($key, &$message, $params) {
   switch ($key) {
@@ -144,7 +144,7 @@ function htmlmail_mail($key, &$message, $params) {
  *           The modified message body string with inlined CSS applied.
  */
 function _htmlmail_emogrify(&$message) {
-  $path = drupal_get_path('module', 'htmlmail') ."/emogrifier/emogrifier.php";
+  $path = drupal_get_path('module', 'htmlmail') . "/emogrifier/emogrifier.php";
   if (is_file($path)) {
     $style = array();
     // Pull out the contents of any style tags
@@ -172,7 +172,7 @@ function _htmlmail_emogrify(&$message) {
  */
 function _htmlmail_get_templates() {
   $templates = array('' => 'Use Default');
-  $files = file_scan_directory(path_to_theme(), '^htmlmail-.*\.tpl\.php$');
+  $files = file_scan_directory(path_to_theme(), 'htmlmail-.*\.tpl\.php');
   foreach ($files as $file) {
     $templates[$file->filename] = $file->name;
   }
