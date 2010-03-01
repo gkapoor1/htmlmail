@@ -62,9 +62,6 @@ function htmlmail_mail_alter(&$message) {
 
 // TODO, move all this from hook_mail_alter to mail.inc MailSystemInterface
 
-// make this configurable, change default on install?
-variable_set('mail_system', array('default-system' => 'HTMLMailMailSystem'));
-
   $plain_match = 0;
   // Match plain exclusions settings
   if ($plain_settings = variable_get('htmlmail_plain_settings', '')) {

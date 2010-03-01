@@ -11,6 +11,9 @@
  */
 function htmlmail_install() {
   db_query("UPDATE {system} SET weight = 1 WHERE name = 'htmlmail'");
+
+  // this is bad! maybe confirmation or settings message for default?
+  variable_set('mail_system', array('default-system' => 'HTMLMailMailSystem'));
 }
 
 /**
@@ -18,5 +21,6 @@ function htmlmail_install() {
  */
 function htmlmail_uninstall() {
   db_query("DELETE FROM {variable} WHERE name LIKE 'htmlmail_%'");
+  variable_set('mail_system', array('default-system' => 'DefaultMailSystem'));
   cache_clear_all('variables', 'cache');
 }
