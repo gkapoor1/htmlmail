@@ -4,6 +4,7 @@ description = "Enable HTML in system emails"
 files[] = htmlmail.module
 files[] = htmlmail.admin.inc
 files[] = htmlmail.install
+files[] = htmlmail.mail.inc
 configure = admin/config/system/htmlmail
 package = Mail
 core = 7.x
