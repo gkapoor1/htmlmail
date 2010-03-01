@@ -26,25 +26,11 @@ function htmlmail_admin_settings() {
     '#description' => t('Insert your CSS definitions as inline styles into HTML tags for Outlook 2007 and Google Gmail.<br /><em>Checkbox will be disabled if DOM extension is not loaded.</em>'),
     '#disabled' => !extension_loaded('dom'),
   );
-  $form['htmlmail_token'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Token support'),
-    '#default_value' => variable_get('htmlmail_token', '0'),
-    '#description' => t('Make use of the <strong><a href="http://drupal.org/project/token">Token</a></strong> module in order to tune up your mail header and footer.<br /><em>You need to have the module installed.</em>'),
-    '#disabled' => !module_exists('token'),
-  );
-  $form['htmlmail_rel_to_abs'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Convert relative links to absolute'),
-    '#default_value' => variable_get('htmlmail_rel_to_abs', '0'),
-    '#description' => t('Make use of the <strong><a href="http://drupal.org/project/rel_to_abs">Relative Path to Absolute URLs</a></strong> module to fix broken image links when using a WYSIWYG, untick if you want control over this.<br /><em>You need to have the module installed.</em>'),
-    '#disabled' => !module_exists('rel_to_abs'),
-  );
   $form['htmlmail_debug'] = array(
     '#type' => 'checkbox',
     '#title' => t('Debug'),
     '#default_value' => variable_get('htmlmail_debug', '0'),
-    '#description' => t('Add mail key to bottom of email. Useful for theme template suggestion or exclusion settings.'),
+    '#description' => t('Add module name to bottom of email. Useful for theme template suggestion or exclusion settings.'),
   );
   $form['htmlmail_plain'] = array(
     '#type' => 'fieldset',
@@ -63,7 +49,7 @@ function htmlmail_admin_settings() {
 
   $form['htmlmail_plain']['htmlmail_plain_settings'] = array(
     '#type' => 'textarea',
-    '#title' => t('Modules or mail keys'),
+    '#title' => t('Modules names'),
     '#default_value' => variable_get('htmlmail_plain_settings', ''),
     '#description' => t('Enter module name. eg: "user" (without quotes) for all user module emails. <em>Note there is a bug in Drupal 6 core which may make this unreliable.</em>'),
   );
@@ -77,30 +63,12 @@ function htmlmail_template_settings() {
     '#rows' => 6,
     '#default_value' => variable_get('htmlmail_header', ''),
   );
-  if (module_exists('token') && variable_get('htmlmail_token', '0')) {
-    $form['htmlmail_header_tokens'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Replacement patterns'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#description' => theme('htmlmail_token_help'),
-    );
-  }
   $form['htmlmail_footer'] = array(
     '#type' => 'textarea',
     '#title' => t('Footer HTML'),
     '#rows' => 6,
     '#default_value' => variable_get('htmlmail_footer', ''),
   );
-  if (module_exists('token') && variable_get('htmlmail_token', '0')) {
-    $form['htmlmail_footer_tokens'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Replacement patterns'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#description' => theme('htmlmail_token_help'),
-    );
-  }
   $form['htmlmail_css'] = array(
     '#type' => 'textarea',
     '#title' => t('CSS'),
