@@ -7,12 +7,16 @@
  */
 
 /**
- * Implements hook_uninstall().
+ * Implementation of hook_install().
+ */
+function htmlmail_install() {
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'htmlmail'");
+}
+
+/**
+ * Implementation of hook_uninstall().
  */
 function htmlmail_uninstall() {
-  variable_del('htmlmail_css');
-  variable_del('htmlmail_header');
-  variable_del('htmlmail_footer');
-  variable_del('htmlmail_template');
-  variable_del('htmlmail_test');
+  db_query("DELETE FROM {variable} WHERE name LIKE 'htmlmail_%'");
+  cache_clear_all('variables', 'cache');
 }
