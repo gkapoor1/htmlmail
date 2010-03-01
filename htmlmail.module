@@ -85,34 +85,31 @@ variable_set('mail_system', array('default-system' => 'HTMLMailMailSystem'));
     // message body may be an array
 
 // cant do this in d7?
-//dsm ($message['body']);
     $message['body'] = is_array($message['body']) ? implode("\n\n", $message['body']) : $message['body'];
 
     // The paragraph an break stuff
     if (variable_get('htmlmail_autop', '1')) {
- //     $message['body'] = _filter_autop($message['body']);
+      $message['body'] = _filter_autop($message['body']);
     }
 
     if (variable_get('htmlmail_urlfilter', '1')) {
     // defaults to 72 as there is no filter 0 -- make filters a configuration option?
-      $message['body'] = _filter_url_trim($message['body'], 72);
+    //  $message['body'] = _filter_url_trim($message['body'], 72);
     }
 
     // Theme from template htmlmail.tpl.php
-    $message['body'] = theme('htmlmail', $message['body'], $message['id']);
+    $message['body'] = theme('htmlmail', $message);
 
     if (variable_get('htmlmail_emogrifier', '0')) {
       $message['body'] = _htmlmail_emogrify($message);
     }
-
     // Convert relative urls to absolute if rel_to_abs is enabled.
     if (module_exists('rel_to_abs') && variable_get('htmlmail_rel_to_abs', 1)) {
       $message['body'] = rel_to_abs_filter('prepare', 0, -1, $message['body']);
     }
-
     // Send the message key in email for theme template suggestions
     if (variable_get('htmlmail_debug', '0')) {
-      $message['body'] .= '<p> Message Key ID: ' . $message['id'] . '</p>';
+      $message['body'] .= '<p>Debug: module = ' . $message['module'] . '</p>';
     }
 
     // fix, looks like drupal 7 needs array
@@ -124,21 +121,25 @@ variable_set('mail_system', array('default-system' => 'HTMLMailMailSystem'));
  * Implementation of hook_theme().
  */
 function htmlmail_theme() {
-  $items['htmlmail'] = array(
-    'template' => 'htmlmail',
-    'variables' => array('body' => NULL, 'key' => NULL),
-  );
-  if (module_exists('token')) {
-    $items['htmlmail_token_help'] = array(
-      'variables' => array('prefix' => '[', 'suffix' => ']'),
-    );
-  }
-  return $items;
+  return array(
+    'htmlmail' => array(
+      'render element' => 'elements',
+      'template' => 'htmlmail',
+    ),
+  ); 
+
+//  if (module_exists('token')) {
+//    $items['htmlmail_token_help'] = array(
+//      'variables' => array('prefix' => '[', 'suffix' => ']'),
+//    );
+//  }
+//  return $items;
 }
 
 /**
  *  Token support
- */ 
+ */
+/*
 function theme_htmlmail_token_help($prefix = '[', $suffix = ']') {
   token_include();
   $full_list = array_merge(token_get_list('user'), token_get_list('profile'));
@@ -156,6 +157,7 @@ function theme_htmlmail_token_help($prefix = '[', $suffix = ']') {
   $output = theme('table', $headers, $rows, array('class' => 'description'));
   return $output;
 }
+*/
 
 /**
  * Process variables to format e-mail.
@@ -175,10 +177,7 @@ function template_preprocess_htmlmail(&$variables) {
     $variables['footer'] = variable_get('htmlmail_footer', '');
   }
   $variables['css'] = variable_get('htmlmail_css', '');
-  $module = preg_replace('/_.*$/', '', $variables['key']);
-// tmp
-//  $variables['template_files'][] = 'htmlmail-' . $module;
-//  $variables['template_files'][] = 'htmlmail-' . $variables['key'];
+  $variables['template_files'][] = 'htmlmail-' . $variables['module'];
 }
 
 /**
