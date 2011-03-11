@@ -1,5 +1,6 @@
 name = HTML Mail
 description = "Enables HTML in system emails."
+dependencies[] = mailsystem
 files[] = htmlmail.module
 files[] = htmlmail.admin.inc
 files[] = htmlmail.install
