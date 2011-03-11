@@ -119,6 +119,13 @@ $html_body
       $mimeheaders[] = $name . ': ' . mime_header_encode($value);
     }
     $line_endings = variable_get('mail_line_endings', MAIL_LINE_ENDINGS);
+    $extra = '';
+    if (isset($message['headers']['Return-Path']) &&
+        !ini_get('safe_mode') &&
+        !strpos(ini_get('sendmail_path'), ' -f')) {
+      $extra = '-f ' . $message['headers']['Return-Path'];
+    }
+
     return mail(
       $message['to'],
       mime_header_encode($message['subject']),
@@ -129,7 +136,8 @@ $html_body
       preg_replace('@\r?\n@', $line_endings, $message['body']),
       // For headers, PHP's API suggests that we use CRLF normally,
       // but some MTAs incorrectly replace LF with CRLF. See #234403.
-      join("\n", $mimeheaders)
+      join("\n", $mimeheaders),
+      $extra
     );
   }
 }
