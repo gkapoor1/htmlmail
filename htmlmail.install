@@ -10,18 +10,20 @@
  */
 function htmlmail_install() {
   db_query("UPDATE {system} SET weight = 1 WHERE name = 'htmlmail'");
+}
 
-  // Safely set $mail_system['htmlmail'] = 'HTMLMailMailSystem'
-  variable_set(
-    'mail_system',
-    array_merge(
-      variable_get(
-        'mail_system',
-        array('default-system' => 'DefaultMailSystem')
-      ),
-      array('htmlmail' => 'HTMLMailMailSystem')
-    )
-  );
+/**
+ * Implementation of hook_enable().
+ */
+function htmlmail_enable() {
+  mailsystem_enable(array('htmlmail' => 'HTMLMailMailSystem'));
+}
+
+/**
+ * Implementation of hook_disable()
+ */
+function htmlmail_disable() {
+  mailsystem_disable(array('htmlmail' => 'HTMLMailMailSystem'));
 }
 
 /**
@@ -29,16 +31,6 @@ function htmlmail_install() {
  */
 function htmlmail_uninstall() {
   db_query("DELETE FROM {variable} WHERE name LIKE 'htmlmail_%'");
-  $mail_system = variable_get('mail_system', array('default-system' => 'DefaultMailSystem'));
-  if ($mail_system['default-system'] === 'HTMLMailMailSystem') {
-    $mail_system['default-system'] = 'DefaultMailSystem';
-  }
-  foreach ($mail_system as $module => $class) {
-    if ($class === 'HTMLMailMailSystem') {
-      unset($mail_system[$module]);
-    }
-  }
-  variable_set('mail_system', $mail_system);
   cache_clear_all('variables', 'cache');
 }
 
