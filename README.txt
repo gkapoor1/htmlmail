@@ -1,14 +1,9 @@
-
 HTML Mail
 ---------
 
 HTML Mail empowers Drupal with the ability to send emails in HTML, providing
-formatting and semantic markup capabilities in e-mail that are not available
+formatting and semantic markup capabilities in email that are not available
 with plain text.
-
-This module is very simple in operation. It changes headers in all outgoing
-e-mail modifying e-mail sent from Drupal to be HTML with the option of header,
-footer and CSS inclusion.
 
 For a full description of the module, visit the project page:
   http://drupal.org/project/htmlmail
@@ -16,36 +11,43 @@ For a full description of the module, visit the project page:
 To submit bug reports and feature suggestions, or to track changes:
   http://drupal.org/project/issues/htmlmail
 
-  
 Installation
 ------------
 
-Install as usual, see http://drupal.org/node/70151 for further information.
+If available, the libraries module will be used to locate the emogrifier.php
+file.  See http://drupal.org/project/libraries for further information.
 
+If available, the pathologic filter will be used to convert relative urls to
+absolute urls  This is especially important if you format your emails with a
+drupal theme (see below.)
+
+Install as usual; see http://drupal.org/node/895232 for further information.
 
 Theming
 -------
-E-mails can be themed by copying htmlmail.tpl.php to you active theme's 
-directory and editing the contents.
 
-To install the example template, copy htmlmail.tpl.php and html_images/ from the template
-folder to your current theme's folder. 
+The default "Theme to use for emails" is "No theme (use htmlmail.tpl.php)".
+To customize the appearance of your outgoing emails, you should copy the
+included "htmlmail.tpl.php" file to your theme directory and edit the
+contents.
 
-*** Remember clear cached data on performance settings page! ***
-admin-> settings -> performance
-[Clear Cached Data]
+You may also create "htmlmail-MODULENAME.tpl.php" files to customize mail sent by
+a particular module.  For instance, to customize the password reset emails sent
+by the user module, copy "htmlmail.tpl.php" to "htmlmail-user.tpl.php".  Remember
+that you will need to put both files in your theme directory for this to work.
 
-Template suggestions per module allow seperate templates which effect the emails coming from the
-particular module. For user module:
-eg. htmlmail-user.tpl.php
+Template files are cached, so remember to clear cache (admin/settings/performance)
+after creating, copying, or editing any .tpl.php files.
 
-Creating the above file will override email theming template for email coming from the user module.
-You may place the template in your theme's directory but remember that a copy of
-the default htmlmail.tpl.php must reside in your theme directory as well for this to work.
+If you prefer your emails to look just like your website pages, choose an
+available theme from the "Theme to use for emails" selection box.
 
-Again, clear cache to load the new template.
+The Emogrifier library (http://www.pelagodesign.com/sidecar/emogrifier/) may be
+used to convert stylesheets to inline style rules.  A copy is provided with this
+module.  If you would rather maintain a separately-updated copy, install the
+libraries module (http://drupal.org/project/libraries).
 
-For tips and resources on building HTML e-mails see:
+For tips and resources on building HTML emails see:
 * http://www.campaignmonitor.com/css/
 * http://www.mailchimp.com/articles/email_marketing_guide/
 * http://css-tricks.com/using-css-in-html-emails-the-real-story/
@@ -53,10 +55,10 @@ For tips and resources on building HTML e-mails see:
 Important
 ---------
 
-Remember that many email clients will not be happy with certain code, your 
-CSS may conflict with a web-mail providers CSS and HTML in email may expose 
-security hazards. Beyond this, if your still really, really must have HTML in 
-your email, you may find this module useful.
+Remember that many email clients will not be happy with certain code.  Your
+CSS may conflict with a web-mail provider's CSS, and HTML in email may expose
+security vulnerabilities. Beyond this, if you still really, really must have
+HTML in your email, you may find this module useful.
 
 
 Maintainers
