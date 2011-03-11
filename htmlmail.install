@@ -16,14 +16,14 @@ function htmlmail_install() {
  * Implementation of hook_enable().
  */
 function htmlmail_enable() {
-  mailsystem_enable(array('htmlmail' => 'HTMLMailMailSystem'));
+  mailsystem_set(array('htmlmail' => 'HTMLMailMailSystem'));
 }
 
 /**
  * Implementation of hook_disable()
  */
 function htmlmail_disable() {
-  mailsystem_disable(array('htmlmail' => 'HTMLMailMailSystem'));
+  mailsystem_clear(array('htmlmail' => 'HTMLMailMailSystem'));
 }
 
 /**
