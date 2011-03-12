@@ -23,7 +23,7 @@ function htmlmail_help($path, $arg) {
 function htmlmail_menu() {
   $items['admin/config/system/htmlmail'] = array(
     'title' => 'HTML Mail',
-    'description' => t('Configure HTML Mail system-wide settings.'),
+    'description' => 'Configure HTML Mail system-wide settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('htmlmail_admin_settings'),
     'access arguments' => array('administer site configuration'),
@@ -44,7 +44,7 @@ function htmlmail_menu() {
     'file' => 'htmlmail.admin.inc',
   );
   $items['admin/config/system/htmlmail/test'] = array(
-    'title' => t('Send Test'),
+    'title' => 'Send Test',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('htmlmail_test_form'),
     'access arguments' => array('access administration pages'),

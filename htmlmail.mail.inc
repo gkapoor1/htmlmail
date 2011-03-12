@@ -13,7 +13,7 @@ class HTMLMailMailSystem implements MailSystemInterface {
     // Collapse the message body array.
     $html_body = is_array($message['body'])
       ? implode("\n\n", $message['body'])
-      : $message[body];
+      : $message['body'];
 
     // Optionally apply a pre-filter.
     if ($filter = variable_get('htmlmail_prefilter')) {
@@ -31,13 +31,8 @@ class HTMLMailMailSystem implements MailSystemInterface {
     }
 
     // Create a plaintext equivalent, preferring the original if possible.
-    watchdog('htmlmail','html_body: ' . check_plain(var_export($html_body,1)));
     if (($plain_body = strip_tags($html_body)) != $html_body) {
       $plain_body = drupal_html_to_text($html_body);
-      watchdog('htmlmail','drupal_html_to_text: ' . check_plain(var_export($plain_body,1)));
-    }
-    else {
-      watchdog('htmlmail','strip_tags: ' . check_plain(var_export($plain_body,1)));
     }
 
     // Send the module name in email for theme template suggestions
@@ -56,7 +51,7 @@ class HTMLMailMailSystem implements MailSystemInterface {
 
     // Optionally apply the selected theme via internal http request.
     if ($theme = htmlmail_get_selected_theme($message['theme'])) {
-      $url = url('admin/config/system/htmlmail/email',array('absolute' => TRUE));
+      $url = url('admin/config/system/htmlmail/email', array('absolute' => TRUE));
       $data = 'body=' . rawurlencode($html_body)
         . '&subject=' . rawurlencode($message['subject'])
         . '&theme=' . rawurlencode($theme);
@@ -78,7 +73,7 @@ class HTMLMailMailSystem implements MailSystemInterface {
     // Optionally replace css rules with inline styles.
     // @todo: move this to its own filter module.
     if (variable_get('htmlmail_emogrifier', '0') &&
-      module_load_include('inc','htmlmail','emogrifier/emogrifier')) {
+      module_load_include('inc', 'htmlmail', 'emogrifier/emogrifier')) {
       $html_body = _htmlmail_emogrify($html_body);
     }
 

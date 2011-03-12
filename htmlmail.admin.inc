@@ -13,15 +13,15 @@ function htmlmail_admin_settings() {
   $form['htmlmail_theme'] = array(
     '#type' => 'select',
     '#title' => t('Theme to use for emails'),
-    '#default_value' => variable_get('htmlmail_theme',''),
+    '#default_value' => variable_get('htmlmail_theme', ''),
     '#options' => htmlmail_get_allowed_themes(),
     '#description' => t(
       'You may use a template or a website theme to format your emails. See !readme for details.',
-      array('!readme' => l('README.txt', drupal_get_path('module','htmlmail') . '/README.txt'))
+      array('!readme' => l('README.txt', drupal_get_path('module', 'htmlmail') . '/README.txt'))
     ),
   );
   $formats = array('0' => 'Unfiltered');
-  foreach(filter_formats() as $id => $filter) {
+  foreach (filter_formats() as $id => $filter) {
     $formats[$id] = $filter->name;
   }
   $form['htmlmail_prefilter'] = array(
@@ -39,7 +39,8 @@ function htmlmail_admin_settings() {
     '#description' => t('Choose a <a href="/admin/config/content/formats">text format</a> to be used for filtering email messages <em>after</em> the selected theme or template is applied.'),
   );
   // @todo Move to a separate filter module.
-  $disabled = module_load_include('inc','htmlmail','emogrifier/emogrifier') && (_htmlmail_emogrifier() === FALSE);
+  $disabled = module_load_include('inc', 'htmlmail', 'emogrifier/emogrifier')
+    && (_htmlmail_emogrifier() === FALSE);
   $form['htmlmail_emogrifier'] = array(
     '#type' => 'checkbox',
     '#title' => t('Emogrifier'),
@@ -73,7 +74,7 @@ function htmlmail_admin_settings_submit($form, &$form_state) {
       unset($form_state['values'][$key]);
     }
   }
-  variable_set('mail_system',$mail_system);
+  variable_set('mail_system', $mail_system);
 }
 
 /**
@@ -150,7 +151,7 @@ function htmlmail_test_form($form_values = NULL) {
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Submit'),
+    '#value' => t('Send test message'),
   );
   return $form;
 }
@@ -181,7 +182,7 @@ function htmlmail_test_form_submit($form, &$form_state) {
  * Displays the email message body passed via POST as a themed page.
  */
 function htmlmail_show_email() {
-  if ($css = variable_get('htmlmail_css','')) {
+  if ($css = variable_get('htmlmail_css', '')) {
     drupal_add_css($css, array('type' => 'inline'));
   }
   return isset($_POST['body']) ? $_POST['body'] : '(Empty)';

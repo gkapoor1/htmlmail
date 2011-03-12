@@ -1,8 +1,10 @@
 <?php
 /**
- * If the Emogrifier <http://www.pelagodesign.com/sidecar/emogrifier/> exists,
- * the CSS styles inside the the $message are inserted into the other HTML tags
- * within the same $message as inline style attributes, based on CSS selectors.
+ * @file
+ * Wrapper for the Emogrifier library.
+ * @see http://www.pelagodesign.com/sidecar/emogrifier/
+ * Emogrifier converts CSS stylesheets to inline style attributes applied
+ * to other HTML tags within the same $message, based on CSS selectors.
  *
  * @param string $message
  *   The message text.  Usually set to $message['body'].
@@ -29,10 +31,10 @@ function _htmlmail_emogrify(&$message) {
     if (preg_match_all($style_re, $message, $matches)) {
       $style = array_merge($style, $matches[2]);
       // Remove the (now redundant) rules to reduce overall filesize.
-      $message = str_replace($matches[0],'',$message);
+      $message = str_replace($matches[0], '', $message);
     }
     // Get rid of comments and whitespace.
-    $style = preg_replace(array("/[[:space:]]+/",'#/\*.*?\*/#','/ +/'),' ', $style);
+    $style = preg_replace(array("/[[:space:]]+/", '#/\*.*?\*/#', '/ +/'), ' ', $style);
     // Emogrify can't handle several CSS rules on one line. As a precaution,
     // we therefore insert LF after each closing bracket.
     $style = preg_replace('/}\s*/', "}\n", implode("\n", $style));
@@ -74,7 +76,7 @@ function &_htmlmail_emogrifier(&$paths = array()) {
   elseif (extension_loaded('dom')) {
     $search = array_flip($paths);
     $search['sites/all/libraries/emogrifier'] = -1;
-    $search[drupal_get_path('module','htmlmail') . '/emogrifier'] = -2;
+    $search[drupal_get_path('module', 'htmlmail') . '/emogrifier'] = -2;
     if (function_exists('libraries_get_path')) {
       $search[libraries_get_path('emogrifier')] = -3;
     }
