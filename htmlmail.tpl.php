@@ -14,6 +14,8 @@
  *
  *  - $body      : message body
  *  - $key       : message id
+ *  - $module    : sending module name
+ *  - $debug     : print debugging info
  *  - $header    : template header
  *  - $footer    : template footer
  *  - $css       : template css
@@ -30,41 +32,33 @@
 ?>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <?php if ($css): ?>
 <style type="text/css">
+<!-- //
 <?php print $css; ?>
+// -->
 </style>
 <?php endif; ?>
 </head>
-
 <body class="htmlmail">
-<table width="100%" border="0" cellspacing="0" cellpadding="5">
-  <tr>
-    <td valign="top" align="center">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <?php if ($header): ?>
-        <tr>
-          <td valign="top" class="htmlmail-header">
-          <?php print $header; ?>
-          </td>
-        </tr>
-        <?php endif; ?>
-        <tr>
-          <td valign="top" class="htmlmail-body">
-          <?php print $body; ?>
-          </td>
-        </tr>
-        <?php if ($footer): ?>
-        <tr>
-          <td valign="top" class="htmlmail-footer">
-            <?php print $footer; ?>
-          </td>
-        </tr>
-        <?php endif; ?>
-     </table>
-   </td>
- </tr>
-</table>
+<?php if ($header): ?>
+<div class="htmlmail-header">
+<?php print $header; ?>
+</div>
+<?php endif; ?>
+<div class="htmlmail-body">
+<?php print $body; ?>
+</div>
+<?php if ($footer): ?>
+<div class="htmlmail-footer">
+<?php print $footer; ?>
+</div>
+<?php endif; ?>
+<?php if ($debug): ?>
+<div class="htmlmail-debug">
+Debug: module=<?php print $module; ?>
+</div>
+<?php endif; ?>
 </body>
 </html>

@@ -11,48 +11,35 @@ class HTMLMailMailSystem implements MailSystemInterface {
    */
   public function format(array $message) {
     // Collapse the message body array.
-    $html_body = is_array($message['body'])
+    $message['body'] =
+      is_array($message['body'])
       ? implode("\n\n", $message['body'])
       : $message['body'];
 
-    // Optionally apply a pre-filter.
-    if ($filter = variable_get('htmlmail_prefilter')) {
-      $html_body = check_markup($html_body, $filter);
+    // Optionally apply an input filter.
+    if ((isset($message['format']) && ($filter = $message['format'])) ||
+        ($filter = variable_get('htmlmail_prefilter'))) {
+      $message['body'] = check_markup($message['body'], $filter);
     }
 
-    // Add the configured header.
-    if (($header = variable_get('htmlmail_header')) && $header['value']) {
-      $html_body = $header['value'] . "\n\n" . $html_body;
-    }
+    // Use the theme template to add header, footer and optional debug text.
+    $message['body'] = theme('htmlmail', $message);
 
-    // Add the configured footer.
-    if (($footer = variable_get('htmlmail_footer')) && $footer['value']) {
-      $html_body .= "\n\n" . $footer['value'];
-    }
+    // Store a plaintext version.
+    $message['plaintext'] = drupal_html_to_text($message['body']);
 
-    // Create a plaintext equivalent, preferring the original if possible.
-    if (($plain_body = strip_tags($html_body)) != $html_body) {
-      $plain_body = drupal_html_to_text($html_body);
-    }
-
-    // Send the module name in email for theme template suggestions
-    if (variable_get('htmlmail_debug', '0')) {
-      $html_body .= '<p>Debug: module = ' . $message['module'] . '</p>';
-      $plain_body .= "\n\nDebug: module = " . $message['module'];
-    }
-
-    // Skip formatting if the recipient prefers plaintext emails.
+    // Send plaintext-only if the recipient prefers it.
     $recipient = user_load_by_mail($message['to']);
     if ($recipient && !empty($recipient->data['htmlmail_plaintext'])) {
       $message['headers']['Content-Type'] = 'text/plain; charset=UTF-8; format=flowed';
-      $message['body'] = $plain_body;
+      $message['body'] = $message['plaintext'];
       return $message;
     }
 
     // Optionally apply the selected theme via internal http request.
     if ($theme = htmlmail_get_selected_theme($message['theme'])) {
       $url = url('admin/config/system/htmlmail/email', array('absolute' => TRUE));
-      $data = 'body=' . rawurlencode($html_body)
+      $data = 'body=' . rawurlencode($message['body'])
         . '&subject=' . rawurlencode($message['subject'])
         . '&theme=' . rawurlencode($theme);
       $options = array(
@@ -61,25 +48,20 @@ class HTMLMailMailSystem implements MailSystemInterface {
         'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
       );
       $response = drupal_http_request($url, $options);
-      $html_body = $response->data;
       // Strip javascript as it doesn't work through email anyway.
-      $html_body = preg_replace('@<script type="text/javascript".*</script>@Usi', '', $html_body);
-    }
-    // If no theme was selected, use the htmlmail.tpl.php template.
-    else {
-      $html_body = theme('htmlmail', $message);
+      $message['body'] = preg_replace('@<script type="text/javascript".*</script>@Usi', '', $response->data);
     }
 
     // Optionally replace css rules with inline styles.
     // @todo: move this to its own filter module.
     if (variable_get('htmlmail_emogrifier', '0') &&
       module_load_include('inc', 'htmlmail', 'emogrifier/emogrifier')) {
-      $html_body = _htmlmail_emogrify($html_body);
+      $message['body'] = _htmlmail_emogrify($message['body']);
     }
 
-    // Optionally apply the selected post-filter.
+    // Optionally apply the selected output filter.
     if ($filter = variable_get('htmlmail_postfilter')) {
-      $html_body = check_markup($html_body, $filter);
+      $message['body'] = check_markup($message['body'], $filter);
     }
 
     // Store both plaintext and html versions.
@@ -92,13 +74,13 @@ class HTMLMailMailSystem implements MailSystemInterface {
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-$plain_body
+" . $message['plaintext'] . "
 
 --$boundary
 Content-Type: text/html; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-$html_body
+" . $message['body'] . "
 
 --$boundary--
 ";
@@ -114,11 +96,13 @@ $html_body
       $mimeheaders[] = $name . ': ' . mime_header_encode($value);
     }
     $line_endings = variable_get('mail_line_endings', MAIL_LINE_ENDINGS);
-    $extra = '';
     if (isset($message['headers']['Return-Path']) &&
         !ini_get('safe_mode') &&
         !strpos(ini_get('sendmail_path'), ' -f')) {
       $extra = '-f ' . $message['headers']['Return-Path'];
+    }
+    else {
+      $extra = '';
     }
 
     return mail(

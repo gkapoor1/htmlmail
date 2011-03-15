@@ -171,7 +171,7 @@ function htmlmail_test_form_submit($form, &$form_state) {
   // send email
   $params = array(
     'subject' => $form_state['values']['subject'],
-    'body' => $form_state['values']['body']['value'],
+    'body' => check_markup($form_state['values']['body']['value'], $form_state['values']['body']['format']),
   );
   if (drupal_mail('htmlmail', 'test', $form_state['values']['to'], language_default(), $params)) {
     drupal_set_message(t('HTML Mail test message sent.'));

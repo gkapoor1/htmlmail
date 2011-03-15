@@ -83,10 +83,13 @@ function htmlmail_theme() {
  */
 function template_preprocess_htmlmail(&$variables) {
   $variables['path'] = url($variables['directory'], array('absolute' => TRUE));
-  $variables['header'] = variable_get('htmlmail_header', '');
-  $variables['footer'] = variable_get('htmlmail_footer', '');
+  $header = variable_get('htmlmail_header', '');
+  $variables['header'] = check_markup($header['value'], $header['format']);
+  $footer = variable_get('htmlmail_footer', '');
+  $variables['footer'] = check_markup($footer['value'], $footer['format']);
   $variables['css'] = variable_get('htmlmail_css', '');
   $variables['template_files'][] = 'htmlmail-' . $variables['module'];
+  $variables['debug'] = variable_get('htmlmail_debug', '0');
 }
 
 /**
@@ -136,7 +139,7 @@ function htmlmail_user_presave(&$edit, $account, $category) {
 function htmlmail_get_allowed_themes() {
   $allowed = &drupal_static(__FUNCTION__);
   if (!isset($allowed)) {
-    $allowed = array('' => t('No theme (htmlmail.tpl.php)'));
+    $allowed = array('' => t('No theme'));
     module_load_include('inc', 'system', 'system.admin');
     $themes = list_themes();
     uasort($themes, 'system_sort_modules_by_info_name');
