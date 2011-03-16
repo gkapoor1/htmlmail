@@ -9,7 +9,6 @@
  * Implements hook_admin_settings().
  */
 function htmlmail_admin_settings() {
-  $form['#submit'] = array('htmlmail_admin_settings_submit');
   $form['htmlmail_theme'] = array(
     '#type' => 'select',
     '#title' => t('Theme to use for emails'),
