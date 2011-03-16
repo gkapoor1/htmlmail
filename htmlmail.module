@@ -83,9 +83,9 @@ function htmlmail_theme() {
  */
 function template_preprocess_htmlmail(&$variables) {
   $variables['path'] = url($variables['directory'], array('absolute' => TRUE));
-  $header = variable_get('htmlmail_header', '');
+  $header = variable_get('htmlmail_header', array('value' => '', 'format' => NULL));
   $variables['header'] = check_markup($header['value'], $header['format']);
-  $footer = variable_get('htmlmail_footer', '');
+  $footer = variable_get('htmlmail_footer', array('value' => '', 'format' => NULL));
   $variables['footer'] = check_markup($footer['value'], $footer['format']);
   $variables['css'] = variable_get('htmlmail_css', '');
   $variables['template_files'][] = 'htmlmail-' . $variables['module'];
