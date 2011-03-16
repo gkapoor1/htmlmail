@@ -14,13 +14,6 @@ To submit bug reports and feature suggestions, or to track changes:
 Installation
 ------------
 
-If available, the libraries module will be used to locate the emogrifier.php
-file.  See http://drupal.org/project/libraries for further information.
-
-If available, the pathologic filter will be used to convert relative urls to
-absolute urls  This is especially important if you format your emails with a
-drupal theme (see below.)
-
 Install as usual; see http://drupal.org/node/895232 for further information.
 
 Theming
@@ -65,3 +58,4 @@ Maintainers
 -----------
 
 Chris Herberte - http://drupal.org/user/1171
+Bob Vincent - http://drupal.org/user/36148

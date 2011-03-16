@@ -38,16 +38,6 @@ function htmlmail_admin_settings() {
     '#options' => $formats,
     '#description' => t('Choose a <a href="/admin/config/content/formats">text format</a> to be used for filtering email messages <em>after</em> the selected theme or template is applied.'),
   );
-  // @todo Move to a separate filter module.
-  $disabled = module_load_include('inc', 'htmlmail', 'emogrifier/emogrifier')
-    && (_htmlmail_emogrifier() === FALSE);
-  $form['htmlmail_emogrifier'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Emogrifier'),
-    '#default_value' => $disabled ? 0 : variable_get('htmlmail_emogrifier', '0'),
-    '#description' => t('Insert your CSS definitions as inline styles into HTML tags for Outlook 2007 and Google Gmail.<br /><em>Checkbox will be disabled if the !e library is not available.</em>', array('!e' => 'emogrifier.php')),
-    '#disabled' => $disabled,
-  );
   $form['htmlmail_debug'] = array(
     '#type' => 'checkbox',
     '#title' => t('Debug'),
@@ -55,26 +45,6 @@ function htmlmail_admin_settings() {
     '#description' => t('Add module name to bottom of email. Useful for theme template suggestion or exclusion settings.'),
   );
   return system_settings_form($form);
-}
-
-// @todo Move to a separate UI module.
-function htmlmail_admin_settings_submit($form, &$form_state) {
-  $mail_system = array(
-    'default-system' => (
-      empty($form_state['values']['default-system'])
-      ? 'DefaultMailSystem'
-      : $form_state['values']['default-system']
-    )
-  );
-  foreach (system_rebuild_module_data() as $key => $module) {
-    if ($module->status && isset($form_state['values'][$key])) {
-      if (!empty($form_state['values'][$key])) {
-        $mail_system[$key] = $form_state['values'][$key];
-      }
-      unset($form_state['values'][$key]);
-    }
-  }
-  variable_set('mail_system', $mail_system);
 }
 
 /**
