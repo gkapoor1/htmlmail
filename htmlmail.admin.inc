@@ -72,17 +72,22 @@ function htmlmail_admin_settings() {
   <dd>
     <p>The email message id, usually "{$module}_{$key}".</p>
   </dd>
-  <dt><code>$debug</code></dt>
+  <dt><code>$theme</code></dt>
   <dd>
-    <p>TRUE if debugging info should be printed.</p>
+    <p>The name of the email-specific theme used to embed the message body into a fully-themed webpage.</p>
+    <p><strong>Note:</strong> This may be different from the default website theme. Theme suggestion templates such as <code>html.tpl.php</code> should be copied to the <em>website theme directory</em>, not the <em>email theme directory</em>.</p>
   </dd>
   <dt><code>$directory</code></dt>
   <dd>
-    <p>The relative path to the theme template directory.</p>
+    <p>The relative path to the website theme template directory <em>(Again, this is different from the email theme directory, which isn't used for templates)</em>.</p>
   </dd>
   <dt><code>$theme_url</code></dt>
   <dd>
-    <p>The absolute URL to the theme directory.</p>
+    <p>The absolute URL to the website theme directory.</p>
+  </dd>
+  <dt><code>$debug</code></dt>
+  <dd>
+    <p>TRUE if debugging info should be printed.</p>
   </dd>
 </dl>
 <p>The module calling <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7">drupal_mail()</a> may set other variables. For instance, the <a href="http://drupal.org/project/webform">Webform module</a> sets a <code>$node</code> variable which may be very useful.</p>

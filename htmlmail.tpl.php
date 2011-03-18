@@ -62,14 +62,24 @@
  * $message_id
  *        The email message id, usually "{$module}_{$key}".
  * 
- * $debug
- *        TRUE if debugging info should be printed.
+ * $theme
+ *        The name of the email-specific theme used to embed the message
+ *        body into a fully-themed webpage.
+ * 
+ *        Note: This may be different from the default website theme.
+ *        Theme suggestion templates such as html.tpl.php should be copied
+ *        to the website theme directory, not the email theme directory.
  * 
  * $directory
- *        The relative path to the theme template directory.
+ *        The relative path to the website theme template directory
+ *        (Again, this is different from the email theme directory, which
+ *        isn't used for templates).
  * 
  * $theme_url
- *        The absolute URL to the theme directory.
+ *        The absolute URL to the website theme directory.
+ * 
+ * $debug
+ *        TRUE if debugging info should be printed.
  * 
  * The module calling [10]drupal_mail() may set other variables. For
  * instance, the [11]Webform module sets a $node variable which may be
