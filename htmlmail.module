@@ -27,6 +27,7 @@ function htmlmail_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('htmlmail_admin_settings'),
     'access arguments' => array('administer site configuration'),
+    'theme callback' => 'htmlmail_get_selected_theme',
     'file' => 'htmlmail.admin.inc',
   );
   $items['admin/config/system/htmlmail/settings'] = array(
@@ -156,7 +157,7 @@ function htmlmail_get_selected_theme(&$selected = NULL) {
   if (!isset($selected)) {
     $selected = variable_get('htmlmail_theme', '');
   }
-  // Make sure the selected theme if allowed and not default.
+  // Make sure the selected theme is allowed.
   $themes = htmlmail_get_allowed_themes();
   if (isset($themes[$selected])) {
     return $selected;
