@@ -49,26 +49,20 @@
  * 
  * The following variables are also available in this template:
  * 
- * $body
- *        The message body text.
+ * $body : The message body text.
  * 
- * $module
- *        The sending module name, usually the first parameter to
- *        drupal_mail().
+ * $module : The sending module name, usually the first parameter to
+ * drupal_mail().
  * 
- * $key
- *        The message key, usually the second parameter to drupal_mail().
+ * $key : The message key, usually the second parameter to drupal_mail().
  * 
- * message[i]d</code>:Theemailmessageid,usually"{module}_{$key}".
+ * $message_id : The email message id, usually "{$module}_{$key}".
  * 
- * $debug
- *        TRUE if debugging info should be printed.
+ * $debug : TRUE if debugging info should be printed.
  * 
- * $directory
- *        The relative path to the theme template directory.
+ * $directory : The relative path to the theme template directory.
  * 
- * $theme_url
- *        The absolute URL to the theme directory.
+ * $theme_url : The absolute URL to the theme directory.
  * 
  * The module calling [10]drupal_mail() may set other variables. For
  * instance, the [11]Webform module sets a $node variable which may be
