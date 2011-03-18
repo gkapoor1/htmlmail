@@ -24,6 +24,15 @@ Installation
      * [7]Transliteration
        Requires a [8]patch.
 
+Configuration
+
+   Visit the Mail System settings page at admin/config/system/mailsystem
+   to select which parts of Drupal will use HTML Mail instead of the
+   [9]default [10]mail system.
+
+   Visit the HTML Mail settings page at admin/config/system/htmlmail to
+   select a theme, pre-filter, and post-filter for your emails.
+
 Theming
 
    The email message text goes through four transformations before
@@ -31,9 +40,9 @@ Theming
     1. The Text format pre-filter from the module settings page is
        applied. This should be the same text format that your website uses
        for contributed content such as comments or blog postings. For
-       consistency and security, it should include the the [9]Correct
-       faulty and chopped off HTML from [10]filter.module, or a better
-       replacement such as [11]HTML Purifier or [12]htmLawed.
+       consistency and security, it should include the the [11]Correct
+       faulty and chopped off HTML from [12]filter.module, or a better
+       replacement such as [13]HTML Purifier or [14]htmLawed.
     2. A theme template is applied. The default template is the included
        htmlmail.tpl.php file. You may copy this file to your theme
        directory and use it to customize the contents and formatting of
@@ -41,15 +50,15 @@ Theming
        documentation on its usage.
     3. The message may be wrapped in a website theme selected on the
        module settings page. Creating an email-specific theme lets you use
-       the full power of the [13]drupal theme system to format your
+       the full power of the [15]drupal theme system to format your
        emails.
     4. The Text format post-filter from the module settings page is
        applied. For best results, this should be an email-specific input
        format containing the following text format filters:
-          + [14]Transliteration
-          + [15]Emogrifier
-          + [16]Pathologic
-          + [17]Correct faulty and chopped off HTML
+          + [16]Transliteration
+          + [17]Emogrifier
+          + [18]Pathologic
+          + [19]Correct faulty and chopped off HTML
 
 Related Modules
 
@@ -92,8 +101,8 @@ Documentation
 
 Maintainers
 
-     * [18]Chris Herberte
-     * [19]Bob Vincent
+     * [20]Chris Herberte
+     * [21]Bob Vincent
 
 References
 
@@ -105,14 +114,16 @@ References
    6. http://drupal.org/project/pathologic
    7. http://drupal.org/project/transliteration
    8. http://drupal.org/node/1095278#comment-4219530
-   9. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_htmlcorrector/7
-  10. http://api.drupal.org/api/drupal/modules--filter--filter.module/7
-  11. http://drupal.org/project/htmlpurifier
-  12. http://drupal.org/project/htmlawed
-  13. http://drupal.org/documentation/theme
-  14. http://drupal.org/node/1095278#comment-4219530
-  15. http://drupal.org/project/emogrifier
-  16. http://drupal.org/project/pathologic
-  17. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_htmlcorrector/7
-  18. http://drupal.org/user/1171
-  19. http://drupal.org/user/36148
+   9. http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/7
+  10. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/7
+  11. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_htmlcorrector/7
+  12. http://api.drupal.org/api/drupal/modules--filter--filter.module/7
+  13. http://drupal.org/project/htmlpurifier
+  14. http://drupal.org/project/htmlawed
+  15. http://drupal.org/documentation/theme
+  16. http://drupal.org/node/1095278#comment-4219530
+  17. http://drupal.org/project/emogrifier
+  18. http://drupal.org/project/pathologic
+  19. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_htmlcorrector/7
+  20. http://drupal.org/user/1171
+  21. http://drupal.org/user/36148

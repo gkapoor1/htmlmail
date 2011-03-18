@@ -18,6 +18,7 @@ function htmlmail_install() {
 function htmlmail_update_7200 {
   variable_del('htmlmail_header');
   variable_del('htmlmail_footer');
+  variable_del('htmlmail_css');
 }
 
 /**
