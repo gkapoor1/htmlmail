@@ -44,8 +44,8 @@ function htmlmail_menu() {
     'theme callback' => 'htmlmail_get_selected_theme',
     'file' => 'htmlmail.admin.inc',
   );
-  // Hack for formatting emails with a Drupal theme: Show them on a regular
-  // page and then fetch that page via drupal_http_request().
+  // Callback that receives the message via $_POST and displays it on a themed
+  // page.  This is used to format an email message with a Drupal theme.
   $items['admin/config/system/htmlmail/email'] = array(
     'title callback' => 'htmlmail_get_post_subject',
     'page callback' => 'htmlmail_show_email',

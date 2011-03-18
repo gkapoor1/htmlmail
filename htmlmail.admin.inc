@@ -110,7 +110,7 @@ function htmlmail_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t('Debug'),
     '#default_value' => variable_get('htmlmail_debug', '0'),
-    '#description' => t('Add module name to bottom of email. Useful for theme template suggestion or exclusion settings.'),
+    '#description' => t('Add debugging info to email.'),
   );
   return system_settings_form($form);
 }
@@ -119,7 +119,6 @@ function htmlmail_admin_settings() {
  * Builds a form for sending a test message.
  */
 function htmlmail_test_form($form_values = NULL) {
-  // set up some defaults for test mail
   $defaults = variable_get(
     'htmlmail_test',
     array(
@@ -127,14 +126,13 @@ function htmlmail_test_form($form_values = NULL) {
       'subject' => 'test',
       'body' => array(
         'value' => 'test',
-        'format' => filter_fallback_format(),
       ),
     )
   );
 
   // Set the input format to be the same as the selected prefilter format.
-  $defaults['body']['format'] =
-    variable_get('htmlmail_prefilter', $defaults['body']['format']);
+  $defaults['body']['format'] = 
+    variable_get('htmlmail_prefilter', filter_fallback_format());
 
   $form['to'] = array(
     '#type' => 'textfield',
@@ -177,7 +175,7 @@ function htmlmail_test_form_submit($form, &$form_state) {
   );
   // Set the defaults for reuse.
   variable_set('htmlmail_test', $defaults);
-  // @todo Get user feedback on this UI change.
+  // @todo Get user feedback on this UI change?
   variable_set('htmlmail_prefilter', $defaults['body']['format']);
   // Send the email.
   $params = array(
