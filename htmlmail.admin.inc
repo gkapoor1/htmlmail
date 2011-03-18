@@ -27,8 +27,9 @@ function htmlmail_admin_settings() {
     '#collapsed' => TRUE,
   );
   $form['htmlmail_template']['info'] = array(
-    '#markup' => t('
-<p>When formatting an email message, Drupal determines the active template directory by looking for <cite>htmlmail.tpl.php</cite> file in the following locations:</p>
+    '#markup' => t(
+      // Begin instructions.
+'<p>When formatting an email message, Drupal determines the active template directory by looking for <cite>htmlmail.tpl.php</cite> file in the following locations:</p>
 <ul>
   <li><a href="http://api.drupal.org/api/drupal/includes--theme.inc/function/path_to_theme/7">path_to_theme()</a></li>
   <li><a href="http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_get_path/7">drupal_get_path(</a>"module", <a href="http://api.drupal.org/api/drupal/developer--globals.php/global/installed_profile/7">$installed_profile</a>)</li>
@@ -83,12 +84,11 @@ function htmlmail_admin_settings() {
     <p>The absolute URL to the theme directory.</p>
   </dd>
 </dl>
-<p>The module calling <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7">drupal_mail()</a> may set other variables. For instance, the <a href="http://drupal.org/project/webform">Webform module</a> sets a $node variable which may be very useful.</p>
+<p>The module calling <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7">drupal_mail()</a> may set other variables. For instance, the <a href="http://drupal.org/project/webform">Webform module</a> sets a <code>$node</code> variable which may be very useful.</p>
 <p>Other modules may also add or modify theme variables by implementing a <code>MODULENAME_preprocess_htmlmail()</code> <a href="http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7">hook function</a>.</p>'
-    );
-
-    )
-  )
+      // End instructions.
+    ),
+  );
   $form['htmlmail_theme'] = array(
     '#type' => 'select',
     '#title' => t('Theme to use for emails'),
