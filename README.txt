@@ -62,33 +62,42 @@ Theming
 
 Related Modules
 
-   Emogrifier : http://drupal.org/project/emogrifier
+   Emogrifier
+          http://drupal.org/project/emogrifier
 
-   HTML Mail : http://drupal.org/project/htmlmail
+   HTML Mail
+          http://drupal.org/project/htmlmail
 
-   HTML Purifier : http://drupal.org/project/htmlpurifier
+   HTML Purifier
+          http://drupal.org/project/htmlpurifier
 
-   htmLawed : http://drupal.org/project/htmlawed
+   htmLawed
+          http://drupal.org/project/htmlawed
 
-   Mail System : http://drupal.org/project/mailsystem
+   Mail System
+          http://drupal.org/project/mailsystem
 
-   Pathologic : http://drupal.org/project/pathologic
+   Pathologic
+          http://drupal.org/project/pathologic
 
-   Transliteration : http://drupal.org/project/transliteration
+   Transliteration
+          http://drupal.org/project/transliteration
 
 Documentation
 
-   filter.module :
-   http://api.drupal.org/api/drupal/modules--filter--filter.module/7
+   filter.module
+          http://api.drupal.org/api/drupal/modules--filter--filter.module/
+          7
 
-   Installing contributed modules (Drupal 7) :
-   http://drupal.org/node/895232
+   Installing contributed modules (Drupal 7)
+          http://drupal.org/node/895232
 
-   Theming guide : http://drupal.org/documentation/theme
+   Theming guide
+          http://drupal.org/documentation/theme
 
-   Standard filters :
-   http://api.drupal.org/api/drupal/modules--filter--filter.module/group/s
-   tandard_filters/7
+   Standard filters
+          http://api.drupal.org/api/drupal/modules--filter--filter.module/
+          group/standard_filters/7
 
 Maintainers
 
