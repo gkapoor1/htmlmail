@@ -34,15 +34,6 @@ function htmlmail_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => '-2'
   );
-  $items['admin/config/system/htmlmail/template'] = array(
-    'title' => 'Template',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('htmlmail_template_settings'),
-    'access arguments' => array('access administration pages'),
-    'type' => MENU_LOCAL_TASK,
-    'weight' => '-1',
-    'file' => 'htmlmail.admin.inc',
-  );
   $items['admin/config/system/htmlmail/test'] = array(
     'title' => 'Send Test',
     'page callback' => 'drupal_get_form',
@@ -82,14 +73,17 @@ function htmlmail_theme() {
  * @see htmlmail.tpl.php
  */
 function template_preprocess_htmlmail(&$variables) {
-  $variables['path'] = url($variables['directory'], array('absolute' => TRUE));
-  $header = variable_get('htmlmail_header', array('value' => '', 'format' => NULL));
-  $variables['header'] = check_markup($header['value'], $header['format']);
-  $footer = variable_get('htmlmail_footer', array('value' => '', 'format' => NULL));
-  $variables['footer'] = check_markup($footer['value'], $footer['format']);
-  $variables['css'] = variable_get('htmlmail_css', '');
-  $variables['template_files'][] = 'htmlmail-' . $variables['module'];
   $variables['debug'] = variable_get('htmlmail_debug', '0');
+  $variables['theme_url'] = url($variables['directory'], array('absolute' => TRUE));
+  $variables['theme_hook_suggestions'][] = $last = 'htmlmail-' . $variables['module'];
+  $parts = array_diff_assoc(
+    explode('_', $variables['message_id'] = $variables['key']),
+    explode('_', $variables['module'])
+  );
+  $variables['key'] = implode('_', $parts);
+  foreach ($parts as $part) {
+    $variables['theme_hook_suggestions'][] = $last .= '_' . $part;
+  }
 }
 
 /**

@@ -47,39 +47,6 @@ function htmlmail_admin_settings() {
 }
 
 /**
- * Builds a form for setting Header, Footer, and CSS content to be included in
- * sent emails.
- */
-function htmlmail_template_settings() {
-  $defaults = array('value' => '', 'format' => filter_default_format());
-  $header = variable_get('htmlmail_header', $defaults);
-  $form['htmlmail_header'] = array(
-    '#type' => 'text_format',
-    '#title' => t('Header HTML'),
-    '#rows' => 6,
-    '#default_value' => $header['value'],
-    '#format' => $header['format'],
-    '#description' => 'Extra HTML markup to add at the top of emails.',
-  );
-  $footer = variable_get('htmlmail_footer', $defaults);
-  $form['htmlmail_footer'] = array(
-    '#type' => 'text_format',
-    '#title' => t('Footer HTML'),
-    '#rows' => 6,
-    '#default_value' => $footer['value'],
-    '#format' => $footer['format'],
-    '#description' => 'Extra HTML markup to add at the bottom of emails.',
-  );
-  $form['htmlmail_css'] = array(
-    '#type' => 'textarea',
-    '#title' => t('CSS'),
-    '#default_value' => variable_get('htmlmail_css', ''),
-    '#description' => 'Extra CSS rules to be added to emails.',
-  );
-  return system_settings_form($form);
-}
-
-/**
  * Builds a form for sending a test message.
  */
 function htmlmail_test_form($form_values = NULL) {
@@ -95,6 +62,10 @@ function htmlmail_test_form($form_values = NULL) {
       ),
     )
   );
+
+  // Set the input format to be the same as the selected prefilter format.
+  $defaults['body']['format'] =
+    variable_get('htmlmail_prefilter', $default[s['body']['format']);
 
   $form['to'] = array(
     '#type' => 'textfield',
