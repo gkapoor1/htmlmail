@@ -32,6 +32,7 @@ function htmlmail_menu() {
   $items['admin/config/system/htmlmail/settings'] = array(
     'title' => 'Settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
+    'theme callback' => 'htmlmail_get_selected_theme',
     'weight' => '-2'
   );
   $items['admin/config/system/htmlmail/test'] = array(
@@ -40,6 +41,7 @@ function htmlmail_menu() {
     'page arguments' => array('htmlmail_test_form'),
     'access arguments' => array('access administration pages'),
     'type' => MENU_LOCAL_TASK,
+    'theme callback' => 'htmlmail_get_selected_theme',
     'file' => 'htmlmail.admin.inc',
   );
   // Hack for formatting emails with a Drupal theme: Show them on a regular
