@@ -13,6 +13,14 @@ function htmlmail_install() {
 }
 
 /**
+ * Removes variables that are no longer used.
+ */
+function htmlmail_update_7200 {
+  variable_del('htmlmail_header');
+  variable_del('htmlmail_footer');
+}
+
+/**
  * Implements hook_enable().
  */
 function htmlmail_enable() {
