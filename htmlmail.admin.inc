@@ -65,7 +65,7 @@ function htmlmail_test_form($form_values = NULL) {
 
   // Set the input format to be the same as the selected prefilter format.
   $defaults['body']['format'] =
-    variable_get('htmlmail_prefilter', $default[s['body']['format']);
+    variable_get('htmlmail_prefilter', $defaults['body']['format']);
 
   $form['to'] = array(
     '#type' => 'textfield',
@@ -100,15 +100,17 @@ function htmlmail_test_form($form_values = NULL) {
  * Sends the test messsage and saves the contents for re-use.
  */
 function htmlmail_test_form_submit($form, &$form_state) {
-  // save form values
+  // Get the form values.
   $defaults = array(
     'to' => $form_state['values']['to'],
     'subject' => $form_state['values']['subject'],
     'body' => $form_state['values']['body'],
   );
-  // set the defaults for reuse
+  // Set the defaults for reuse.
   variable_set('htmlmail_test', $defaults);
-  // send email
+  // @todo Get user feedback on this UI change.
+  variable_set('htmlmail_prefilter', $defaults['body']['format']);
+  // Send the email.
   $params = array(
     'subject' => $form_state['values']['subject'],
     'body' => check_markup($form_state['values']['body']['value'], $form_state['values']['body']['format']),
