@@ -73,7 +73,7 @@
  * $directory
  *        The relative path to the website theme template directory
  *        (Again, this is different from the email theme directory, which
- *        isn't used for templates).
+ *        is not used for templates).
  * 
  * $theme_url
  *        The absolute URL to the website theme directory.
