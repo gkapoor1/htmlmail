@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Send system emails in HTML.
+ * Sends system emails in HTML.
  */
 
 /**
@@ -43,16 +43,6 @@ function htmlmail_menu() {
     'access arguments' => array('access administration pages'),
     'type' => MENU_LOCAL_TASK,
     'theme callback' => 'htmlmail_get_selected_theme',
-    'file' => 'htmlmail.admin.inc',
-  );
-  // Callback that receives the message via $_POST and displays it on a themed
-  // page.  This is used to format an email message with a Drupal theme.
-  $items['admin/config/system/htmlmail/email'] = array(
-    'title callback' => 'htmlmail_get_post_subject',
-    'page callback' => 'htmlmail_show_email',
-    'theme callback' => 'htmlmail_get_selected_theme',
-    'access callback' => TRUE,
-    'type' => MENU_CALLBACK,
     'file' => 'htmlmail.admin.inc',
   );
   return $items;
@@ -133,7 +123,7 @@ function htmlmail_user_presave(&$edit, $account, $category) {
  * machine-readable names and the values are the .info file names.
  * Code shamelessly stolen from the og_theme module.
  */
-function htmlmail_get_allowed_themes() {
+function &htmlmail_get_allowed_themes() {
   $allowed = &drupal_static(__FUNCTION__);
   if (!isset($allowed)) {
     $allowed = array('' => t('No theme'));
@@ -151,17 +141,10 @@ function htmlmail_get_allowed_themes() {
 
 /**
  * Returns the selected theme to use for outgoing emails.
- * for use in a theme callback function.
  */
-function htmlmail_get_selected_theme(&$selected = NULL) {
-  if (!isset($selected)) {
-    $selected = variable_get('htmlmail_theme', '');
-  }
-  // Make sure the selected theme is allowed.
-  $themes = htmlmail_get_allowed_themes();
-  if (isset($themes[$selected])) {
-    return $selected;
-  }
-  // If a theme was specified but not allowed, fall back to site defaults.
-  return $GLOBALS['theme'];
+function htmlmail_get_selected_theme($message) {
+  $themes = &htmlmail_get_allowed_themes();
+  return (empty($message['theme']) || empty($themes[$message['theme']]))
+    ? variable_get('htmlmail_theme', $GLOBALS['theme'])
+    : $message['theme'];
 }

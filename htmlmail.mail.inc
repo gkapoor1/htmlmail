@@ -37,10 +37,10 @@ class HTMLMailMailSystem implements MailSystemInterface {
     }
 
     // Optionally apply the selected theme via internal http request.
-    if ($theme = htmlmail_get_selected_theme($message['theme'])) {
+    if ($theme = htmlmail_get_selected_theme($message)) {
       $url = url('admin/config/system/htmlmail/email', array('absolute' => TRUE));
-      $data = 'body=' . rawurlencode($message['body'])
-        . '&subject=' . rawurlencode($message['subject'])
+      $data = 'content=' . rawurlencode($message['body'])
+        . '&title=' . rawurlencode($message['subject'])
         . '&theme=' . rawurlencode($theme);
       $options = array(
         'method' => 'POST',
