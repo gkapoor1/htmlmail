@@ -38,19 +38,12 @@ class HTMLMailMailSystem implements MailSystemInterface {
 
     // Optionally apply the selected theme via internal http request.
     if ($theme = htmlmail_get_selected_theme($message)) {
-      $url = url('admin/config/system/htmlmail/email', array('absolute' => TRUE));
-      $data = 'content=' . rawurlencode($message['body'])
-        . '&title=' . rawurlencode($message['subject'])
-        . '&theme=' . rawurlencode($theme);
-      $options = array(
-        'method' => 'POST',
-        'data' => $data,
-        'headers' => array('Content-Type' => 'application/x-www-form-urlencoded'),
-      );
-      $response = drupal_http_request($url, $options);
-
       // Strip javascript as it doesn't work through email anyway.
-      $message['body'] = preg_replace('@<script type="text/javascript".*</script>@Usi', '', $response->data);
+      $message['body'] = preg_replace(
+        '@<script type="text/javascript".*</script>@Usi',
+        '',
+        echo_themed_page($message['subject'], $message['body'], $theme)
+      );
     }
 
     // Optionally apply the selected output filter.
