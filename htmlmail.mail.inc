@@ -1,105 +1,588 @@
 <?php
 /**
  * @file
- * Implementation of MailSystemInterface.
+ * Implements MailSystemInterface.
+ *
+ * Declares the HTMLMailSystem class, which formats and sends mail using the
+ * Pear Mail_mimePart and Mail_mimeDecode packages.
+ *
  * @see http://drupal.org/node/900794
  * @see http://api.drupal.org/api/drupal/includes--mail.inc/interface/MailSystemInterface/7
+ * @see http://pear.php.net/manual/en/package.mail.mail-mimepart.php
+ * @see http://pear.php.net/manual/en/package.mail.mail-mimedecode.php
  */
-class HTMLMailMailSystem implements MailSystemInterface {
+
+// @todo Use libraries API to locate this.
+require_once 'Mail/mimePart.php';
+require_once 'Mail/mimeDecode.php';
+
+/**
+ * Extends Mail_mimePart to add text() and attach() functions.
+ */
+class HTMLMail_mimePart extends Mail_mimePart {
+
+  var $cids;
+
+  function __construct($body = '', $params = array(), &$parent = NULL) {
+    if (isset($parent)) {
+      $this->cids = &$parent->cids;
+    }
+    else {
+      $this->cids = array();
+    }
+    if (isset($params['body_file'])) {
+      $params['cid'] = md5($params['body_file']);
+      $this->cids[$params['body_file']] = $params['cid'];
+    }
+    parent::__construct($body, $params);
+  }
+
+  function &addSubPart($body, $params) {
+    return $this->_subparts[] = new HTMLMail_mimePart($body, $params, $this);
+  }
+
+  function &addMultiPart($subtype) {
+    return $this->_subparts[] = new HTMLMail_mimePart(
+      '', array('content_type' => 'multipart/' . $subtype), $this);
+  }
+
+  /**
+   * Finds and/or sets and returns an inline text mime part.
+   *
+   * Finds and returns the first inline mime (sub-)part whose content sub-type
+   * matches the $subtype parameter.  Optionally creates, deletes, or modifies
+   * the mime part.
+   *
+   * If the $text parameter is NULL, the matching mime part is returned.  If no
+   * match was found, NULL is returned.
+   *
+   * If the $text parameter is set and empty, the matching mime part is deleted
+   * if found, and FALSE is returned.
+   *
+   * If the $text parameter is set and non-empty, it is copied to the body field
+   * of the matching mime part, which is created if necessary.  The matching mime
+   * part is returned.
+   *
+   * @param $text: The text to be copied into the matching mime part.
+   * @param $params: An associative array containing the following keys:
+   * - charset: Should be 'UTF-8'.
+   * - content_type: The content type, which should begin with 'text/'.
+   * - disposition: Should be 'inline'.
+   * - eol: Should be variable_get('mail_line_endings', MAIL_LINE_ENDINGS));
+   *
+   * @return
+   *   FALSE if a matching part was found and deleted.
+   *   HTMLMail_mimePart if found and not deleted.
+   *   NULL if no matching part was found.
+   */
+  public function &text($text, array $params, $main_part = TRUE) {
+    if (($this_type = $this->content_type()) == $params['content_type']) {
+      $this->headers['Content-Disposition'] = 'inline';
+      if (isset($text) && empty($text)) {
+        return FALSE;
+      }
+      return $this;
+    }
+    // This is a depth-first search.
+    $renumber = FALSE;
+    for ($key = count($this->_subparts); $key > 0;) {
+      $key--;
+      if ($return = &$this->_subparts[$key]->text($text, $params, FALSE)) {
+        return $return;
+      }
+      if ($return === FALSE) {
+        unset($this->_subparts[$key]);
+        $renumber = TRUE;
+        // If the text/html is removed, related parts should also be removed.
+        if ( strtolower($params['content_type']) == 'text/html'
+          && ( $this_type == 'multipart/related'
+            || $this_type == 'multipart/alternative' ) )  {
+          // Renumber subparts to honor Mail_mimePart assumptions.
+          $this->subparts = array_values($this->_subparts);
+          return FALSE;
+        }
+      }
+    }
+    if ($renumber) {
+      // Renumber subparts to honor Mail_mimePart assumptions.
+      $this->subparts = array_values($this->_subparts);
+    }
+    // No matching part was found.
+    if (!empty($text)) {
+      // Create a new part.
+      if ($this_type == 'multipart/alternative') {
+        // Multipart/alternative may hold text.
+        return $this->addSubPart($text, $params);
+      }
+      if ($this_type == 'multipart/related') {
+        // Multipart/related may hold multipart/alternative.
+        return $this->addMultiPart('alternative')
+          ->addSubPart($text, $params);
+      }
+      if ($this_type == 'multipart/mixed') {
+        // Multipart/mixed may hold multipart/related.
+        return $this->addMultiPart('related')
+          ->addMultiPart('alternative')
+          ->addSubPart($text, $params);
+      }
+      if ($main_part) {
+        // Convert $this to multipart/mixed.
+        $copy = clone $this;
+        $mixed = &$this->addMultiPart('mixed');
+        $related = &$mixed->addMultiPart('related');
+        $alternative = &$related->addMultiPart('alternative');
+        if (strncmp($this_type, 'text/', 5)) {
+          // Add non-text parts to multipart/related.
+          $related->_subparts[] = &$copy;
+        }
+        else {
+          // Add text parts to multipart/alternative.
+          $alternative->_subparts[] = &$copy;
+        }
+        $this = &$mixed;
+        return $alternative->addSubPart($text, $params);
+      }
+    }
+  }
+
+  /**
+   * Finds or adds and returns an attached mime part.
+   *
+   * Finds and returns the first attached mime (sub-)part whose content-id
+   * matches the $params['cid'] value.  Creates the part if it does not already
+   * exist.
+   *
+   * @param $prams: An associative array containing the following keys:
+   * - body_file: Filesystem path of file to be attached.
+   * - charset: Must be 'UTF-8'.
+   * - cid: The content-id, which is generated by md5(body_file).
+   * - content_type: The content-type, such as 'image/gif'.
+   * - description: Discriptive text to be displayed in attachment views.
+   * - disposition: Should be 'attachment'.
+   * - encoding: Should be 'base64' for binary attachments.
+   * - eol: Should be variable_get('mail_line_endings', MAIL_LINE_ENDINGS).
+   * - filename: Short name for file; defaults to basename(body_file).
+   * @param $type: The mime content-type of the attachment.  If null and
+   * mime-detect is available, will attempt to auto-detect.  Otherwise,
+   * will default to 'application/octet-stream'.
+   * @param $name: The name to be shown.  Defaults to basename($path).
+   * @param $text: The description to be shown.  Defaults to ''.
+   *
+   * @return HTMLMail_mimePart, or NULL on error.
+   */
+  public function &attach(array &params, $sub_part = FALSE) {
+    if (($this_type = $this->content_type()) == 'multipart/related') {
+      // Prefer to place non-text parts in multipart/related so they are
+      // available to HTML using "cid:" urls.
+      return $this->addSubPart('', $params);
+    }
+    for ($key = 0; $key < count($this->_subparts); $key++) {
+      if ($return =&$this->_subparts[$key]->attach($params, TRUE)) {
+        return $return;
+      }
+    }
+    // No multipart/related parts found.
+    if ($this_type == 'multipart/mixed') {
+      // Multipart/mixed may hold multipart/related.
+      return $this->addMultiPart('related')
+        ->addSubPart($params);
+    }
+    if ($sub_part) {
+      $null = NULL;
+      return $null;
+    }
+    // Convert to multipart/mixed.
+    $copy = clone $this;
+    $mixed = &$this->addMultiPart('mixed');
+    $related =&$mixed->addMultiPart('related');
+    if (strncmp($this_type, 'text/', 5)) {
+      // Add non-text parts to multipart/related.
+      $related->_subparts[] = &$copy;
+    }
+    else {
+      // Add text parts to multipart/alternative.
+      $alternative = $related->addMultiPart('alternative');
+      $alternative->_subparts[] = &$copy;
+    }
+    $this = &$mixed;
+    return $related->addSubPart($params);
+  }
+
+  public function content_type($type = NULL) {
+    return isset($type)
+      ? strtolower(array_shift(explode(';', $type)))
+      : strtolower(array_shift(explode(';', $this->_headers['Content-Type'])));
+  }
+
+  public function cid() {
+    return isset($this->_headers['Content-ID'])
+      ? substr($this->_headers['Content-ID'], 1, -1)
+      : '';
+  }
+}
+
+/**
+ * Implements MailSystemInterface.
+ *
+ * Also supplies many helper functions for manipulating email messages.
+ */
+class HTMLMailSystem implements MailSystemInterface {
+
+  var _mimePart;
+
+  /**
+   * Returns current mail_line_endings setting.
+   */
+  public static function eol() {
+    static $eol;
+    return isset($eol) ? $eol
+      : ($eol = variable_get('mail_line_endings', MAIL_LINE_ENDINGS));
+  }
+  /**
+   * Returns an array with keys changed to match the case of email headers.
+   */
+  public static function str_to_headers($str) {
+    $headers = array();
+    if (!is_array($str)) {
+      $str = mail_mimeDecode::decode(
+        array(
+          'decode_headers' => TRUE,
+          'input' => $str,
+        )
+      )->headers;
+    }
+    foreach ($str as $name => $value) {
+      $name = preg_replace(
+        array(
+          '/([[:alpha:]])([[:alpha:]]+)/e',
+          '/^Mime-/',
+          '/-Id$/',
+        ),
+        array(
+          'strtoupper("\1") . strtolower("\2")',
+          'MIME-',
+          '-ID',
+        ),
+        $name
+      );
+      $headers[$name] = $value;
+    }
+    return $headers;
+  }
+
+  public static function headers_to_str(array $headers) {
+    $str = '';
+    foreach ($headers as $name => $value) {
+      // Hardcoded newline because many mailsystems require it.
+      $str .= $name . ': ' . HTMLMail_MimePart::encodeHeader($name, $value, 'UTF-8') . "\n";
+    }
+    return $str;
+  }
+
+  public static function headers_merge($headers, $xtra) {
+    return array_merge(
+      str_to_headers($headers),
+      str_to_headers($xtra)
+    );
+  }
+
+  public static function body_to_str($body) {
+    $body = preg_replace('/(\r|\r\n|\n)', HTMLMailSystem::eol(), $body)
+    if (is_array($body)) {
+      $body = implode(HTMLMailSystem::eol(), $body);
+    }
+    return $body;
+  }
+
+  public static function str_to_body($str) {
+    return explode(HTMLMailSystem::eol(), $str);
+  }
+
+  public function &email_to_mime(array $headers, $body) {
+    $email = headers_to_str($headers) . HTMLMailSystem::eol() . $body;
+    $mime = &$this->_mimeDecode_to_mimePart(
+      Mail_mimeDecode::decode(
+        array(
+          'decode_headers' => TRUE,
+          'decode_bodies' => TRUE,
+          'include_bodies' => TRUE,
+          'rfc822_bodies' => TRUE,
+          'input' => $email,
+        )
+      )
+    );
+    if (empty($mime) || PEAR::IsError($mime)) {
+      watchdog(
+        'HTMLMailSystem',
+        'Could not parse email: !email',
+        array('!message' => "<pre>\n" . $email),
+        WATCHDOG_ERROR
+      );
+      return NULL;
+    }
+    return $mime;
+  }
+
+  public function mime_to_email(array &$message) {
+    if ($this->_invalid($message)) {
+      return list(array(), '');
+    }
+    list($headers, $body) = $message['HTMLMail_MimePart']->encode();
+    return array(
+      array_diff_assoc($message['headers'], $headers) + $headers,
+      $body
+    );
+  }
+
+  /**
+   * Finds and/or sets and returns an inline text mime part.
+   *
+   * Finds and returns the first inline mime part whose content-type matches the
+   * $type parameter.  Optionally creates, deletes, or modifies the mime part.
+   *
+   * If the $text parameter is NULL, the matching mime part is returned.  If no
+   * match was found, NULL is returned.
+   *
+   * If the $text parameter is set and empty, the matching mime part is deleted
+   * if found, and NULL is returned.
+   *
+   * If the $text parameter is set and non-empty, it is copied to the body field
+   * of the matching mime part, which is created if necessary.  The matching mime
+   * part is returned.
+   *
+   * @param $message: The email message array.
+   * @param $subtype: The text sub-type to search for.
+   * @param $text: The text to be copied into the matching mime part.
+   *
+   * @return The matching mime part body, or NULL if not found or deleted.
+   */
+  public function &text(array &$message, $text, $subtype) {
+    if ($this->_invalid($message)) {
+      $null = NULL;
+      return $null;
+    }
+    $params = array(
+      'content_type' => 'text/' . strtolower($subtype),
+      'disposition' => 'inline',
+      'charset' => 'UTF-8',
+      'encoding' => 'quoted-printable',
+      'eol' => HTMLMail_MimePart::eol(),
+    );
+    return $message['HTMLMail_MimePart']->text($text, $params)->body;
+  }
+
+  /**
+   * Finds and/or sets and returns an attachment mime part.
+   */
+  public function attach(array &$message, $path, $type=NULL, $name=NULL, $description=NULL) {
+    if ($this->_invalid($message)) {
+      $null = NULL;
+      return $null;
+    }
+    if (isset($message['HTMLMail_MimePart']->cids[$path])) {
+      return $message['HTMLMail_MimePart']->cids[$path];
+    }
+    // @todo Auto-discover $type using mime_detect.
+    $params = array(
+      'body_file' => $path,
+      'charset' => 'UTF-8',
+      'cid' => md5($path),
+      'content_type' => empty($type) ? 'application/octet-stream' : $type,
+      'description' => empty($description) ? $path : $description,
+      'disposition' => 'attachment',
+      'encoding' => 'base64',
+      'eol' => HTMLMail_MimePart::eol(),
+      'filename' => empty($name) ? basename($path) : $name,
+    );
+    return ($part = $message['HTMLMail_MimePart']->attach($params))
+      ? $part->cid() : NULL;
+  }
+
   /**
    * Format emails according to module settings.
+   *
+   * Parses body into a HTMLMail_MimePart object.  If another module subsequently
+   * modifies the body, then format() should be called again before sending.  This
+   * is safe because the $message['body'] is unmodified by this function.
+   *
    */
-  public function format(array $message) {
-    // Collapse the message body array.
-    $message['body'] =
-      is_array($message['body'])
-      ? implode("\n\n", $message['body'])
-      : $message['body'];
-
-    // Optionally apply an input filter.
-    if ((isset($message['format']) && ($filter = $message['format'])) ||
-        ($filter = variable_get('htmlmail_prefilter'))) {
-      $message['body'] = check_markup($message['body'], $filter);
-    }
-
-    // Apply the template file.
-    $message['body'] = theme('htmlmail', $message);
-
-    // Store a plaintext version.
-    $message['plaintext'] = drupal_html_to_text($message['body']);
-
-    // Send plaintext-only if the recipient prefers it.
-    $recipient = user_load_by_mail($message['to']);
-    if ($recipient && !empty($recipient->data['htmlmail_plaintext'])) {
-      $message['headers']['Content-Type'] = 'text/plain; charset=UTF-8; format=flowed';
-      $message['body'] = $message['plaintext'];
+  public function &format(array &$message) {
+    $body = $this->body_to_str($message['body']);
+    $headers = $this->str_to_headers($message['headers']);
+    // Parse, then rebuild the message.
+    if (!($message['HTMLMail_mimePart'] = &$this->email_to_mime($headers, $body))) {
+      // Logged unparseable by email_to_mime. What else to do?
+      $message = array('headers' => array(), 'body' => '') + $message;
       return $message;
     }
-
-    // Optionally apply the selected theme via internal http request.
-    if ($theme = htmlmail_get_selected_theme($message)) {
-      // Strip javascript as it doesn't work through email anyway.
-      $message['body'] = preg_replace(
-        '@<script type="text/javascript".*</script>@Usi',
-        '',
-        echo_themed_page($message['subject'], $message['body'], $theme)
-      );
+    if ( !($body = $this->text($message, NULL, 'html'))
+      && !($body = $this->text($message, NULL, 'plain')) ) {
+      $body = '';
     }
-
-    // Optionally apply the selected output filter.
-    if ($filter = variable_get('htmlmail_postfilter')) {
-      $message['body'] = check_markup($message['body'], $filter);
+    if ( (isset($message['format']) && ($filter = $message['format']))
+      || ($filter = variable_get('htmlmail_prefilter')) ) {
+      $body =  check_markup($body, $filter);
     }
-
-    // Store both plaintext and html versions.
-    $boundary = uniqid(time(), 1);
-    $message['headers']['Content-Type'] = "multipart/alternative; charset=utf-8; boundary=\"$boundary\"";
-    $message['headers']['Content-Transfer-Encoding'] = '8bit';
-    $message['headers']['MIME-Version'] = '1.0';
-    $message['body'] = "This is a multi-part message in MIME format.
---$boundary
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-" . $message['plaintext'] . "
-
---$boundary
-Content-Type: text/html; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
-" . $message['body'] . "
-
---$boundary--
-";
+    // Clear the html version to add it later.  This ensures it comes last
+    // in multipart/alternative lists.
+    $this->text($message, '', 'html');
+    // Apply the template file.
+    $body = theme(
+      'htmlmail',
+      $message + array('headers' => $headers, 'body' => $body)
+    );
+    // Store the plaintext version.
+    $this->text($message, drupal_html_to_text($body), 'plain');
+    // Check to see whether recipient allows non-plaintext.
+    if ( empty($recipient = user_load_by_mail($message['to']))
+      || empty($recipient->data['htmlmail_plaintext']) ) {
+      // Optionally apply the selected theme.
+      if ($theme = htmlmail_get_selected_theme($message)) {
+        // Strip javascript as it doesn't work through email anyway.
+        $body = preg_replace(
+          '@<script type="text/javascript".*</script>@Usi',
+          '',
+          echo_themed_page($message['subject'], $body, $theme)
+        );
+      }
+      // Optionally apply the selected output filter.
+      if ($filter = variable_get('htmlmail_postfilter')) {
+        $body = check_markup($body, $filter);
+      }
+      // Attach page requisites and replace absolute urls with cid: urls.
+      $this->attach_requisites($message, $body);
+      // Store html version.
+      $this->text($message, $body, 'html');
+    }
     return $message;
   }
 
   /**
    * Send an email message.
    */
-  public function mail(array $message) {
-    $mimeheaders = array();
-    foreach ($message['headers'] as $name => $value) {
-      $mimeheaders[] = $name . ': ' . mime_header_encode($value);
+  public function mail(array &$message) {
+    // If message could not be encoded, abort.
+    if ($this->_invalid($message)) {
+      return FALSE;
     }
-    if (isset($message['headers']['Return-Path']) &&
-        !ini_get('safe_mode') &&
-        !strpos(ini_get('sendmail_path'), ' -f')) {
-      $extra = '-f ' . $message['headers']['Return-Path'];
+    // Decode from mimePart back into headers and body.
+    list($headers, $body) = $this->mime_to_email($message);
+    // Ensure that subject is non-null.
+    $message += array('subject' => t('(No subject)'));
+    // Check for empty recipient.
+    if (empty($message['to'])) {
+      if (empty($message['headers']['To'])) {
+        watchdog(
+          'HTMLMailSystem',
+          'Cannot send email about %subject without a recipient.',
+          array('subject' => $message['subject']),
+          WATCHDOG_ERROR
+        );
+        return FALSE;
+      }
+      $message['to'] = $message['headers']['To'];
     }
-    else {
-      $extra = '';
+    // Check for empty body.
+    if (empty($body)) {
+      watchdog(
+        'HTMLMailSystem',
+        'Refusing to send a blank email to %recipient about %subject.',
+        array('%recipient' => $message['to'], '%subject' => $message['subject']),
+        WATCHDOG_WARNING
+      );
+      return FALSE;
     }
-    // To override this, adjust $conf['mail_line_endings'] in settings.php.
-    $line_endings = variable_get('mail_line_endings', MAIL_LINE_ENDINGS);
+    $extra = (
+      isset($headers['Return-Path'])
+      && !ini_get('safe_mode')
+      && !strpos(ini_get('sendmail_path'), ' -f')
+    ) ? '-f ' . $headers['Return-Path']
+      : '';
     return mail(
-      $message['to'],
-      // The email might not be sent properly if the subject line contains
-      // newline characters.
-      str_replace("\n", ' ', mime_header_encode($message['subject'])),
-      preg_replace('@\r?\n@', $line_endings, $message['body']),
-      join("\n", $mimeheaders),
+      HTMLMail_MimePart::encodeHeader('to', $message['to'], 'UTF-8'),
+      HTMLMail_MimePart::encodeHeader('subject', $message['subject'], 'UTF-8'),
+      $body,
+      $this->headers_to_str($headers),
       $extra
     );
+  }
+
+  /**
+   * Returns TRUE if a message could not be formatted.
+   */
+  private function _invalid(array &$message) {
+    if (empty($message['HTMLMail_MimePart'])) {
+      $this->format($message);
+      if (empty($message['HTMLMail_MimePart'])) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * Creates a HTMLMail_MimePart object from a Mail_mimeDecode::decode object.
+   */
+  private function &_mimeDecode_to_mimePart(stdClass $decoded, &$mimePart = NULL) {
+    $body = empty($decoded->body)
+      ? '' : $decoded->body;
+    $params = array(
+      'content_type' => $decoded->headers['content-type'],
+      'eol' => HTMLMailSystem::eol(),
+    );
+    if (!empty($decoded->headers['content-transfer-encoding'])) {
+      $params['encoding'] = $decoded->headers['content-transfer-encoding'];
+    }
+    if (!empty($decoded->ctype_parameters['charset'])) {
+      $params['charset'] = $decoded->ctype_parameters['charset'];
+    }
+    if (!empty($decoded->headers['content-id'])) {
+      $params['cid'] = $decoded->headers['content-id'];
+    }
+    if (!empty($decoded->disposition)) {
+      $params['disposition'] = $decoded->disposition;
+    }
+    if (!empty($decoded->d_parameters['filename'])) {
+      $params['dfilename'] = $decoded->d_parameters['filename'];
+    }
+    if (!empty($decoded->d_parameters['name'])) {
+      $params['description'] = $decoded->d_parameters['name'];
+    }
+    if (is_null($mimePart)) {
+      $mimePart = new HTMLMail_MimePart($body, $params);
+    }
+    else {
+      $mimePart->addSubPart($body, $params);
+    }
+    if (!empty($decoded->parts)) {
+      foreach ($decoded->parts as $part) {
+        $this->_mimeDecode_to_mimePart($decoded, $mimePart);
+      }
+    }
+    return $mimePart;
+  }
+
+  public function attach_requisites(array &$message, &$body) {
+    if ($this->_invalid($message)) {
+      return FALSE;
+    }
+    $this->_message =&$message;
+    $search = array(
+      '#(?<!\S)(src|background|href)\s*(=)\s*(["\'])(?!cid:)(.*?)(\3)#i',
+      '#(?<!\S)(src|background|href)\s*(=)(\s*)(?!"cid:)([^ >]*)(?=[ >])#i',
+      '#(?<!\S)(url)\s*(\()\s*(["\'])(?!cid:)(.*?)(\3)#i',
+      '#(?<!\S)(url)\s*(\()(\s*)(?!"cid:)([^ )]*)(?=[ )])#i',
+    );
+    $body = preg_replace_callback($search, array(&$this, '_attach_regex'), $body);
+    unset($this->_message);
+  }
+
+  private function _attach_regex($matches) {
+    return
+      ($path = drupal_realpath(DRUPAL_ROOT . parse_url($matches[4], PHP_URL_PATH)))
+      && (is_readable($path) && !is_dir($path))
+      && ($cid = $this->attach($this->_message, $path)
+        ? $matches[1] . $matches[2] . "cid:$cid"
+        : $matches[0];
   }
 }
