@@ -36,14 +36,14 @@ function htmlmail_update_7201() {
  * Implements hook_enable().
  */
 function htmlmail_enable() {
-  mailsystem_set(array('htmlmail' => 'HTMLMailMailSystem'));
+  mailsystem_set(array('htmlmail' => 'HTMLMailSystem'));
 }
 
 /**
  * Implements hook_disable().
  */
 function htmlmail_disable() {
-  mailsystem_clear(array('htmlmail' => 'HTMLMailMailSystem'));
+  mailsystem_clear(array('htmlmail' => 'HTMLMailSystem'));
 }
 
 /**

@@ -142,7 +142,7 @@ function &htmlmail_get_allowed_themes() {
 /**
  * Returns the selected theme to use for outgoing emails.
  */
-function htmlmail_get_selected_theme($message) {
+function htmlmail_get_selected_theme($message = array()) {
   $themes = &htmlmail_get_allowed_themes();
   return (empty($message['theme']) || empty($themes[$message['theme']]))
     ? variable_get('htmlmail_theme', $GLOBALS['theme'])

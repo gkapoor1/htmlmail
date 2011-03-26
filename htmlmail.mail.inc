@@ -23,6 +23,41 @@ class HTMLMail_mimePart extends Mail_mimePart {
 
   var $cids;
 
+  function is_text() {
+    return !strncasecmp($this->content_type(), 'text/', 5);
+  }
+
+  /**
+   * Some debugging functions.
+   *
+  function dump_mime($prefix='') {
+    $output = $prefix . ' ' . str_replace("\n",'',$this->_headers['Content-Type']) . ' '
+      . ( $this->is_text() ? $this->_var_more($this->_body) : $this->_encoding )
+      . "\n";
+    for ($i = 0; $i < count($this->_subparts); $i++) {
+      $output .= $this->_subparts[$i]->dump_mime($prefix . '.' . $i);
+    }
+    return $output;
+  }
+
+  function _var_more($text,$limit=20) {
+    return var_export(
+      preg_replace(
+        array(
+          '/^(.{' . $limit. ',' . $limit. '}).+$/s',
+          '/\n/',
+        ),
+        array(
+          '\1...',
+          '\n',
+        ),
+        $text
+      ),1
+    );
+  }
+  * End debugging functions.
+  */
+
   function __construct($body = '', $params = array(), &$parent = NULL) {
     if (isset($parent)) {
       $this->cids = &$parent->cids;
@@ -38,12 +73,23 @@ class HTMLMail_mimePart extends Mail_mimePart {
   }
 
   function &addSubPart($body, $params) {
-    return $this->_subparts[] = new HTMLMail_mimePart($body, $params, $this);
+    $this->_subparts[] = new HTMLMail_mimePart($body, $params, $this);
+    return $this->_subparts[count($this->_subparts)-1];
   }
 
   function &addMultiPart($subtype) {
-    return $this->_subparts[] = new HTMLMail_mimePart(
+    $this->_subparts[] = new HTMLMail_mimePart(
       '', array('content_type' => 'multipart/' . $subtype), $this);
+    return $this->_subparts[count($this->_subparts)-1];
+  }
+
+  public function copy(HTMLMail_mimePart $source) {
+    $this->_encoding = $source->_encoding;
+    $this->_subparts = $source->_subparts;
+    $this->_encoded = $source->_encoded;
+    $this->_headers = $source->_headers;
+    $this->_body = $source->_body;
+    $this->_eol = $source->_eol;
   }
 
   /**
@@ -78,34 +124,24 @@ class HTMLMail_mimePart extends Mail_mimePart {
   public function &text($text, array $params, $main_part = TRUE) {
     if (($this_type = $this->content_type()) == $params['content_type']) {
       $this->headers['Content-Disposition'] = 'inline';
-      if (isset($text) && empty($text)) {
-        return FALSE;
+      if (!empty($text)) {
+        $this->_body = $text;
       }
       return $this;
     }
     // This is a depth-first search.
-    $renumber = FALSE;
     for ($key = count($this->_subparts); $key > 0;) {
       $key--;
-      if ($return = &$this->_subparts[$key]->text($text, $params, FALSE)) {
-        return $return;
-      }
-      if ($return === FALSE) {
-        unset($this->_subparts[$key]);
-        $renumber = TRUE;
-        // If the text/html is removed, related parts should also be removed.
-        if ( strtolower($params['content_type']) == 'text/html'
-          && ( $this_type == 'multipart/related'
-            || $this_type == 'multipart/alternative' ) )  {
-          // Renumber subparts to honor Mail_mimePart assumptions.
-          $this->subparts = array_values($this->_subparts);
-          return FALSE;
+      $return = &$this->_subparts[$key]->text($text, $params, FALSE);
+      if ($return instanceof HTMLMail_mimePart) {
+        if (is_null($text) || $text) {
+          return $return;
         }
+        unset($this->_subparts[$key]);
+        $this->_subparts = array_values($this->_subparts);
+        $null = NULL;
+        return $null;
       }
-    }
-    if ($renumber) {
-      // Renumber subparts to honor Mail_mimePart assumptions.
-      $this->subparts = array_values($this->_subparts);
     }
     // No matching part was found.
     if (!empty($text)) {
@@ -139,10 +175,12 @@ class HTMLMail_mimePart extends Mail_mimePart {
           // Add text parts to multipart/alternative.
           $alternative->_subparts[] = &$copy;
         }
-        $this = &$mixed;
+        $this->copy($mixed);
         return $alternative->addSubPart($text, $params);
       }
     }
+    $null = NULL;
+    return $null;
   }
 
   /**
@@ -170,7 +208,7 @@ class HTMLMail_mimePart extends Mail_mimePart {
    *
    * @return HTMLMail_mimePart, or NULL on error.
    */
-  public function &attach(array &params, $sub_part = FALSE) {
+  public function &attach(array &$params, $sub_part = FALSE) {
     if (($this_type = $this->content_type()) == 'multipart/related') {
       // Prefer to place non-text parts in multipart/related so they are
       // available to HTML using "cid:" urls.
@@ -204,14 +242,16 @@ class HTMLMail_mimePart extends Mail_mimePart {
       $alternative = $related->addMultiPart('alternative');
       $alternative->_subparts[] = &$copy;
     }
-    $this = &$mixed;
-    return $related->addSubPart($params);
+    $this->copy($mixed);
+    return $related->addSubPart('', $params);
   }
 
   public function content_type($type = NULL) {
     return isset($type)
       ? strtolower(array_shift(explode(';', $type)))
-      : strtolower(array_shift(explode(';', $this->_headers['Content-Type'])));
+      : isset($this->_headers['Content-Type'])
+      ? strtolower(array_shift(explode(';', $this->_headers['Content-Type'])))
+      : 'text/plain';
   }
 
   public function cid() {
@@ -224,12 +264,9 @@ class HTMLMail_mimePart extends Mail_mimePart {
 /**
  * Implements MailSystemInterface.
  *
- * Also supplies many helper functions for manipulating email messages.
+ * Also supplies helper functions for manipulating email messages.
  */
 class HTMLMailSystem implements MailSystemInterface {
-
-  var _mimePart;
-
   /**
    * Returns current mail_line_endings setting.
    */
@@ -238,6 +275,7 @@ class HTMLMailSystem implements MailSystemInterface {
     return isset($eol) ? $eol
       : ($eol = variable_get('mail_line_endings', MAIL_LINE_ENDINGS));
   }
+
   /**
    * Returns an array with keys changed to match the case of email headers.
    */
@@ -274,7 +312,7 @@ class HTMLMailSystem implements MailSystemInterface {
     $str = '';
     foreach ($headers as $name => $value) {
       // Hardcoded newline because many mailsystems require it.
-      $str .= $name . ': ' . HTMLMail_MimePart::encodeHeader($name, $value, 'UTF-8') . "\n";
+      $str .= $name . ': ' . HTMLMail_mimePart::encodeHeader($name, $value, 'UTF-8') . "\n";
     }
     return $str;
   }
@@ -287,7 +325,7 @@ class HTMLMailSystem implements MailSystemInterface {
   }
 
   public static function body_to_str($body) {
-    $body = preg_replace('/(\r|\r\n|\n)', HTMLMailSystem::eol(), $body)
+    $body = preg_replace('/(\r|\r\n|\n)/', HTMLMailSystem::eol(), $body);
     if (is_array($body)) {
       $body = implode(HTMLMailSystem::eol(), $body);
     }
@@ -299,7 +337,7 @@ class HTMLMailSystem implements MailSystemInterface {
   }
 
   public function &email_to_mime(array $headers, $body) {
-    $email = headers_to_str($headers) . HTMLMailSystem::eol() . $body;
+    $email = $this->headers_to_str($headers) . HTMLMailSystem::eol() . $body;
     $mime = &$this->_mimeDecode_to_mimePart(
       Mail_mimeDecode::decode(
         array(
@@ -318,19 +356,20 @@ class HTMLMailSystem implements MailSystemInterface {
         array('!message' => "<pre>\n" . $email),
         WATCHDOG_ERROR
       );
-      return NULL;
+      $null = NULL;
+      return $null;
     }
     return $mime;
   }
 
   public function mime_to_email(array &$message) {
     if ($this->_invalid($message)) {
-      return list(array(), '');
+      return array(array(), '');
     }
-    list($headers, $body) = $message['HTMLMail_MimePart']->encode();
+    $encoded  = $message['HTMLMail_mimePart']->encode();
     return array(
-      array_diff_assoc($message['headers'], $headers) + $headers,
-      $body
+      array_diff_key($message['headers'], $encoded['headers']) + $encoded['headers'],
+      $encoded['body']
     );
   }
 
@@ -366,9 +405,10 @@ class HTMLMailSystem implements MailSystemInterface {
       'disposition' => 'inline',
       'charset' => 'UTF-8',
       'encoding' => 'quoted-printable',
-      'eol' => HTMLMail_MimePart::eol(),
+      'eol' => $this->eol(),
     );
-    return $message['HTMLMail_MimePart']->text($text, $params)->body;
+    $subpart = &$message['HTMLMail_mimePart']->text($text, $params);
+    return $subpart->_body;
   }
 
   /**
@@ -379,8 +419,8 @@ class HTMLMailSystem implements MailSystemInterface {
       $null = NULL;
       return $null;
     }
-    if (isset($message['HTMLMail_MimePart']->cids[$path])) {
-      return $message['HTMLMail_MimePart']->cids[$path];
+    if (isset($message['HTMLMail_mimePart']->cids[$path])) {
+      return $message['HTMLMail_mimePart']->cids[$path];
     }
     // @todo Auto-discover $type using mime_detect.
     $params = array(
@@ -391,22 +431,22 @@ class HTMLMailSystem implements MailSystemInterface {
       'description' => empty($description) ? $path : $description,
       'disposition' => 'attachment',
       'encoding' => 'base64',
-      'eol' => HTMLMail_MimePart::eol(),
+      'eol' => $this->eol(),
       'filename' => empty($name) ? basename($path) : $name,
     );
-    return ($part = $message['HTMLMail_MimePart']->attach($params))
+    return ($part = $message['HTMLMail_mimePart']->attach($params))
       ? $part->cid() : NULL;
   }
 
   /**
    * Format emails according to module settings.
    *
-   * Parses body into a HTMLMail_MimePart object.  If another module subsequently
+   * Parses body into an HTMLMail_mimePart object.  If another module subsequently
    * modifies the body, then format() should be called again before sending.  This
    * is safe because the $message['body'] is unmodified by this function.
    *
    */
-  public function &format(array &$message) {
+  public function format(array $message) {
     $body = $this->body_to_str($message['body']);
     $headers = $this->str_to_headers($message['headers']);
     // Parse, then rebuild the message.
@@ -419,22 +459,23 @@ class HTMLMailSystem implements MailSystemInterface {
       && !($body = $this->text($message, NULL, 'plain')) ) {
       $body = '';
     }
+    $headers = $message['HTMLMail_mimePart']->_headers;
     if ( (isset($message['format']) && ($filter = $message['format']))
       || ($filter = variable_get('htmlmail_prefilter')) ) {
       $body =  check_markup($body, $filter);
     }
-    // Clear the html version to add it later.  This ensures it comes last
-    // in multipart/alternative lists.
-    $this->text($message, '', 'html');
     // Apply the template file.
+    $email = $message;
+    $email['headers'] = array_diff_key($email['headers'], $headers) + $headers;
+    $email['body'] = $body;
     $body = theme(
       'htmlmail',
-      $message + array('headers' => $headers, 'body' => $body)
+      $email
     );
     // Store the plaintext version.
     $this->text($message, drupal_html_to_text($body), 'plain');
     // Check to see whether recipient allows non-plaintext.
-    if ( empty($recipient = user_load_by_mail($message['to']))
+    if ( !($recipient = user_load_by_mail($message['to']))
       || empty($recipient->data['htmlmail_plaintext']) ) {
       // Optionally apply the selected theme.
       if ($theme = htmlmail_get_selected_theme($message)) {
@@ -451,7 +492,8 @@ class HTMLMailSystem implements MailSystemInterface {
       }
       // Attach page requisites and replace absolute urls with cid: urls.
       $this->attach_requisites($message, $body);
-      // Store html version.
+      // Clear, then store html version.
+      $this->text($message, '', 'html');
       $this->text($message, $body, 'html');
     }
     return $message;
@@ -460,8 +502,8 @@ class HTMLMailSystem implements MailSystemInterface {
   /**
    * Send an email message.
    */
-  public function mail(array &$message) {
-    // If message could not be encoded, abort.
+  public function mail(array $message) {
+    // If message was not encoded, abort.
     if ($this->_invalid($message)) {
       return FALSE;
     }
@@ -499,8 +541,8 @@ class HTMLMailSystem implements MailSystemInterface {
     ) ? '-f ' . $headers['Return-Path']
       : '';
     return mail(
-      HTMLMail_MimePart::encodeHeader('to', $message['to'], 'UTF-8'),
-      HTMLMail_MimePart::encodeHeader('subject', $message['subject'], 'UTF-8'),
+      HTMLMail_mimePart::encodeHeader('to', $message['to'], 'UTF-8'),
+      HTMLMail_mimePart::encodeHeader('subject', $message['subject'], 'UTF-8'),
       $body,
       $this->headers_to_str($headers),
       $extra
@@ -511,17 +553,11 @@ class HTMLMailSystem implements MailSystemInterface {
    * Returns TRUE if a message could not be formatted.
    */
   private function _invalid(array &$message) {
-    if (empty($message['HTMLMail_MimePart'])) {
-      $this->format($message);
-      if (empty($message['HTMLMail_MimePart'])) {
-        return TRUE;
-      }
-    }
-    return FALSE;
+    return (!isset($message['HTMLMail_mimePart']));
   }
 
   /**
-   * Creates a HTMLMail_MimePart object from a Mail_mimeDecode::decode object.
+   * Creates a HTMLMail_mimePart object from a Mail_mimeDecode::decode object.
    */
   private function &_mimeDecode_to_mimePart(stdClass $decoded, &$mimePart = NULL) {
     $body = empty($decoded->body)
@@ -549,14 +585,14 @@ class HTMLMailSystem implements MailSystemInterface {
       $params['description'] = $decoded->d_parameters['name'];
     }
     if (is_null($mimePart)) {
-      $mimePart = new HTMLMail_MimePart($body, $params);
+      $mimePart = new HTMLMail_mimePart($body, $params);
     }
     else {
-      $mimePart->addSubPart($body, $params);
+      $mimePart = &$mimePart->addSubPart($body, $params);
     }
     if (!empty($decoded->parts)) {
       foreach ($decoded->parts as $part) {
-        $this->_mimeDecode_to_mimePart($decoded, $mimePart);
+        $this->_mimeDecode_to_mimePart($part, $mimePart);
       }
     }
     return $mimePart;
@@ -581,7 +617,7 @@ class HTMLMailSystem implements MailSystemInterface {
     return
       ($path = drupal_realpath(DRUPAL_ROOT . parse_url($matches[4], PHP_URL_PATH)))
       && (is_readable($path) && !is_dir($path))
-      && ($cid = $this->attach($this->_message, $path)
+      && ($cid = $this->attach($this->_message, $path))
         ? $matches[1] . $matches[2] . "cid:$cid"
         : $matches[0];
   }
