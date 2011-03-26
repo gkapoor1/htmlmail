@@ -479,12 +479,7 @@ class HTMLMailSystem implements MailSystemInterface {
       || empty($recipient->data['htmlmail_plaintext']) ) {
       // Optionally apply the selected theme.
       if ($theme = htmlmail_get_selected_theme($message)) {
-        // Strip javascript as it doesn't work through email anyway.
-        $body = preg_replace(
-          '@<script type="text/javascript".*</script>@Usi',
-          '',
-          echo_themed_page($message['subject'], $body, $theme)
-        );
+        $body = echo_themed_page($message['subject'], $body, $theme);
       }
       // Optionally apply the selected output filter.
       if ($filter = variable_get('htmlmail_postfilter')) {
