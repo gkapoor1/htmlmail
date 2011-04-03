@@ -35,12 +35,18 @@ class HTMLMailSystem implements MailSystemInterface {
    *   The formatted $message, ready for sending.
    */
   public function format(array $message) {
+    // This step appears to be required.
+    $message['body'] = MailMIME::concat($message['body']);
     // Build a full email message string.
     $email = MailMIME::encodeEmail($message['headers'], $message['body']);
     // Parse it into MIME parts.
     if (!($mime = MailMIME::parse($email))) {
-      // Logged unparseable by MailMIME::parse(). What else to do?
-      $message = array('headers' => array(), 'body' => '') + $message;
+      watchdog(
+        'HTMLMailSystem',
+	'Could not parse email message.',
+	array(),
+	WATCHDOG_ERROR
+      );
       return $message;
     }
     // Extract the message body.
@@ -86,6 +92,12 @@ class HTMLMailSystem implements MailSystemInterface {
   public function mail(array $message) {
     // If message was not parsed into a MailMIME object, abort.
     if (!isset($message['MailMIME'])) {
+      watchdog(
+        'HTMLMailSystem',
+	'%mailmime part of %message array not set; aborting send.',
+	array('%mailmime' => 'MailMIME', '%message' => '$message'),
+	WATCHDOG_ERROR
+      );
       return FALSE;
     }
     $mime = &$message['MailMIME'];
@@ -123,10 +135,10 @@ class HTMLMailSystem implements MailSystemInterface {
     ) ? '-f ' . $headers['Return-Path']
       : '';
     return mail(
-      MailMIME::encodeHeader('to', $message['to'], 'UTF-8'),
-      MailMIME::encodeHeader('subject', $message['subject'], 'UTF-8'),
+      $mime->encodeHeader('to', $message['to']),
+      $mime->encodeHeader('subject', $message['subject']),
       $body,
-      $headers,
+      $mime->txtHeaders($headers),
       $extra
     );
   }
