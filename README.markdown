@@ -37,12 +37,12 @@ The following additional modules, while not required, are highly recommended:
 
 ## Configuration
 
-Visit the Mail System settings page at _admin/config/system/mailsystem_
+Visit the Mail System settings page at <u>admin/config/system/mailsystem</u>
 to select which parts of Drupal will use HTML Mail instead of the
 [default](http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/7)
 [mail system](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/7).
 
-Visit the HTML Mail settings page at _admin/config/system/htmlmail_ to
+Visit the HTML Mail settings page at <u>admin/config/system/htmlmail</u> to
 select a theme, pre-filter, and post-filter for your messages.
 
 ## Theming

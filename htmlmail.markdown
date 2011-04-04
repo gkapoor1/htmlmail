@@ -41,7 +41,7 @@ latter file. Remember that you will need to put *both* files in your theme
 directory for this to work.
 
 Template files are cached, so remember to clear the cache by visiting
-_admin/settings/performance_ after creating, copying, or editing any
+<u>admin/settings/performance</u> after creating, copying, or editing any
 `.tpl.php` files.
 
 The following variables are also available in this template:
