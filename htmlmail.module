@@ -127,8 +127,8 @@ function &htmlmail_get_allowed_themes() {
   $allowed = &drupal_static(__FUNCTION__);
   if (!isset($allowed)) {
     $allowed = array('' => t('No theme'));
-    module_load_include('inc', 'system', 'system.admin');
     $themes = list_themes();
+    module_load_include('inc', 'system', 'system.admin');
     uasort($themes, 'system_sort_modules_by_info_name');
     foreach ($themes as $key => $value) {
       if ($value->status) {
