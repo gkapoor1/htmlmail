@@ -79,39 +79,39 @@ The email message text goes through four transformations before sending:
 
 ## Related Modules
 
-Emogrifier
+**Emogrifier**
 :    http://drupal.org/project/emogrifier
 
-HTML Purifier
+**HTML Purifier**
 :    http://drupal.org/project/htmlpurifier
 
-htmLawed
+**htmLawed**
 :    http://drupal.org/project/htmlawed
 
-Mail System
+**Mail System**
 :    http://drupal.org/project/mailsystem
 
-Mail MIME
+**Mail MIME**
 :    http://drupal.org/project/mailmime
 
-Pathologic
+**Pathologic**
 :    http://drupal.org/project/pathologic
 
-Transliteration
+**Transliteration**
 :    http://drupal.org/project/transliteration
 
 ## Documentation
 
-filter.module
+**filter.module**
 :    http://api.drupal.org/api/drupal/modules--filter--filter.module/7
 
-Installing contributed modules (Drupal 7)
+**Installing contributed modules (Drupal 7)**
 :    http://drupal.org/node/895232
 
-Theming guide
+**Theming guide**
 :    http://drupal.org/documentation/theme
 
-Standard filters
+**Standard filters**
 :    http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7
 
 ## Original Author

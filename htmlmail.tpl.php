@@ -12,34 +12,34 @@
  * directory by looking for htmlmail.tpl.php file in the following
  * locations:
  *   * [1]path_to_theme()
- *   * [2]drupal_get_path("module", [3]$installed_profile)
- *   * [4]drupal_get_path("module", [5]"htmlmail")
+ *   * [2]drupal_get_path("module",[3]$installed_profile)
+ *   * [4]drupal_get_path("module",[5]"htmlmail")
  *
  * Once the active template directory is found, Drupal looks in that
  * directory for template files in order from most specific to most
  * general.
  *
  * For example, if example_module sends mail with:
+ * drupal_mail("example_module", "outgoing_message" ...)
  *
- * drupal\_mail("example\_module", "outgoing\_message" ...)
  *
  * the possible template file names would be:
- *   * htmlmail-example\_module\_outgoing\_message.tpl.php
- *   * htmlmail-example\_module\_outgoing.tpl.php
- *   * htmlmail-example\_module.tpl.php
+ *   * htmlmail-example_module_outgoing_message.tpl.php
+ *   * htmlmail-example_module_outgoing.tpl.php
+ *   * htmlmail-example_module.tpl.php
  *   * htmlmail.tpl.php
  *
- * The $theme\_hook\_suggestions variable contains an array of suggested
+ * The $theme_hook_suggestions variable contains an array of suggested
  * [6]theme [7]hooks, in reverse priority order. For the above example, it
  * would contain:
  *   * htmlmail
- *   * htmlmail-example\_module
- *   * htmlmail-example\_module\_outgoing
- *   * htmlmail-example\_module\_outgoing\_message
+ *   * htmlmail-example_module
+ *   * htmlmail-example_module_outgoing
+ *   * htmlmail-example_module_outgoing_message
  *
  * For another example, to customize the [8]password reset emails sent by
  * the [9]user module, copy htmlmail.tpl.php to your theme directory, and
- * also copy it to htmlmail-user\_password\_reset.tpl.php, then modify the
+ * also copy it to htmlmail-user_password_reset.tpl.php, then modify the
  * latter file. Remember that you will need to put both files in your
  * theme directory for this to work.
  *
@@ -54,15 +54,16 @@
  *
  * $module
  *        The sending module name, usually the first parameter to
- *        drupal_mail().
+ *        [10]drupal_mail().
  *
  * $key
- *        The message key, usually the second parameter to drupal_mail().
+ *        The message key, usually the second parameter to
+ *        [11]drupal_mail().
  *
- * \$message\_id
+ * $message_id
  *        The email message id, usually "{$module}_{$key}".
  *
- * \$theme
+ * $theme
  *        The name of the email-specific theme used to embed the message
  *        body into a fully-themed webpage.
  *
@@ -75,18 +76,18 @@
  *        (Again, this is different from the email theme directory, which
  *        is not used for templates).
  *
- * $theme\_url
+ * $theme_url
  *        The absolute URL to the website theme directory.
  *
  * $debug
  *        TRUE if debugging info should be printed.
  *
- * The module calling [10]drupal_mail() may set other variables. For
- * instance, the [11]Webform module sets a $node variable which may be
+ * The module calling [12]drupal_mail() may set other variables. For
+ * instance, the [13]Webform module sets a $node variable which may be
  * very useful.
  *
  * Other modules may also add or modify theme variables by implementing a
- * MODULENAME\_preprocess\_htmlmail() [12]hook function.
+ * MODULENAME_preprocess_htmlmail() [14]hook function.
  *
  * References
  *
@@ -100,8 +101,10 @@
  * 8. http://api.drupal.org/api/drupal/modules--user--user.pages.inc/function/user_pass_submit/7
  * 9. http://api.drupal.org/api/drupal/modules--user--user.module/7
  * 10. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
- * 11. http://drupal.org/project/webform
- * 12. http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7
+ * 11. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
+ * 12. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
+ * 13. http://drupal.org/project/webform
+ * 14. http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7
  *
  ****************************************************** End instructions.
  */
