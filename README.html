@@ -36,8 +36,8 @@
 </div>
 <div id="configuration">
   <h2>Configuration</h2>
-  <p>Visit the Mail System settings page at admin/config/system/mailsystem to select which parts of Drupal will use HTML Mail instead of the <a href="http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/7">default</a> <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/7">mail system</a>.</p>
-  <p>Visit the HTML Mail settings page at admin/config/system/htmlmail to select a theme, pre-filter, and post-filter for your messages.</p>
+  <p>Visit the Mail System settings page at <em>admin/config/system/mailsystem</em> to select which parts of Drupal will use HTML Mail instead of the <a href="http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/7">default</a> <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/7">mail system</a>.</p>
+  <p>Visit the HTML Mail settings page at <em>admin/config/system/htmlmail</em> to select a theme, pre-filter, and post-filter for your messages.</p>
 </div>
 <div id="theming">
   <h2>Theming</h2>
@@ -47,7 +47,7 @@
       <p>The <em>Text format pre-filter</em> from the module settings page is applied. This should be the same text format that your website uses for contributed content such as comments or blog postings. For consistency and security, it should include the the <a href="http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_htmlcorrector/7">Correct faulty and chopped off HTML</a> from <a href="http://api.drupal.org/api/drupal/modules--filter--filter.module/7">filter.module</a>, or a better replacement such as <a href="http://drupal.org/project/htmlpurifier">HTML Purifier</a> or <a href="http://drupal.org/project/htmlawed">htmLawed</a>.</p>
     </li>
     <li>
-      <p>A theme template is applied. The default template is the included <em>htmlmail.tpl.php</em> file. You may copy this file to your theme directory and use it to customize the contents and formatting of your messages. The comments within the file contain complete documentation on its usage.</p>
+      <p>A theme template is applied. The default template is the included <code>htmlmail.tpl.php</code> file. You may copy this file to your theme directory and use it to customize the contents and formatting of your messages. The comments within the file contain complete documentation on its usage.</p>
     </li>
     <li>
       <p>The message may be wrapped in a website theme selected on the module settings page. Creating an email-specific sub-theme lets you use the full power of the <a href="http://drupal.org/documentation/theme">drupal theme system</a> to format your messages.</p>

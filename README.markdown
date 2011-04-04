@@ -37,12 +37,12 @@ The following additional modules, while not required, are highly recommended:
 
 ## Configuration
 
-Visit the Mail System settings page at admin/config/system/mailsystem
+Visit the Mail System settings page at _admin/config/system/mailsystem_
 to select which parts of Drupal will use HTML Mail instead of the
 [default](http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/7)
 [mail system](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/7).
 
-Visit the HTML Mail settings page at admin/config/system/htmlmail to
+Visit the HTML Mail settings page at _admin/config/system/htmlmail_ to
 select a theme, pre-filter, and post-filter for your messages.
 
 ## Theming
@@ -59,7 +59,7 @@ The email message text goes through four transformations before sending:
     [htmLawed](http://drupal.org/project/htmlawed).
 
 2.  A theme template is applied. The default template is the included
-    *htmlmail.tpl.php* file.  You may copy this file to your theme directory
+    `htmlmail.tpl.php` file.  You may copy this file to your theme directory
     and use it to customize the contents and formatting of your messages.  The
     comments within the file contain complete documentation on its usage.
 
