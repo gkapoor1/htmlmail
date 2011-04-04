@@ -11,8 +11,6 @@
  * @see http://drupal.org/project/mailmime
  */
 
-module_load_include('inc','mailmime');
-
 /**
  * Implements MailSystemInterface.
  *
