@@ -16,7 +16,6 @@
       <p><a href="http://drupal.org/project/echo">Echo</a></p>
     </li>
   </ul>
-  <p>module.</p>
 </div>
 <div id="installation">
   <h2>Installation</h2>
@@ -38,7 +37,7 @@
 <div id="configuration">
   <h2>Configuration</h2>
   <p>Visit the Mail System settings page at admin/config/system/mailsystem to select which parts of Drupal will use HTML Mail instead of the <a href="http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/7">default</a> <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/7">mail system</a>.</p>
-  <p>Visit the HTML Mail settings page at admin/config/system/htmlmail to select a theme, pre-filter, and post-filter for your emails.</p>
+  <p>Visit the HTML Mail settings page at admin/config/system/htmlmail to select a theme, pre-filter, and post-filter for your messages.</p>
 </div>
 <div id="theming">
   <h2>Theming</h2>
@@ -48,10 +47,10 @@
       <p>The <em>Text format pre-filter</em> from the module settings page is applied. This should be the same text format that your website uses for contributed content such as comments or blog postings. For consistency and security, it should include the the <a href="http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_htmlcorrector/7">Correct faulty and chopped off HTML</a> from <a href="http://api.drupal.org/api/drupal/modules--filter--filter.module/7">filter.module</a>, or a better replacement such as <a href="http://drupal.org/project/htmlpurifier">HTML Purifier</a> or <a href="http://drupal.org/project/htmlawed">htmLawed</a>.</p>
     </li>
     <li>
-      <p>A theme template is applied. The default template is the included <em>htmlmail.tpl.php</em> file. You may copy this file to your theme directory and use it to customize the contents and formatting of your emails. The comments within the file contain complete documentation on its usage.</p>
+      <p>A theme template is applied. The default template is the included <em>htmlmail.tpl.php</em> file. You may copy this file to your theme directory and use it to customize the contents and formatting of your messages. The comments within the file contain complete documentation on its usage.</p>
     </li>
     <li>
-      <p>The message may be wrapped in a website theme selected on the module settings page. Creating an email-specific theme lets you use the full power of the <a href="http://drupal.org/documentation/theme">drupal theme system</a> to format your emails.</p>
+      <p>The message may be wrapped in a website theme selected on the module settings page. Creating an email-specific sub-theme lets you use the full power of the <a href="http://drupal.org/documentation/theme">drupal theme system</a> to format your messages.</p>
     </li>
     <li>
       <p>The <em>Text format post-filter</em> from the module settings page is applied. For best results, this should be an email-specific input format containing the following text format filters:</p>
@@ -71,10 +70,6 @@
     <dd>
       <p>http://drupal.org/project/emogrifier</p>
     </dd>
-    <dt>HTML Mail</dt>
-    <dd>
-      <p>http://drupal.org/project/htmlmail</p>
-    </dd>
     <dt>HTML Purifier</dt>
     <dd>
       <p>http://drupal.org/project/htmlpurifier</p>
@@ -86,6 +81,10 @@
     <dt>Mail System</dt>
     <dd>
       <p>http://drupal.org/project/mailsystem</p>
+    </dd>
+    <dt>Mail MIME</dt>
+    <dd>
+      <p>http://drupal.org/project/mailmime</p>
     </dd>
     <dt>Pathologic</dt>
     <dd>
@@ -118,14 +117,15 @@
     </dd>
   </dl>
 </div>
-<div id="maintainers">
-  <h2>Maintainers</h2>
+<div id="original-author">
+  <h2>Original Author</h2>
   <ul>
-    <li>
-      <p><a href="http://drupal.org/user/1171">Chris Herberte</a></p>
-    </li>
-    <li>
-      <p><a href="http://drupal.org/user/36148">Bob Vincent</a></p>
-    </li>
+    <li><a href="http://drupal.org/user/1171">Chris Herberte</a></li>
+  </ul>
+</div>
+<div id="current-maintainer">
+  <h2>Current Maintainer</h2>
+  <ul>
+    <li><a href="http://drupal.org/user/36148">Bob Vincent</a></li>
   </ul>
 </div>

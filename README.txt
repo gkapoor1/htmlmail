@@ -15,8 +15,6 @@ Requirements
      * [4]Mail System
      * [5]Echo
 
-   module.
-
 Installation
 
    Install as usual; see [6]Installing contributed modules (Drupal 7) for
@@ -36,7 +34,7 @@ Configuration
    [11]default [12]mail system.
 
    Visit the HTML Mail settings page at admin/config/system/htmlmail to
-   select a theme, pre-filter, and post-filter for your emails.
+   select a theme, pre-filter, and post-filter for your messages.
 
 Theming
 
@@ -51,12 +49,12 @@ Theming
     2. A theme template is applied. The default template is the included
        htmlmail.tpl.php file. You may copy this file to your theme
        directory and use it to customize the contents and formatting of
-       your emails. The comments within the file contain complete
+       your messages. The comments within the file contain complete
        documentation on its usage.
     3. The message may be wrapped in a website theme selected on the
-       module settings page. Creating an email-specific theme lets you use
-       the full power of the [17]drupal theme system to format your
-       emails.
+       module settings page. Creating an email-specific sub-theme lets you
+       use the full power of the [17]drupal theme system to format your
+       messages.
     4. The Text format post-filter from the module settings page is
        applied. For best results, this should be an email-specific input
        format containing the following text format filters:
@@ -70,9 +68,6 @@ Related Modules
    Emogrifier
           http://drupal.org/project/emogrifier
 
-   HTML Mail
-          http://drupal.org/project/htmlmail
-
    HTML Purifier
           http://drupal.org/project/htmlpurifier
 
@@ -81,6 +76,9 @@ Related Modules
 
    Mail System
           http://drupal.org/project/mailsystem
+
+   Mail MIME
+          http://drupal.org/project/mailmime
 
    Pathologic
           http://drupal.org/project/pathologic
@@ -104,9 +102,12 @@ Documentation
           http://api.drupal.org/api/drupal/modules--filter--filter.module/
           group/standard_filters/7
 
-Maintainers
+Original Author
 
      * [22]Chris Herberte
+
+Current Maintainer
+
      * [23]Bob Vincent
 
 References

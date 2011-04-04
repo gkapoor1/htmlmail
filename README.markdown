@@ -19,8 +19,6 @@ HTML Mail depends on the following modules:
 
 *    [Echo](http://drupal.org/project/echo)
 
-module.
-
 ## Installation
 
 Install as usual; see
@@ -45,7 +43,7 @@ to select which parts of Drupal will use HTML Mail instead of the
 [mail system](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/7).
 
 Visit the HTML Mail settings page at admin/config/system/htmlmail to
-select a theme, pre-filter, and post-filter for your emails.
+select a theme, pre-filter, and post-filter for your messages.
 
 ## Theming
 
@@ -62,13 +60,13 @@ The email message text goes through four transformations before sending:
 
 2.  A theme template is applied. The default template is the included
     *htmlmail.tpl.php* file.  You may copy this file to your theme directory
-    and use it to customize the contents and formatting of your emails.  The
+    and use it to customize the contents and formatting of your messages.  The
     comments within the file contain complete documentation on its usage.
 
 3.  The message may be wrapped in a website theme selected on the module settings
-    page.  Creating an email-specific theme lets you use the full power of the
-    [drupal theme system](http://drupal.org/documentation/theme) to format your
-    emails.
+    page.  Creating an email-specific sub-theme lets you use the full power of
+    the [drupal theme system](http://drupal.org/documentation/theme) to format
+    your messages.
 
 4.  The *Text format post-filter* from the module settings page is applied. For
     best results, this should be an email-specific input format containing the
@@ -84,9 +82,6 @@ The email message text goes through four transformations before sending:
 Emogrifier
 :    http://drupal.org/project/emogrifier
 
-HTML Mail
-:    http://drupal.org/project/htmlmail
-
 HTML Purifier
 :    http://drupal.org/project/htmlpurifier
 
@@ -95,6 +90,9 @@ htmLawed
 
 Mail System
 :    http://drupal.org/project/mailsystem
+
+Mail MIME
+:    http://drupal.org/project/mailmime
 
 Pathologic
 :    http://drupal.org/project/pathologic
@@ -116,8 +114,10 @@ Theming guide
 Standard filters
 :    http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7
 
-## Maintainers
+## Original Author
 
-* [Chris Herberte](http://drupal.org/user/1171)
+*    [Chris Herberte](http://drupal.org/user/1171)
 
-* [Bob Vincent](http://drupal.org/user/36148)
+## Current Maintainer
+
+*    [Bob Vincent](http://drupal.org/user/36148)
