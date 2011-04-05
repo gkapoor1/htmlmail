@@ -37,15 +37,15 @@
  *   * htmlmail-example_module_outgoing
  *   * htmlmail-example_module_outgoing_message
  *
- * For another example, to customize the [8]password reset emails sent by
- * the [9]user module, copy htmlmail.tpl.php to your theme directory, and
- * also copy it to htmlmail-user_password_reset.tpl.php, then modify the
- * latter file. Remember that you will need to put both files in your
+ * For another example, to customize the [8]password reset messages sent
+ * by the [9]user module, copy htmlmail.tpl.php to your theme directory,
+ * and also copy it to htmlmail-user_password_reset.tpl.php, then modify
+ * the latter file. Remember that you will need to put both files in your
  * theme directory for this to work.
  *
  * Template files are cached, so remember to clear the cache by visiting
- * admin/settings/performance after creating, copying, or editing any
- * .tpl.php files.
+ * admin/config/development/performance after creating, copying, or
+ * editing any .tpl.php files.
  *
  * The following variables are also available in this template:
  *
@@ -54,13 +54,15 @@
  *
  * $module
  *        The sending module name, usually the first parameter to
- *        [10]drupal_mail().
+ *
+ * [10]drupal_mail().
  *
  * $key
  *        The message key, usually the second parameter to
- *        [11]drupal_mail().
  *
- * $message_id
+ * [11]drupal_mail().
+ *
+ * $id
  *        The email message id, usually "{$module}_{$key}".
  *
  * $theme
@@ -72,9 +74,7 @@
  *        to the website theme directory, not the email theme directory.
  *
  * $directory
- *        The relative path to the website theme template directory
- *        (Again, this is different from the email theme directory, which
- *        is not used for templates).
+ *        The relative path to the website theme template directory.
  *
  * $theme_url
  *        The absolute URL to the website theme directory.
@@ -87,7 +87,7 @@
  * very useful.
  *
  * Other modules may also add or modify theme variables by implementing a
- * MODULENAME_preprocess_htmlmail() [14]hook function.
+ * MODULENAME_preprocess_htmlmail(&$variables) [14]hook function.
  *
  * References
  *

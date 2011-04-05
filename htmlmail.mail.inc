@@ -1,10 +1,7 @@
 <?php
 /**
  * @file
- * Implements MailSystemInterface.
- *
- * Declares the HTMLMailSystem class, which formats and sends mail using the
- * MailMIME class supplied by the Mail MIME module.
+ * Formats and sends mail using the MailMIME class.
  *
  * @see http://drupal.org/node/900794
  * @see http://api.drupal.org/api/drupal/includes--mail.inc/interface/MailSystemInterface/7
@@ -13,8 +10,6 @@
 
 /**
  * Implements MailSystemInterface.
- *
- * Also supplies helper functions for manipulating email messages.
  */
 class HTMLMailSystem implements MailSystemInterface {
   /**
@@ -33,7 +28,7 @@ class HTMLMailSystem implements MailSystemInterface {
    *   The formatted $message, ready for sending.
    */
   public function format(array $message) {
-    // This step appears to be required.
+    // Collapse the message body array.
     $message['body'] = MailMIME::concat($message['body']);
     // Build a full email message string.
     $email = MailMIME::encodeEmail($message['headers'], $message['body']);
@@ -46,11 +41,6 @@ class HTMLMailSystem implements MailSystemInterface {
 	WATCHDOG_ERROR
       );
       return $message;
-    }
-    // Extract the message body.
-    if ( !($body = $mime->getHTMLBody()) // Prefer the text/html part.
-      && !($body = $mime->getTXTBody()) ) { // Fall back to text/plain.
-      $body = ''; // Or a blank string if necessary.
     }
     // Work on a copy so that the original $message['body'] remains unchanged.
     $email = $message;
