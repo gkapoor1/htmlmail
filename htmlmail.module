@@ -96,26 +96,38 @@ function htmlmail_mail($key, &$message, $params) {
 }
 
 /**
- * Implements hook_user_view().
+ * Implements hook_form_FORM_ID_alter().
  */
-function htmlmail_user_view($account, $view_mode, $langcode) {
-  error_log('htmlmail_user_view(' . var_export(array('account' => $account, 'view_mode' => $view_mode, 'langcode' => $langcode), 1));
-  $account->content['htmlmail'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('HTML Mail'),
-    '#collapsible' => TRUE,
+function htmlmail_form_user_profile_form_alter(&$form, &$form_state) {
+  if ($form['#user_category'] != 'account') {
+    error_log('htmlmail_form_user_profile_form_alter: category = ' . $form['#user_category']);
+    return;
+  }
+  error_log('user_profile_form: ' . var_export(array('form' => $form, 'form_state' => $form_state),1));
+  $account = $form['#user'];
+  $mail = $form['account']['mail'];
+  $form['account']['mail'] = array(
+    'mail' => $mail,
     'htmlmail_plaintext' => array(
       '#type' => 'checkbox',
       '#title' => t('Plaintext-only emails'),
-      '#default_value' => !empty($account->htmlmail_plaintext),
+      '#default_value' => empty($account->data['htmlmail_plaintext']) ? 0 : 1,
       '#description' => t(
-        'The %htmlmail module can send emails with fonts, styles, and '
-        . 'other HTML formatting.  If you prefer to receive all your '
-        . 'emails in plain text, select this option.',
-        array('%htmlmail' => 'HTML Mail')
+        'The %m module can send emails with fonts, styles, and other HTML '
+        . 'formatting.  If you prefer to receive all your emails in plain '
+        . 'text, select this option.',
+        array('%m' => 'HTML Mail')
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_user_presave().
+ */
+function htmlmail_user_presave(&$edit, $account, $category) {
+  $edit['data']['htmlmail_plaintext'] = empty($edit['htmlmail_plaintext']) ? 0 : 1;
+  unset($edit['htmlmail_plaintext']);
 }
 
 /**
