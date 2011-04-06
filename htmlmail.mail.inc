@@ -44,7 +44,10 @@ class HTMLMailSystem implements MailSystemInterface {
     }
     // Work on a copy so that the original $message['body'] remains unchanged.
     $email = $message;
-    list($email['headers'], $email['body']) = $mime->toEmail($email['headers']);
+    if ( !($email['body'] = $mime->getHTMLBody())
+      && !($email['body'] = $mime->getTXTBody()) ) {
+      $email['body'] = '';
+    }
     // Theme with htmlmail.tpl.php.
     $body = theme('htmlmail', $email);
     // Store the plaintext version.
