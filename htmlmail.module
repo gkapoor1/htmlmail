@@ -72,11 +72,7 @@ function template_preprocess_htmlmail(array &$variables) {
   $variables['debug'] = variable_get('htmlmail_debug', '0');
   $variables['theme_url'] = url($variables['directory'], array('absolute' => TRUE));
   $variables['theme_hook_suggestions'][] = $last = 'htmlmail-' . $variables['module'];
-  $parts = array_diff_assoc(
-    explode('_', $variables['message_id'] = $variables['key']),
-    explode('_', $variables['module'])
-  );
-  $variables['key'] = implode('_', $parts);
+  $parts = explode('_', $variables['key']),
   foreach ($parts as $part) {
     $variables['theme_hook_suggestions'][] = $last .= '_' . $part;
   }
