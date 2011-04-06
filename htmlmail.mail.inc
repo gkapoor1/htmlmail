@@ -36,9 +36,9 @@ class HTMLMailSystem implements MailSystemInterface {
     if (!($mime = MailMIME::parse($email))) {
       watchdog(
         'HTMLMailSystem',
-	'Could not parse email message.',
-	array(),
-	WATCHDOG_ERROR
+        'Could not parse email message.',
+        array(),
+        WATCHDOG_ERROR
       );
       return $message;
     }
@@ -82,9 +82,9 @@ class HTMLMailSystem implements MailSystemInterface {
     if (!isset($message['MailMIME'])) {
       watchdog(
         'HTMLMailSystem',
-	'%mailmime part of %message array not set; aborting send.',
-	array('%mailmime' => 'MailMIME', '%message' => '$message'),
-	WATCHDOG_ERROR
+        '%mailmime part of %message array not set; aborting send.',
+        array('%mailmime' => 'MailMIME', '%message' => '$message'),
+        WATCHDOG_ERROR
       );
       return FALSE;
     }
