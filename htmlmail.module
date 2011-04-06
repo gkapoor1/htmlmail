@@ -144,9 +144,13 @@ function &htmlmail_get_allowed_themes() {
 /**
  * Returns the selected theme to use for outgoing emails.
  */
-function htmlmail_get_selected_theme($message = array()) {
+function htmlmail_get_selected_theme(&$message = array()) {
+  $selected = isset($message['theme'])
+    ? $message['theme'] : variable_get('htmlmail_theme', '');
+  // Make sure the selected theme is allowed.
   $themes = &htmlmail_get_allowed_themes();
-  return (empty($message['theme']) || empty($themes[$message['theme']]))
-    ? variable_get('htmlmail_theme', $GLOBALS['theme'])
-    : $message['theme'];
+  if (empty($themes[$selected])) {
+    $selected = $GLOBALS['theme'];
+  }
+  return $selected;
 }

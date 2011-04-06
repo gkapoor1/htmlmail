@@ -74,7 +74,7 @@ The email message text goes through four transformations before sending:
 ## Troubleshooting
 
 Visit the [issue queue](http://drupal.org/project/issues/htmlmail) for support
--and feature requests.
+and feature requests.
 
 ## Related Modules
 
