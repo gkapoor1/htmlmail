@@ -67,8 +67,6 @@ function htmlmail_theme() {
  * @see htmlmail.tpl.php
  */
 function template_preprocess_htmlmail(array &$variables) {
-  $message = $variables['message'];
-  $variables += $message;
   $variables['debug'] = variable_get('htmlmail_debug', '0');
   $variables['theme_url'] = url($variables['directory'], array('absolute' => TRUE));
   $parts = explode('_', $variables['key']);
