@@ -6,6 +6,47 @@
  */
 
 /**
+ * Implements hook_init().
+ */
+function htmlmail_init() {
+  // Check all requirements in case an admin upgraded from 7.x-1.x to 7.x-2.x.
+  $requirements = array(
+    'echo' => 'Echo',
+    'mailmime' => 'Mail MIME',
+    'mailsystem' => 'Mail System',
+  );
+  foreach($requirements as $module => $name) {
+    if (module_exists($module)) {
+      unset($requirements[$module]);
+      continue;
+    }
+    drupal_set_message(
+      t('Please install the required <a href="%url">%name</a> module.',
+        array(
+          '%url' => "http://drupal.org/project/$module",
+          '%name' => $name,
+        )
+      )
+    );
+  }
+  if (!empty($requirements)) {
+    module_disable(array('htmlmail'));
+    drupal_set_message(
+      t('The %branch branch of the <a href="%url">%name</a> module has new '
+        'dependencies.  Install and enable the dependent modules, then re-'
+        'enable <a href="%url">%name</a>.'
+        array(
+          '%branch' => '7.x-2.x',
+          '%url' => "http://drupal.org/project/htmlmail",
+          '%name' => 'HTML Mail',
+        )
+      )
+    );
+    drupal_goto('admin/modules');
+  }
+}
+
+/**
  * Implements hook_help().
  */
 function htmlmail_help($path, $arg) {
