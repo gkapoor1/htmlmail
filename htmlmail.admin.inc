@@ -42,7 +42,7 @@ function htmlmail_admin_settings() {
 <ul>
   <li><a href="http://api.drupal.org/api/drupal/includes--theme.inc/function/path_to_theme/7"><code>path_to_theme()</code></a></li>
   <li><a href="http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_get_path/7"><code>drupal_get_path</code></a><code>("module",</code><a href="http://api.drupal.org/api/drupal/developer--globals.php/global/installed_profile/7"><code>$installed_profile</code></a><code>)</code></li>
-  <li><a href="http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_get_path/7"><code>drupal_get_path</code></a><code>("module",</code><a href="http://drupal.org/project/htmlmail"><code>"htmlmail"</code></a>)</li>
+  <li><a href="http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_get_path/7"><code>drupal_get_path</code></a><code>("module",</code><a href="http://drupal.org/project/htmlmail"><code>"htmlmail"</code></a><code>)</code></li>
 </ul>
 <p>Once the active template directory is found, Drupal looks in that directory for template files in order from most specific to most general.</p>
 <p>For example, if <code>example_module</code> sends mail with:</p>
