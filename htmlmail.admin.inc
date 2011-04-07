@@ -30,14 +30,14 @@ function htmlmail_admin_settings() {
         '!template' => '<code>htmlmail.tpl.php</code>'
       )
     ),
-     '#title' => t('Instructions'),
-     '#collapsible' => TRUE,
-     '#collapsed' => TRUE,
-   );
-   $form['Step 1']['htmlmail_template']['instructions'] = array(
-     '#type' => 'item',
-     '#suffix' => t(
-       // Begin instructions.
+    '#title' => t('Instructions'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['Step 1']['htmlmail_template']['instructions'] = array(
+    '#type' => 'item',
+    '#suffix' => t(
+      // Begin instructions.
 '<p>When formatting an email message, Drupal determines the active template directory by looking for <code>htmlmail.tpl.php</code> file in the following locations:</p>
 <ul>
   <li><a href="http://api.drupal.org/api/drupal/includes--theme.inc/function/path_to_theme/7"><code>path_to_theme()</code></a></li>
