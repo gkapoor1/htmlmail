@@ -9,36 +9,13 @@
  * Implements hook_init().
  */
 function htmlmail_init() {
-  // Check all requirements in case an admin upgraded from 7.x-1.x to 7.x-2.x.
-  $requirements = array(
-    'echo' => 'Echo',
-    'mailmime' => 'Mail MIME',
-    'mailsystem' => 'Mail System',
-  );
-  foreach($requirements as $module => $name) {
-    if (module_exists($module)) {
-      unset($requirements[$module]);
-      continue;
-    }
+  if (!module_exists('mailsystem')) {
     drupal_set_message(
-      t('Please install the required <a href="%url">%name</a> module.',
+      t('Please install the required <a href="!mailsystem">Mail System</a> ',
+        . 'module, then re-enable <a href="!htmlmail">HTML Mail</a>',
         array(
-          '%url' => "http://drupal.org/project/$module",
-          '%name' => $name,
-        )
-      )
-    );
-  }
-  if (!empty($requirements)) {
-    module_disable(array('htmlmail'));
-    drupal_set_message(
-      t('The %branch branch of the <a href="%url">%name</a> module has new '
-        . 'dependencies.  Install and enable the dependent modules, then re-'
-        . 'enable <a href="%url">%name</a>.',
-        array(
-          '%branch' => '7.x-2.x',
-          '%url' => "http://drupal.org/project/htmlmail",
-          '%name' => 'HTML Mail',
+          '!mailsystem' => url('http://drupal.org/project/mailsystem'),
+          '!htmlmail' => url('http://drupal.org/project/htmlmail'),
         )
       )
     );
@@ -52,7 +29,7 @@ function htmlmail_init() {
 function htmlmail_help($path, $arg) {
   switch ($path) {
     case 'admin/settings/htmlmail':
-      return '<h2>' . t('Theming') . '</h2><p>' . t('The email message goes through four transformations before sending:') . '</p>';
+      return '<h2>' . t('Theming') . '</h2><p>' . t('The email message goes through three transformations before sending:') . '</p>';
     default:
       return '<p>' . t("HTML Mail provides formatting and semantic markup capabilities in email that are not available with plain text.") . '</p>';
   }
@@ -204,4 +181,18 @@ function htmlmail_get_selected_theme(&$message = array()) {
     $selected = $GLOBALS['theme'];
   }
   return $selected;
+}
+
+/**
+ * Returns TRUE if the given email recipient allows text/html messages.
+ *
+ * @param $email
+ *   The recipient email address.
+ *
+ * @return
+ *   FALSE if the recipient prefers text/plain emails; otherwise TRUE.
+ */
+function htmlmail_is_allowed($email) {
+  return !($recipient = user_load_by_mail($email))
+    || empty($recipient->data['htmlmail_plaintext']);
 }
