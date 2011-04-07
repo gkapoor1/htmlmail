@@ -11,7 +11,7 @@
 function htmlmail_init() {
   if (!module_exists('mailsystem')) {
     drupal_set_message(
-      t('Please install the required <a href="!mailsystem">Mail System</a> ',
+      t('Please install the required <a href="!mailsystem">Mail System</a> '
         . 'module, then re-enable <a href="!htmlmail">HTML Mail</a>',
         array(
           '!mailsystem' => url('http://drupal.org/project/mailsystem'),
@@ -19,6 +19,7 @@ function htmlmail_init() {
         )
       )
     );
+    module_disable(array('htmlmail'));
     drupal_goto('admin/modules');
   }
 }
@@ -118,10 +119,8 @@ function htmlmail_mail($key, &$message, $params) {
  */
 function htmlmail_form_user_profile_form_alter(&$form, &$form_state) {
   if ($form['#user_category'] != 'account') {
-    error_log('htmlmail_form_user_profile_form_alter: category = ' . $form['#user_category']);
     return;
   }
-  error_log('user_profile_form: ' . var_export(array('form' => $form, 'form_state' => $form_state),1));
   $account = $form['#user'];
   $mail = $form['account']['mail'];
   $form['account']['mail'] = array(
@@ -184,13 +183,13 @@ function htmlmail_get_selected_theme(&$message = array()) {
 }
 
 /**
- * Returns TRUE if the given email recipient allows text/html messages.
+ * Checks whether a given recipient email prefers plaintext-only messages.
  *
  * @param $email
  *   The recipient email address.
  *
  * @return
- *   FALSE if the recipient prefers text/plain emails; otherwise TRUE.
+ *   FALSE if the recipient prefers plaintext-only message; otherwise TRUE.
  */
 function htmlmail_is_allowed($email) {
   return !($recipient = user_load_by_mail($email))

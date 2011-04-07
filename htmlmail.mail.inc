@@ -31,11 +31,12 @@ class HTMLMailSystem implements MailSystemInterface {
     // Collapse the message body array.
     if (module_exists('mailmime')) {
       $body = $this->formatMailMIME($message);
+      $plain = $message['MailMIME']->getTXTBody();
     }
     else {
       $message['body'] = implode("\n", $message['body']);
       $body = theme('htmlmail', $message);
-      $plain = drupal_html_to_text($body;)
+      $plain = drupal_html_to_text($body);
     }
     // Check to see whether recipient allows non-plaintext.
     if (htmlmail_is_allowed($message['to'])) {
@@ -57,11 +58,14 @@ class HTMLMailSystem implements MailSystemInterface {
       }
     }
     else {
-      $message['headers']['Content-Type'] = 'text/plain';
-      $message['body'] = $plain;
-    }
-    else {
-      $message['body'] = $body;
+      if (isset($message['MailMIME'])) {
+        $message['MailMIME']->setHTMLBody('');
+        $message['MailMIME']->setContentType('text/plain');
+      }
+      else {
+        $message['body'] = $plain;
+        $message['headers']['Content-Type'] = 'text/plain';
+      }
     }
     return $message;
   }
@@ -88,16 +92,14 @@ class HTMLMailSystem implements MailSystemInterface {
     // Work on a copy so that the original $message['body'] remains unchanged.
     $email = $message;
     if ( !($email['body'] = $mime->getHTMLBody())
-      && !($email['body'] = $mime->getTXTBody()) ) {
+      && !($email['body'] = $mime->getTXTBody())
+    ) {
       $email['body'] = '';
     }
     // Theme with htmlmail.tpl.php.
     $body = theme('htmlmail', $email);
-    // Store the plaintext version.
-    $mime->setTXTBody(drupal_html_to_text($body));
-    // Store the HTML version
     $mime->setHTMLBody($body);
-    // Store the MailMIME object.
+    $mime->setTXTBody(drupal_html_to_text($body));
     $message['MailMIME'] = &$mime;
     return $body;
   }
