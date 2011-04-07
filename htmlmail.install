@@ -12,6 +12,7 @@ function htmlmail_update_7200() {
   variable_del('htmlmail_header');
   variable_del('htmlmail_footer');
   variable_del('htmlmail_css');
+  return array();
 }
 
 /**
@@ -23,6 +24,7 @@ function htmlmail_update_7201() {
       mailsystem_set(array($name => 'HTMLMailSystem'));
     }
   }
+  return array();
 }
 
 /**
