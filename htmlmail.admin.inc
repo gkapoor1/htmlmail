@@ -106,40 +106,40 @@ function htmlmail_admin_settings() {
 </dl>
 <p>The module calling <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7"><code>drupal_mail()</code></a> may set other variables. For instance, the <a href="http://drupal.org/project/webform">Webform module</a> sets a <code>$node</code> variable which may be very useful.</p>
 <p>Other modules may also add or modify theme variables by implementing a <code>MODULENAME_preprocess_htmlmail(&amp;$variables)</code> <a href="http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7">hook function</a>.</p>'
-       // End instructions.
-     ),
-   );
-   $form['Step 1']['htmlmail_debug'] = array(
-     '#type' => 'checkbox',
-     '#prefix' => '<br />',
-     '#title' => '<em>' . t('(Optional)') . '</em> ' . t('Debug'),
-     '#default_value' => variable_get('htmlmail_debug', '0'),
-     '#description' => t('Add debugging info.'),
-   );
-   $form['Step 2'] = array(
-     '#type' => 'fieldset',
-     '#title' => '<h3>' . t('Step 2') . '</h3>',
-     '#collapsible' => FALSE,
-   );
-   $form['Step 2']['htmlmail_theme'] = array(
-     '#type' => 'select',
-     '#title' => t('Theming'),
-     '#default_value' => variable_get('htmlmail_theme', ''),
-     '#options' => htmlmail_get_allowed_themes(),
-     '#disabled' => !module_exists('echo'),
-     '#prefix' => module_exists('echo') ? '': '<em>' . t(
-       'Disabled: requires the <a href="!echo">Echo</a> module.',
-       array('!echo' => url('http://drupal.org/project/echo'))
-     ) . '</em>',
-     '#suffix' => t(
-       'The templated text may be wrapped in a website theme.  This lets you '
-       . 'use any one of <a href="!themes">over 800</a> themes to style your '
-       . 'messages.  Creating an email-specific sub-theme lets you use the full '
-       . 'power of the <a href="!theme_system">drupal theme system</a> to '
-       . 'format your messages.',
-       array(
-         '!themes' => 'http://drupal.org/project/themes',
-         '!theme_system' => 'http://drupal.org/documentation/theme',
+      // End instructions.
+    ),
+  );
+  $form['Step 1']['htmlmail_debug'] = array(
+    '#type' => 'checkbox',
+    '#prefix' => '<br />',
+    '#title' => '<em>' . t('(Optional)') . '</em> ' . t('Debug'),
+    '#default_value' => variable_get('htmlmail_debug', '0'),
+    '#description' => t('Add debugging info.'),
+  );
+  $form['Step 2'] = array(
+    '#type' => 'fieldset',
+    '#title' => '<h3>' . t('Step 2') . '</h3>',
+    '#collapsible' => FALSE,
+  );
+  $form['Step 2']['htmlmail_theme'] = array(
+    '#type' => 'select',
+    '#title' => t('Theming'),
+    '#default_value' => variable_get('htmlmail_theme', ''),
+    '#options' => htmlmail_get_allowed_themes(),
+    '#disabled' => !module_exists('echo'),
+    '#prefix' => module_exists('echo') ? '': '<em>' . t(
+      'Disabled: requires the <a href="!echo">Echo</a> module.',
+      array('!echo' => url('http://drupal.org/project/echo'))
+    ) . '</em>',
+    '#suffix' => t(
+      'The templated text may be wrapped in a website theme.  This lets you '
+      . 'use any one of <a href="!themes">over 800</a> themes to style your '
+      . 'messages.  Creating an email-specific sub-theme lets you use the full '
+      . 'power of the <a href="!theme_system">drupal theme system</a> to '
+      . 'format your messages.',
+      array(
+        '!themes' => 'http://drupal.org/project/themes',
+        '!theme_system' => 'http://drupal.org/documentation/theme',
       )
     ),
   );
