@@ -45,7 +45,7 @@ class HTMLMailSystem implements MailSystemInterface {
         $body = echo_themed_page($message['subject'], $body, $theme);
       }
       // Optionally apply the selected output filter.
-      if ($filter = variable_get('htmlmail_postfilter', FILTER_FORMAT_DEFAULT)) {
+      if ($filter = variable_get('htmlmail_postfilter')) {
         $body = check_markup($body, $filter);
       }
       // Store the fully-themed HTML body.
