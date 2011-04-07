@@ -55,7 +55,7 @@ Configuration
    [11]HTML Mail instead of the [12]default [13]mail system.
 
    Visit the [14]HTML Mail settings page at admin/config/system/htmlmail
-   to select a theme, pre-filter, and post-filter for your messages.
+   to select a theme and post-filter for your messages.
 
 Theming
 
