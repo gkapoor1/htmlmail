@@ -3,7 +3,7 @@ directory by looking for `htmlmail.tpl.php` file in the following locations:
 
 *    [`path_to_theme()`](http://api.drupal.org/api/drupal/includes--theme.inc/function/path_to_theme/7)
 *    [`drupal_get_path`](http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_get_path/7)`("module", `[`$installed_profile`](http://api.drupal.org/api/drupal/developer--globals.php/global/installed_profile/7)`)`
-*    [`drupal_get_path`](http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_get_path/7)`("module", `[`"htmlmail"`](http://drupal.org/project/htmlmail))
+*    [`drupal_get_path`](http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_get_path/7)`("module", `[`"htmlmail"`](http://drupal.org/project/htmlmail)`)`
 
 Once the active template directory is found, Drupal looks in that directory
 for template files in order from most specific to most general.
