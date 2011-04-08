@@ -1,15 +1,12 @@
-## HTML Mail
+## [HTML Mail](http://drupal.org/project/htmlmail)
+Lets you theme your outgoing messages the same way you theme the rest of your
+website.
 
-[HTML Mail](http://drupal.org/project/htmlmail) lets you theme your outgoing
-messages the same way you theme the rest of your website.
-
-## Requirements
+## [Requirements](http://www.dict.org/bin/Dict?Form=Dict2&Database=*&Query=requirement)
 
 *   [Mail System](http://drupal.org/project/mailsystem)
 
-## Installation
-
-[Install as usual.](http://drupal.org/documentation/install/modules-themes/modules-7)
+## [Installation](http://drupal.org/documentation/install/modules-themes/modules-7)
 
 The following additional modules, while not required, are highly recommended:
 
@@ -40,19 +37,21 @@ The following additional modules, while not required, are highly recommended:
 
     :   *Also available as a [patch](http://drupal.org/node/1095278#comment-4219530).*
 
-## Configuration
+## [Configuration](http://drupal.org/files/images/htmlmail_settings_2.thumbnail.png)
 
 Visit the [Mail System](http://drupal.org/project/mailsystem) settings page at
-<u>admin/config/system/mailsystem</u> to select which parts of Drupal will use
-[HTML Mail](http://drupal.org/project/htmlmail) instead of the
+<u>admin/config/system/mailsystem</u>
+to select which parts of Drupal will use
+[HTML Mail](http://drupal.org/project/htmlmail)
+instead of the
 [default](http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/7)
 [mail system](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/7).
 
 Visit the [HTML Mail](http://drupal.org/project/htmlmail) settings page at
-<u>admin/config/system/htmlmail</u> to select a theme and post-filter for your
-messages.
+<u>admin/config/system/htmlmail</u>
+to select a theme and post-filter for your messages.
 
-## Theming
+## [Theming](http://drupal.org/documentation/theme)
 
 The email message text goes through three transformations before sending:
 
@@ -101,7 +100,7 @@ and feature requests.
 ## Related Modules
 
 **Echo**
-:   http://drupal.org/project/ecoh
+:   http://drupal.org/project/echo
 
 **Emogrifier**
 :   http://drupal.org/project/emogrifier
