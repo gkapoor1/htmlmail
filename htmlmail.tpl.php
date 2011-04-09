@@ -93,7 +93,9 @@
 <div class="htmlmail-body">
 <?php echo $body; ?>
 </div>
-<?php if ($debug): ?>
+<?php if ($debug):
+  $module_template = "htmlmail--$module";
+  $message_template = "$module--$key"; ?>
 <hr />
 <div class="htmlmail-debug">
   <dl><dt><p>
@@ -106,15 +108,15 @@
     directory of your <u><?php echo ucfirst($theme) ?></u> theme.
   </p></li><li><p>
     Make two more copies in the same directory, called
-    <code>htmlmail--<?php echo $module; ?>.tpl.php</code> and
-    <code>htmlmail--<?php echo $module; ?>--<?php echo $key ?>.tpl.php</code>.
+    <code><?php echo $module_template; ?>.tpl.php</code> and
+    <code><?php echo $message_template; ?>.tpl.php</code>.
   </p></li><li><p>
     For module-specific customization, edit the
-    <code>htmlmail--<?php echo $module; ?>.tpl.php</code>
+    <code><?php echo $module_template; ?>.tpl.php</code> and
     file.
   </p><p>
     For message-specific customization, edit the
-    <code>htmlmail--<?php echo $module; ?>--<?php echo $key ?>.tpl.php</code>.
+    <code><?php echo $message_template; ?>.tpl.php</code>.
     file.
   </p></li></ol></dd></dl>
 </div>
