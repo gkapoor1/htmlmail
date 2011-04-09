@@ -131,7 +131,7 @@
     <code>htmlmail--<?php echo $module; ?>--<?php echo $key ?>.tpl.php</code>.
     file.
   </p></li></ol></dd><dt><p>
-    Here is the full list of template suggestions:
+    Here are the possible template file names:
   </p></dt><dd><ul>
 <?php foreach ($theme_hook_suggestions as $suggestion): ?>
     <li><code><?php echo str_replace('__', '--', $template) . '.tpl.php'; ?></code></li>

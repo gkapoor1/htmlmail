@@ -72,8 +72,9 @@
   </p></li></ul></li><li><p>
     Edit your copy of the <code>htmlmail--simplenews.tpl.php</code> file.
   </p></li></ol></dd><dt><p>
-    Here is the full list of template suggestions:
+    Here are the possible template file names:
   </p></dt><dd><ul>
+    <li><code>htmlmail.tpl.php</code></li>
 <?php foreach ($theme_hook_suggestions as $suggestion): ?>
     <li><code><?php echo str_replace('__', '--', $suggestion) . '.tpl.php'; ?></code></li>
 <?php endforeach; ?>

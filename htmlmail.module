@@ -98,10 +98,10 @@ function template_preprocess_htmlmail(array &$variables) {
   $variables['debug'] = variable_get('htmlmail_debug', '0');
   $variables['theme_url'] = url($variables['directory'], array('absolute' => TRUE));
   $variables['message_id'] = $variables['module'] . '_' . $variables['key'];
-  $variables['theme_hook_suggestions'][] =
-    ($module_suggestion = 'htmlmail__' . $variables['module']);
-  $variables['theme_hook_suggestions'][] =
-    $module_suggestion . '__' . $variables['key'];
+  $suggestion = 'htmlmail__' . $variables['module'];
+  $variables['theme_hook_suggestions'][] = $suggestion;
+  $suggestion .= '__' . $variables['key'];
+  $variables['theme_hook_suggestions'][] = $suggestion;
 }
 
 /**
