@@ -3,7 +3,7 @@
    Lets you theme your outgoing messages the same way you theme the rest
    of your website.
 
-[2]Requirements
+[2]Requirement
 
      * [3]Mail System
 

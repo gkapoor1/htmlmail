@@ -95,7 +95,7 @@
 </div>
 <?php if ($debug):
   $module_template = "htmlmail--$module";
-  $message_template = "$module--$key"; ?>
+  $message_template = "$module_template--$key"; ?>
 <hr />
 <div class="htmlmail-debug">
   <dl><dt><p>
