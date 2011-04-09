@@ -2,9 +2,9 @@ When formatting an email message with a given `$module` and `$key`,
 [HTML Mail](http://drupal.org/project/htmlmail)
 will use the first template file it finds from the following list:
 
-1. `htmlmail--$module--$key.tpl.php`
-2. `htmlmail--$module.tpl.php`
-3. `htmlmail.tpl.php`
+1.  `htmlmail--$module--$key.tpl.php`
+2.  `htmlmail--$module.tpl.php`
+3.  `htmlmail.tpl.php`
 
 For each filename,
 [HTML Mail](http://drupal.org/project/htmlmail)
@@ -17,9 +17,9 @@ For example, if `example_module` sends mail with:
 
 the possible template file names would be:
 
-*    `htmlmail--example_module--outgoing_message.tpl.php`
-*    `htmlmail--example_module.tpl.php`
-*    `htmlmail.tpl.php`
+1.  `htmlmail--example_module--outgoing_message.tpl.php`
+2.  `htmlmail--example_module.tpl.php`
+3.  `htmlmail.tpl.php`
 
 For another example, to customize the
 [password reset](http://api.drupal.org/api/drupal/modules--user--user.pages.inc/function/user_pass_submit/7)
@@ -42,31 +42,28 @@ The following variables available in this template:
 
 **`$module`**
 :   The sending module name, usually the first parameter to
-[`drupal_mail()`](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7).
+    [`drupal_mail()`](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7).
 
 **`$key`**
 :   The message key, usually the second parameter to
-[`drupal_mail()`](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7).
+    [`drupal_mail()`](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7).
 
 **`$message_id`**
 :   The email message id, usually `"{$module}_{$key}"`.
 
 **`$theme`**
-:   The name of the email-specific theme used to embed the message body into a
-    fully-themed webpage.
-
-    **Note:** This may be different from the default website theme.  Theme
-    suggestion templates such as `html.tpl.php` should be copied to the
-    *website theme directory*, not the *email theme directory*.
+:   The name of the *Email theme* used to hold template files. If the
+    [Echo](http://drupal.org/project/echo) module is enabled this theme will
+    also be used to transform the message body into a fully-themed webpage.
 
 **`$directory`**
-:   The relative path to the website theme template directory.
+:   The relative path to the template directory.
 
 **`$theme_url`**
-:   The absolute URL to the website theme directory.
+:   The absolute URL to the template directory.
 
 **`$debug`**
-:   `TRUE` if debugging info should be printed.
+:   `TRUE` to add some useful debugging info to the bottom of the message.
 
 The module calling
 [`drupal_mail()`](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7)

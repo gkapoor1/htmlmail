@@ -19,7 +19,7 @@ function htmlmail_update_7200() {
  * Rename HTMLMailMailSystem to HTMLMailSystem.
  */
 function htmlmail_update_7201() {
-  foreach(mailsystem_get() as $name => $value) {
+  foreach (mailsystem_get() as $name => $value) {
     if ($value == 'HTMLMailMailSystem') {
       mailsystem_set(array($name => 'HTMLMailSystem'));
     }
@@ -33,7 +33,7 @@ function htmlmail_update_7201() {
 function htmlmail_enable() {
   // Load mailsystem if necessary.
   if (!function_exists('mailsystem_set')) {
-    module_load_include('module','mailsystem');
+    module_load_include('module', 'mailsystem');
   }
   mailsystem_set(array('htmlmail' => 'HTMLMailSystem'));
 }

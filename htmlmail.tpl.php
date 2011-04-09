@@ -23,9 +23,9 @@
  *
  *
  * the possible template file names would be:
- *   * htmlmail--example_module--outgoing_message.tpl.php
- *   * htmlmail--example_module.tpl.php
- *   * htmlmail.tpl.php
+ *  1. htmlmail--example_module--outgoing_message.tpl.php
+ *  2. htmlmail--example_module.tpl.php
+ *  3. htmlmail.tpl.php
  *
  * For another example, to customize the [3]password reset messages sent
  * by the [4]user module, copy [5]htmlmail.tpl.php to a file called
@@ -42,40 +42,36 @@
  *
  * $module
  *        The sending module name, usually the first parameter to
- *
- * [6]drupal_mail().
+ *        [6]drupal_mail().
  *
  * $key
  *        The message key, usually the second parameter to
- *
- * [7]drupal_mail().
+ *        [7]drupal_mail().
  *
  * $message_id
  *        The email message id, usually "{$module}_{$key}".
  *
  * $theme
- *        The name of the email-specific theme used to embed the message
- *        body into a fully-themed webpage.
- *
- *        Note: This may be different from the default website theme.
- *        Theme suggestion templates such as html.tpl.php should be copied
- *        to the website theme directory, not the email theme directory.
+ *        The name of the Email theme used to hold template files. If the
+ *        [8]Echo module is enabled this theme will also be used to
+ *        transform the message body into a fully-themed webpage.
  *
  * $directory
- *        The relative path to the website theme template directory.
+ *        The relative path to the template directory.
  *
  * $theme_url
- *        The absolute URL to the website theme directory.
+ *        The absolute URL to the template directory.
  *
  * $debug
- *        TRUE if debugging info should be printed.
+ *        TRUE to add some useful debugging info to the bottom of the
+ *        message.
  *
- * The module calling [8]drupal_mail() may set other variables. For
- * instance, the [9]Webform module sets a $node variable which may be very
- * useful.
+ * The module calling [9]drupal_mail() may set other variables. For
+ * instance, the [10]Webform module sets a $node variable which may be
+ * very useful.
  *
  * Other modules may also add or modify theme variables by implementing a
- * MODULENAME_preprocess_htmlmail(&$variables) [10]hook function.
+ * MODULENAME_preprocess_htmlmail(&$variables) [11]hook function.
  *
  * References
  *
@@ -86,9 +82,10 @@
  * 5. http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php
  * 6. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
  * 7. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
- * 8. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
- * 9. http://drupal.org/project/webform
- * 10. http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7
+ * 8. http://drupal.org/project/echo
+ * 9. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
+ * 10. http://drupal.org/project/webform
+ * 11. http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7
  *
  * =========================================================== End instructions.
  */
