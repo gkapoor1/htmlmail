@@ -14,9 +14,8 @@ For example, if `example_module` sends mail with:
 
 the possible template file names would be:
 
-*    `htmlmail-example_module_outgoing_message.tpl.php`
-*    `htmlmail-example_module_outgoing.tpl.php`
-*    `htmlmail-example_module.tpl.php`
+*    `htmlmail--example_module--outgoing_message.tpl.php`
+*    `htmlmail--example_module.tpl.php`
 *    `htmlmail.tpl.php`
 
 The `$theme_hook_suggestions` variable contains an array of suggested
@@ -24,19 +23,18 @@ The `$theme_hook_suggestions` variable contains an array of suggested
 [hooks](http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_theme/7),
 in reverse priority order.  For the above example, it would contain:
 
-*    `htmlmail`
-*    `htmlmail-example_module`
-*    `htmlmail-example_module_outgoing`
-*    `htmlmail-example_module_outgoing_message`
+*    `htmlmail__example_module`
+*    `htmlmail__example_module__outgoing_message`
 
 For another example, to customize the
 [password reset](http://api.drupal.org/api/drupal/modules--user--user.pages.inc/function/user_pass_submit/7)
 messages sent by the
 [user module](http://api.drupal.org/api/drupal/modules--user--user.module/7),
 copy `htmlmail.tpl.php` to your theme directory, and also
-copy it to `htmlmail-user_password_reset.tpl.php`, then modify the
-latter file. Remember that you will need to put *both* files in your theme
-directory for this to work.
+copy it to
+`htmlmail--user_password_reset.tpl.php`,
+then modify the latter file. Remember that you will need to put *both* files in
+your theme directory for this to work.
 
 Template files are cached, so remember to clear the cache by visiting
 <u>admin/config/development/performance</u>
@@ -55,7 +53,7 @@ The following variables are also available in this template:
 :   The message key, usually the second parameter to
 [`drupal_mail()`](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7).
 
-**`$id`**
+**`$message_id`**
 :   The email message id, usually `"{$module}_{$key}"`.
 
 **`$theme`**

@@ -61,7 +61,38 @@
 <?php if ($debug): ?>
 <hr />
 <div class="htmlmail-simplenews-debug htmlmail-debug">
-<code>$params = <?php var_export($params); ?></code>
+  <dl>
+    <dt>To customize your simplenews messages:</dt>
+    <dd>
+      <ol>
+        <li>Copy the following files to your theme directory:
+          <ul>
+            <li>
+              <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php">
+                <code>htmlmail.tpl.php</code>
+              </a>
+            </li>
+            <li>
+              <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail--simplenews.tpl.php">
+                <code>htmlmail--simplenews.tpl.php</code>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          Edit your copy of the <code>htmlmail--simplenews.tpl.php</code> file.
+        </li>
+      <ol>
+    </dd>
+    <dt>Here is the full list of template suggestions:</dt>
+<?php foreach ($template_suggestions as $template): ?>
+    <dd><?php echo str_replace('__', '--', $template) . '.tpl.php'; ?></dd>
+<?php endforeach; ?>
+    <dt>Simplenews sets the <code>$params</code> variable.  For this message,</dt>
+    <dd>
+      <code>$params = <?php var_export($params); ?></code>
+    </dd>
+  </dl>
 </div>
-<?php endif; ?>
-<?php
+<?php endif;
+

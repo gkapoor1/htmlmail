@@ -24,18 +24,16 @@
  *
  *
  * the possible template file names would be:
- *   * htmlmail-example_module_outgoing_message.tpl.php
- *   * htmlmail-example_module_outgoing.tpl.php
- *   * htmlmail-example_module.tpl.php
+ *   * htmlmail--example_module--outgoing_message.tpl.php
+ *   * htmlmail--example_module.tpl.php
  *   * htmlmail.tpl.php
  *
  * The $theme_hook_suggestions variable contains an array of suggested
  * [6]theme [7]hooks, in reverse priority order. For the above example, it
  * would contain:
  *   * htmlmail
- *   * htmlmail-example_module
- *   * htmlmail-example_module_outgoing
- *   * htmlmail-example_module_outgoing_message
+ *   * htmlmail__example_module
+ *   * htmlmail__example_module__outgoing
  *
  * For another example, to customize the [8]password reset messages sent
  * by the [9]user module, copy htmlmail.tpl.php to your theme directory,
@@ -115,7 +113,41 @@
 <?php if ($debug): ?>
 <hr />
 <div class="htmlmail-debug">
-Theme hook suggestions: <pre><?php print_r($theme_hook_suggestions); ?></pre>
+  <dl>
+    <dt>To customize this message:</dt>
+    <dd>
+      <ol>
+        <li>
+          Copy the
+          <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php">
+            <code>html.tpl.php</code>
+          </a>
+          file to your theme directory.
+        </li>
+        <li>
+          Make two more copies in the same directory, called
+          <code>htmlmail--<?php echo $module; ?>.tpl.php</code> and
+          <code>htmlmail--<?php echo $module; ?>--<?php echo $key ?>.tpl.php</code>.
+        </li>
+        <li>
+          <p>
+            For module-specific customization, edit the
+            <code>htmlmail--<?php echo $module; ?>.tpl.php</code>
+            file.
+          </p>
+          <p>
+            For message-specific customization, edit the
+            <code>htmlmail--<?php echo $module; ?>--<?php echo $key ?>.tpl.php</code>.
+            file.
+          </p>
+        </li>
+      </ol>
+    </dd>
+    <dt>Here is the full list of template suggestions:</dt>
+<?php foreach ($template_suggestions as $template): ?>
+    <dd><?php echo str_replace('__', '--', $template) . '.tpl.php'; ?></dd>
+<?php endforeach; ?>
+  </dl>
 </div>
 <?php endif; ?>
 <?php
