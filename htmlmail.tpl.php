@@ -31,13 +31,12 @@
  * The $theme_hook_suggestions variable contains an array of suggested
  * [6]theme [7]hooks, in reverse priority order. For the above example, it
  * would contain:
- *   * htmlmail
  *   * htmlmail__example_module
- *   * htmlmail__example_module__outgoing
+ *   * htmlmail__example_module__outgoing_message
  *
  * For another example, to customize the [8]password reset messages sent
  * by the [9]user module, copy htmlmail.tpl.php to your theme directory,
- * and also copy it to htmlmail-user_password_reset.tpl.php, then modify
+ * and also copy it to htmlmail--user_password_reset.tpl.php, then modify
  * the latter file. Remember that you will need to put both files in your
  * theme directory for this to work.
  *
@@ -60,7 +59,7 @@
  *
  * [11]drupal_mail().
  *
- * $id
+ * $message_id
  *        The email message id, usually "{$module}_{$key}".
  *
  * $theme

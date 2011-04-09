@@ -52,19 +52,16 @@ function htmlmail_admin_settings() {
 </pre>
 <p>the possible template file names would be:</p>
 <ul>
-  <li><code>htmlmail-example_module_outgoing_message.tpl.php</code></li>
-  <li><code>htmlmail-example_module_outgoing.tpl.php</code></li>
-  <li><code>htmlmail-example_module.tpl.php</code></li>
+  <li><code>htmlmail--example_module--outgoing_message.tpl.php</code></li>
+  <li><code>htmlmail--example_module.tpl.php</code></li>
   <li><code>htmlmail.tpl.php</code></li>
 </ul>
 <p>The <code>$theme_hook_suggestions</code> variable contains an array of suggested <a href="http://api.drupal.org/api/drupal/includes--theme.inc/function/theme/7">theme</a> <a href="http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_theme/7">hooks</a>, in reverse priority order. For the above example, it would contain:</p>
 <ul>
-  <li><code>htmlmail</code></li>
-  <li><code>htmlmail-example_module</code></li>
-  <li><code>htmlmail-example_module_outgoing</code></li>
-  <li><code>htmlmail-example_module_outgoing_message</code></li>
+  <li><code>htmlmail__example_module</code></li>
+  <li><code>htmlmail__example_module__outgoing_message</code></li>
 </ul>
-<p>For another example, to customize the <a href="http://api.drupal.org/api/drupal/modules--user--user.pages.inc/function/user_pass_submit/7">password reset</a> messages sent by the <a href="http://api.drupal.org/api/drupal/modules--user--user.module/7">user module</a>, copy <code>htmlmail.tpl.php</code> to your theme directory, and also copy it to <code>htmlmail-user_password_reset.tpl.php</code>, then modify the latter file. Remember that you will need to put <em>both</em> files in your theme directory for this to work.</p>
+<p>For another example, to customize the <a href="http://api.drupal.org/api/drupal/modules--user--user.pages.inc/function/user_pass_submit/7">password reset</a> messages sent by the <a href="http://api.drupal.org/api/drupal/modules--user--user.module/7">user module</a>, copy <code>htmlmail.tpl.php</code> to your theme directory, and also copy it to <code>htmlmail--user_password_reset.tpl.php</code>, then modify the latter file. Remember that you will need to put <em>both</em> files in your theme directory for this to work.</p>
 <p>Template files are cached, so remember to clear the cache by visiting <u>admin/config/development/performance</u> after creating, copying, or editing any <code>.tpl.php</code> files.</p>
 <p>The following variables are also available in this template:</p>
 <dl>
@@ -82,7 +79,7 @@ function htmlmail_admin_settings() {
 </dl>
 <p><a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7"><code>drupal_mail()</code></a>.</p>
 <dl>
-  <dt><strong><code>$id</code></strong></dt>
+  <dt><strong><code>$message_id</code></strong></dt>
   <dd>
     <p>The email message id, usually <code>"{$module}_{$key}"</code>.</p>
   </dd>
