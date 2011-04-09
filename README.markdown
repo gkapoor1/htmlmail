@@ -56,6 +56,7 @@ to select a theme and post-filter for your messages.
 The email message text goes through three transformations before sending:
 
 1.  <h3>Template File</h3>
+
     A template file is applied to your message header, subject, and body text.
     The default template is the included `htmlmail.tpl.php` file.  You may copy
     this file to your <cite>email theme</cite> directory (selected below), and
@@ -72,6 +73,7 @@ The email message text goes through three transformations before sending:
     even more power and flexibility.
 
 3.  <h3>Post-filtering</h3>
+
     You may choose a <cite>text format</cite> to be used for filtering email
     messages *after* theming. This allows you to use any combination of
     [over 200 filter modules](http://drupal.org/project/modules/?filters=type%3Aproject_project%20tid%3A63%20hash%3A1hbejm%20-bs_project_sandbox%3A1%20bs_project_has_releases%3A1)
