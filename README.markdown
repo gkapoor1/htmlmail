@@ -2,7 +2,7 @@
 Lets you theme your outgoing messages the same way you theme the rest of your
 website.
 
-## [Requirements](http://www.dict.org/bin/Dict?Form=Dict2&Database=*&Query=requirement)
+## [Requirement](http://www.dict.org/bin/Dict?Form=Dict2&Database=*&Query=requirement)
 
 *   [Mail System](http://drupal.org/project/mailsystem)
 
