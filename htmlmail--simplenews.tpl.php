@@ -47,7 +47,7 @@
  *  - directory: The relative path to the template directory.
  */
 ?>
-<?php if ($key == 'node'): ?>
+<?php if ($key == 'node' || $key == 'test'): ?>
 <div class="htmlmail-simplenews-link">
   <a href="<?php echo url('node/' . $params['context']['node']->nid,
                    array('absolute' => TRUE)); ?>">
