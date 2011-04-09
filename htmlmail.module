@@ -99,9 +99,9 @@ function template_preprocess_htmlmail(array &$variables) {
   $variables['theme_url'] = url($variables['directory'], array('absolute' => TRUE));
   $variables['message_id'] = $variables['module'] . '_' . $variables['key'];
   $variables['theme_hook_suggestions'][] =
-    ($module_suggestion = 'htmlmail--' . $variables['module']);
+    ($module_suggestion = 'htmlmail__' . $variables['module']);
   $variables['theme_hook_suggestions'][] =
-    $module_suggestion . '--' . $variables['key'];
+    $module_suggestion . '__' . $variables['key'];
 }
 
 /**

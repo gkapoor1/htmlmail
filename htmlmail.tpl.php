@@ -112,41 +112,31 @@
 <?php if ($debug): ?>
 <hr />
 <div class="htmlmail-debug">
-  <dl>
-    <dt>To customize this message:</dt>
-    <dd>
-      <ol>
-        <li>
-          Copy the
-          <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php">
-            <code>html.tpl.php</code>
-          </a>
-          file to your theme directory.
-        </li>
-        <li>
-          Make two more copies in the same directory, called
-          <code>htmlmail--<?php echo $module; ?>.tpl.php</code> and
-          <code>htmlmail--<?php echo $module; ?>--<?php echo $key ?>.tpl.php</code>.
-        </li>
-        <li>
-          <p>
-            For module-specific customization, edit the
-            <code>htmlmail--<?php echo $module; ?>.tpl.php</code>
-            file.
-          </p>
-          <p>
-            For message-specific customization, edit the
-            <code>htmlmail--<?php echo $module; ?>--<?php echo $key ?>.tpl.php</code>.
-            file.
-          </p>
-        </li>
-      </ol>
-    </dd>
-    <dt>Here is the full list of template suggestions:</dt>
-<?php foreach ($template_suggestions as $template): ?>
-    <dd><?php echo str_replace('__', '--', $template) . '.tpl.php'; ?></dd>
+  <dl><dt><p>
+    To customize this message:
+  </p></dt><dd><ol><li><p>
+    Copy the
+    <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php"><code>html.tpl.php</code></a>
+    file to your theme directory.
+  </p></li><li><p>
+    Make two more copies in the same directory, called
+    <code>htmlmail--<?php echo $module; ?>.tpl.php</code> and
+    <code>htmlmail--<?php echo $module; ?>--<?php echo $key ?>.tpl.php</code>.
+  </p></li><li><p>
+    For module-specific customization, edit the
+    <code>htmlmail--<?php echo $module; ?>.tpl.php</code>
+    file.
+  </p><p>
+    For message-specific customization, edit the
+    <code>htmlmail--<?php echo $module; ?>--<?php echo $key ?>.tpl.php</code>.
+    file.
+  </p></li></ol></dd><dt><p>
+    Here is the full list of template suggestions:
+  </p></dt><dd><ul>
+<?php foreach ($theme_hook_suggestions as $suggestion): ?>
+    <li><?php echo str_replace('__', '--', $template) . '.tpl.php'; ?></li>
 <?php endforeach; ?>
-  </dl>
+  </ul></dd></dl>
 </div>
 <?php endif; ?>
 <?php

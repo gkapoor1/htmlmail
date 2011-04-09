@@ -12,26 +12,17 @@
 <?php if ($debug): ?>
 <hr />
 <div class="htmlmail-debug">
-  To customize this test message:
-  <ol>
-    <li>Copy the following files to your theme directory:
-      <ul>
-        <li>
-          <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php">
-            <code>htmlmail.tpl.php</code>
-          </a>
-        </li>
-        <li>
-          <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail--htmlmail.tpl.php">
-            <code>htmlmail--htmlmail.tpl.php</code>
-          </a>
-        </li>
-      </ul>
-    </li>
-    <li>
-      Edit your copy of the <code>htmlmail--htmlmail.tpl.php</code> file.
-    </li>
-  <ol>
+  <dl><dt><p>
+    To customize this test message:
+  </p></dt><dd><ol><li><p>
+    Copy the following files to your theme directory:
+  </p><ul><li><p>
+    <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php"><code>htmlmail.tpl.php</code></a>
+  </p></li><li><p>
+    <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail--htmlmail.tpl.php"><code>htmlmail--htmlmail.tpl.php</code></a>
+  </p></li></ul></p></li><li><p>
+    Edit your copy of the <code>htmlmail--htmlmail.tpl.php</code> file.
+  </p></li><ol>
 </div>
 <?php endif; ?>
 <?php

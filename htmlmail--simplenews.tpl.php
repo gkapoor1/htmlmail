@@ -61,38 +61,27 @@
 <?php if ($debug): ?>
 <hr />
 <div class="htmlmail-simplenews-debug htmlmail-debug">
-  <dl>
-    <dt>To customize your simplenews messages:</dt>
-    <dd>
-      <ol>
-        <li>Copy the following files to your theme directory:
-          <ul>
-            <li>
-              <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php">
-                <code>htmlmail.tpl.php</code>
-              </a>
-            </li>
-            <li>
-              <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail--simplenews.tpl.php">
-                <code>htmlmail--simplenews.tpl.php</code>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          Edit your copy of the <code>htmlmail--simplenews.tpl.php</code> file.
-        </li>
-      <ol>
-    </dd>
-    <dt>Here is the full list of template suggestions:</dt>
-<?php foreach ($template_suggestions as $template): ?>
-    <dd><?php echo str_replace('__', '--', $template) . '.tpl.php'; ?></dd>
+  <dl><dt><p>
+    To customize your simplenews messages:
+  </p></dt><dd><ol><li><p>
+    Copy the following files to your theme directory:
+  </p><ul><li><p>
+    <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php"><code>htmlmail.tpl.php</code></a>
+  </p></li><li><p>
+    <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail--simplenews.tpl.php"><code>htmlmail--simplenews.tpl.php</code></a>
+  </p></li></ul></li><li><p>
+    Edit your copy of the <code>htmlmail--simplenews.tpl.php</code> file.
+  </p></li></ol></dd><dt><p>
+    Here is the full list of template suggestions:
+  </p></dt><dd><ul>
+<?php foreach ($theme_hook_suggestions as $suggestion): ?>
+    <li><?php echo str_replace('__', '--', $suggestion) . '.tpl.php'; ?></li>
 <?php endforeach; ?>
-    <dt>Simplenews sets the <code>$params</code> variable.  For this message,</dt>
-    <dd>
-      <code>$params = <?php var_export($params); ?></code>
-    </dd>
-  </dl>
+  </ul></dd><dt><p>
+    Simplenews sets the <code>$params</code> variable.  For this message,
+  </p></dt><dd><p><code><pre>
+$params = <?php var_export($params); ?>
+  </pre></code></p></dd></dl>
 </div>
 <?php endif;
 
