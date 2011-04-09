@@ -111,11 +111,14 @@ function template_preprocess_htmlmail(array &$variables) {
   if (empty($variables['theme'])) {
     $variables['theme'] = htmlmail_get_selected_theme();
   }
-  $variables['directory'] =
-    $variables['theme']
-    ? drupal_get_path('theme', $variables['theme'])
-    : drupal_get_path('module', 'htmlmail');
-  $variables['theme_url'] = url($variables['directory'], array('absolute' => TRUE));
+  $variables['directory'] = $variables['template_path'] = (
+    empty($variables['theme'])
+    ? drupal_get_path('module', 'htmlmail')
+    : drupal_get_path('theme', $variables['theme'])
+  );
+  $variables['theme_url'] = $variables['template_url'] = url(
+    $variables['foo'], array('absolute' => TRUE)
+  );
   $variables['message_id'] = $variables['module'] . '_' . $variables['key'];
   $suggestion = 'htmlmail__' . $variables['module'];
   $variables['theme_hook_suggestions'][] = $suggestion;

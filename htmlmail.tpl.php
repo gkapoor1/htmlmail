@@ -56,10 +56,10 @@
  *        [8]Echo module is enabled this theme will also be used to
  *        transform the message body into a fully-themed webpage.
  *
- * $directory
+ * $template_path
  *        The relative path to the template directory.
  *
- * $theme_url
+ * $template_url
  *        The absolute URL to the template directory.
  *
  * $debug
@@ -91,7 +91,7 @@
  */
 ?>
 <div class="htmlmail-body">
-<?php print $body; ?>
+<?php echo $body; ?>
 </div>
 <?php if ($debug): ?>
 <hr />
@@ -101,7 +101,9 @@
   </p></dt><dd><ol><li><p>
     Copy the
     <a href="http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php"><code>html.tpl.php</code></a>
-    file to your theme directory.
+    file to the
+    <u><code><?php echo realpath(drupal_get_path('theme', $theme)); ?></code></u>
+    directory of your <u><?php echo ucfirst($theme) ?></u> theme.
   </p></li><li><p>
     Make two more copies in the same directory, called
     <code>htmlmail--<?php echo $module; ?>.tpl.php</code> and
@@ -114,13 +116,7 @@
     For message-specific customization, edit the
     <code>htmlmail--<?php echo $module; ?>--<?php echo $key ?>.tpl.php</code>.
     file.
-  </p></li></ol></dd><dt><p>
-    Here are the possible template file names:
-  </p></dt><dd><ul>
-<?php foreach ($theme_hook_suggestions as $suggestion): ?>
-    <li><code><?php echo str_replace('__', '--', $template) . '.tpl.php'; ?></code></li>
-<?php endforeach; ?>
-  </ul></dd></dl>
+  </p></li></ol></dd></dl>
 </div>
 <?php endif; ?>
 <?php

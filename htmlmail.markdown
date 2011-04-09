@@ -56,10 +56,10 @@ The following variables available in this template:
     [Echo](http://drupal.org/project/echo) module is enabled this theme will
     also be used to transform the message body into a fully-themed webpage.
 
-**`$directory`**
+**`$template_path`**
 :   The relative path to the template directory.
 
-**`$theme_url`**
+**`$template_url`**
 :   The absolute URL to the template directory.
 
 **`$debug`**

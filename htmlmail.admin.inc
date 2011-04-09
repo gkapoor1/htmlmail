@@ -80,11 +80,11 @@ function htmlmail_admin_settings() {
   <dd>
     <p>The name of the <em>Email theme</em> used to hold template files. If the <a href="http://drupal.org/project/echo">Echo</a> module is enabled this theme will also be used to transform the message body into a fully-themed webpage.</p>
   </dd>
-  <dt><strong><code>$directory</code></strong></dt>
+  <dt><strong><code>$template_path</code></strong></dt>
   <dd>
     <p>The relative path to the template directory.</p>
   </dd>
-  <dt><strong><code>$theme_url</code></strong></dt>
+  <dt><strong><code>$template_url</code></strong></dt>
   <dd>
     <p>The absolute URL to the template directory.</p>
   </dd>
