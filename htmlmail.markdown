@@ -1,12 +1,15 @@
-When formatting an email message, Drupal determines the active template
-directory by looking for `htmlmail.tpl.php` file in the following locations:
+When formatting an email message with a given `$module` and `$key`,
+[HTML Mail](http://drupal.org/project/htmlmail)
+will use the first template file it finds from the following list:
 
-*    [`path_to_theme()`](http://api.drupal.org/api/drupal/includes--theme.inc/function/path_to_theme/7)
-*    [`drupal_get_path`](http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_get_path/7)`("module", `[`$installed_profile`](http://api.drupal.org/api/drupal/developer--globals.php/global/installed_profile/7)`)`
-*    [`drupal_get_path`](http://api.drupal.org/api/drupal/includes--common.inc/function/drupal_get_path/7)`("module", `[`"htmlmail"`](http://drupal.org/project/htmlmail)`)`
+1. `htmlmail--$module--$key.tpl.php`
+2. `htmlmail--$module.tpl.php`
+3. `htmlmail.tpl.php`
 
-Once the active template directory is found, Drupal looks in that directory
-for template files in order from most specific to most general.
+For each filename,
+[HTML Mail](http://drupal.org/project/htmlmail)
+looks first in the chosen *Email theme* directory, then in its own
+module directory, before proceeding to the next filename.
 
 For example, if `example_module` sends mail with:
 
@@ -18,29 +21,21 @@ the possible template file names would be:
 *    `htmlmail--example_module.tpl.php`
 *    `htmlmail.tpl.php`
 
-The `$theme_hook_suggestions` variable contains an array of suggested
-[theme](http://api.drupal.org/api/drupal/includes--theme.inc/function/theme/7)
-[hooks](http://api.drupal.org/api/drupal/modules--system--system.api.php/function/hook_theme/7),
-in reverse priority order.  For the above example, it would contain:
-
-*    `htmlmail__example_module`
-*    `htmlmail__example_module__outgoing_message`
-
 For another example, to customize the
 [password reset](http://api.drupal.org/api/drupal/modules--user--user.pages.inc/function/user_pass_submit/7)
 messages sent by the
 [user module](http://api.drupal.org/api/drupal/modules--user--user.module/7),
-copy `htmlmail.tpl.php` to your theme directory, and also
-copy it to
-`htmlmail--user_password_reset.tpl.php`,
-then modify the latter file. Remember that you will need to put *both* files in
-your theme directory for this to work.
+copy
+[`htmlmail.tpl.php`](http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php)
+to a file called
+`htmlmail--user--password_reset.tpl.php`
+in your *Email theme* directory, and edit the copy.
 
 Template files are cached, so remember to clear the cache by visiting
 <u>admin/config/development/performance</u>
-after creating, copying, or editing any `.tpl.php` files.
+after changing any `.tpl.php` files.
 
-The following variables are also available in this template:
+The following variables available in this template:
 
 **`$body`**
 :   The message body text.

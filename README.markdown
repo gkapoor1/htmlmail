@@ -58,18 +58,18 @@ The email message text goes through three transformations before sending:
 1.  <h3>Template File</h3>
     A template file is applied to your message header, subject, and body text.
     The default template is the included `htmlmail.tpl.php` file.  You may copy
-    this file to your default theme directory and use it to customize the
-    contents and formatting of your messages.  The comments within that file
-    contain complete documentation on its usage.
+    this file to your <cite>email theme</cite> directory (selected below), and
+    use it to customize the contents and formatting of your messages. The
+    comments within that file contain complete documentation on its usage.
 
 2.  <h3>Theming</h3>
-    *(Optional: requires [Echo](http://drupal.org/project/echo) module.)*
-    The templated text may be wrapped in a website theme.  This lets you
-    use any one of [over 800](http://drupal.org/project/themes) themes to
-    style your messages.  Creating an email-specific sub-theme lets you use
-    the full power of the
-    [drupal theme system](http://drupal.org/documentation/theme)
-    to format your messages.
+
+    You may choose a theme that will hold your templates from Step 1 above. If
+    the [Echo](http://drupal.org/project/echo) module.) is installed, this theme
+    will also be used to wrap your templated text in a webpage.  You use any one
+    of [over 800](http://drupal.org/project/themes) themes to style your
+    messages, or [create your own](http://drupal.org/documentation/theme) for
+    even more power and flexibility.
 
 3.  <h3>Post-filtering</h3>
     You may choose a <cite>text format</cite> to be used for filtering email
