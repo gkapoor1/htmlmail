@@ -134,7 +134,7 @@
     Here is the full list of template suggestions:
   </p></dt><dd><ul>
 <?php foreach ($theme_hook_suggestions as $suggestion): ?>
-    <li><?php echo str_replace('__', '--', $template) . '.tpl.php'; ?></li>
+    <li><code><?php echo str_replace('__', '--', $template) . '.tpl.php'; ?></code></li>
 <?php endforeach; ?>
   </ul></dd></dl>
 </div>

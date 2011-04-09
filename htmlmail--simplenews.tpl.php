@@ -75,7 +75,7 @@
     Here is the full list of template suggestions:
   </p></dt><dd><ul>
 <?php foreach ($theme_hook_suggestions as $suggestion): ?>
-    <li><?php echo str_replace('__', '--', $suggestion) . '.tpl.php'; ?></li>
+    <li><code><?php echo str_replace('__', '--', $suggestion) . '.tpl.php'; ?></code></li>
 <?php endforeach; ?>
   </ul></dd><dt><p>
     Simplenews sets the <code>$params</code> variable.  For this message,
