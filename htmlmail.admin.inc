@@ -119,8 +119,8 @@ function htmlmail_admin_settings() {
       'Choose the theme that will hold your customized templates from Step '
       . '1 above.'
     ) . '</p><p>'
-    . t( module_exists('echo')
-      ? 'The templated text will be styled by your chosen theme.  This lets you '
+    . t( module_exists('echo') ?
+      'The templated text will be styled by your chosen theme.  This lets you '
       . 'use any one of <a href="!themes">over 800</a> themes to style your '
       . 'messages.  Creating an email-specific sub-theme lets you use the '
       . 'full power of the <a href="!theme_system">drupal theme system</a> '
