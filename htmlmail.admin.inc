@@ -165,7 +165,7 @@ function htmlmail_admin_settings() {
         array(
           '!mailmime' => 'http://drupal.org/project/mailmime',
           '!print' => 'http://drupal.org/project/print',
-        ),
+        )
       )
     ) . '</p>',
   );
