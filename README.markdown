@@ -56,12 +56,12 @@ The following additional modules, while not required, are highly recommended:
 *   The following options have been removed from the module settings page.  In
     their place, any combination of
     [over 200 filter modules](http://drupal.org/project/modules/?filters=type%3Aproject_project%20tid%3A63%20hash%3A1hbejm%20-bs_project_sandbox%3A1%20bs_project_has_releases%3A1)
-    may be combined in an email-specific
-    [text format](http://drupal.org/node/213156) and used for post-template
-    filtering.
+    may be used in an email-specific
+    [text format](http://drupal.org/node/778976)
+    for post-template filtering.
 
-    *   [Line break converter](http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_autop/6),
-    *   [URL Filter](http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_url/6),
+    *   [Line break converter](http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_autop),
+    *   [URL Filter](http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_url/7),
     *   [Emogrifier](http://drupal.org/project/emogrifier),
     *   [Token support](http://drupal.org/project/token)
 

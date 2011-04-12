@@ -60,8 +60,8 @@
        link) and as comments in the htmlmail.tpl.php file itself.
      * The following options have been removed from the module settings
        page. In their place, any combination of [15]over 200 filter
-       modules may be combined in an email-specific [16]text format and
-       used for post-template filtering.
+       modules may be used in an email-specific [16]text format for
+       post-template filtering.
           + [17]Line break converter,
           + [18]URL Filter,
           + [19]Emogrifier,
@@ -189,9 +189,9 @@ References
   13. http://drupal.org/project/mailsystem
   14. http://drupal.org/project/echo
   15. http://drupal.org/project/modules/?filters=type%3Aproject_project%20tid%3A63%20hash%3A1hbejm%20-bs_project_sandbox%3A1%20bs_project_has_releases%3A1
-  16. http://drupal.org/node/213156
-  17. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_autop/6
-  18. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_url/6
+  16. http://drupal.org/node/778976
+  17. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_autop
+  18. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_url/7
   19. http://drupal.org/project/emogrifier
   20. http://drupal.org/project/token
   21. http://drupal.org/project/mailmime
