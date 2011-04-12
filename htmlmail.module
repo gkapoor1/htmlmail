@@ -108,14 +108,12 @@ function htmlmail_theme() {
  */
 function template_preprocess_htmlmail(array &$variables) {
   $variables['debug'] = variable_get('htmlmail_debug', '0');
-  if (empty($variables['theme'])) {
-    $variables['theme'] = htmlmail_get_selected_theme();
-  }
   $variables['directory'] = $variables['template_path'] = (
     empty($variables['theme'])
     ? drupal_get_path('module', 'htmlmail')
     : drupal_get_path('theme', $variables['theme'])
   );
+  $variables['theme'] = htmlmail_get_selected_theme($variables);
   $variables['theme_url'] = $variables['template_url'] = url(
     $variables['foo'], array('absolute' => TRUE)
   );
@@ -200,10 +198,12 @@ function &htmlmail_get_allowed_themes() {
 function htmlmail_get_selected_theme(&$message = array()) {
   $selected = isset($message['theme'])
     ? $message['theme'] : variable_get('htmlmail_theme', '');
-  // Make sure the selected theme is allowed.
-  $themes = &htmlmail_get_allowed_themes();
-  if (empty($themes[$selected])) {
-    $selected = $GLOBALS['theme'];
+  if ($selected) {
+    // Make sure the selected theme is allowed.
+    $themes = &htmlmail_get_allowed_themes();
+    if (empty($themes[$selected])) {
+      $selected = '';
+    }
   }
   return $selected;
 }

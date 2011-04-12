@@ -153,7 +153,7 @@ function htmlmail_admin_settings() {
         . 'in their email addressbook.  <a href="!mailmime">Mail MIME</a> also '
         . 'allows <a href="!htmlmail">HTML Mail</a> to handle MIME-formatted '
         . 'messages sent by other modules such as '
-        . '<a href="!print">Send by-email</a>. '
+        . '<a href="!print">Send by-email</a>. ',
         array(
           '!mailmime' => 'http://drupal.org/project/mailmime',
           '!print' => 'http://drupal.org/project/print',
