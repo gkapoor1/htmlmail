@@ -26,7 +26,7 @@ function htmlmail_admin_settings() {
       . 'text.  You may copy the <a href="!uri">!template</a> file to your '
       . 'default theme directory and use it to customize your messages.',
       array(
-        '!uri' => url('http://drupalcode.org/project/htmlmail.git/blob/refs/heads/7.x-2.x:/htmlmail.tpl.php'),
+        '!uri' => url('http://drupalcode.org/project/htmlmail.git/blob_plain/refs/heads/7.x-2.x:/htmlmail.tpl.php'),
         '!template' => '<code>htmlmail.tpl.php</code>'
       )
     ),
