@@ -68,6 +68,9 @@
  * $params
  *        Any module-specific parameters.
  *
+ * $template_name
+ *        The basename of the active template.
+ *
  * $template_path
  *        The relative path to the template directory.
  *
