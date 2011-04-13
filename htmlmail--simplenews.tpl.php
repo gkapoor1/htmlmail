@@ -106,4 +106,3 @@ $params = <?php var_export($params); ?>
   </pre></code></p></dd></dl>
 </div>
 <?php endif;
-
