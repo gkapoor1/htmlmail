@@ -131,7 +131,6 @@ The email message text goes through three transformations before sending:
 
 ## Troubleshooting
 
-
 *   Double-check the [Mail System](http://drupal.org/project/mailsystem)
     module settings and and make sure you selected
     <u><code>HTMLMailSystem</code></u> for your
