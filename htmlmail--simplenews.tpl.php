@@ -7,7 +7,7 @@
  * The following variables are available in this template:
  *
  *  - $message_id: The email message id, or "simplenews_$key"
- *  - $module: The sending module, or 'simplenews'.
+ *  - $module: The sending module, which is 'simplenews'.
  *  - $key: The simplenews action, which may be any of the following:
  *    - node: Send a newsletter to its subscribers.
  *    - subscribe: New subscriber confirmation message.
