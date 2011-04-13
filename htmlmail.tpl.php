@@ -147,5 +147,4 @@
 $params = <?php var_export($params); ?>
   </pre></code></p></dd><?php endif; ?></dl>
 </div>
-<?php endif; ?>
-<?php
+<?php endif;
