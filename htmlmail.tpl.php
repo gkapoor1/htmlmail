@@ -52,6 +52,33 @@
  *        The email message id, which should be equal to
  *        "{$module}_{$key}".
  *
+ * $headers
+ *        An array of email (name => value) pairs.
+ *
+ * $from
+ *        The configured sender address.
+ *
+ * $to
+ *        The recipient email address.
+ *
+ * $subject
+ *        The message subject line.
+ *
+ * $body
+ *        The formatted message body.
+ *
+ * $language
+ *        The language object for this message.
+ *
+ * $params
+ *        Any module-specific parameters.
+ *
+ * $template_path
+ *        The relative path to the template directory.
+ *
+ * $template_url
+ *        The absolute URL to the template directory.
+ *
  * $theme
  *        The name of the Email theme used to hold template files. If the
  *        [8]Echo module is enabled this theme will also be used to
@@ -62,12 +89,6 @@
  *
  * $theme_url
  *        The absolute URL to the selected Email theme directory.
- *
- * $template_path
- *        The relative path to the template directory.
- *
- * $template_url
- *        The absolute URL to the template directory.
  *
  * $debug
  *        TRUE to add some useful debugging info to the bottom of the
