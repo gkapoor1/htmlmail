@@ -89,12 +89,8 @@
  *        TRUE to add some useful debugging info to the bottom of the
  *        message.
  *
- * The module calling [6]drupal_mail() may set other variables. For
- * instance, the [7]Webform module sets a $node variable which may be very
- * useful.
- *
  * Other modules may also add or modify theme variables by implementing a
- * MODULENAME_preprocess_htmlmail(&$variables) [8]hook function.
+ * MODULENAME_preprocess_htmlmail(&$variables) [6]hook function.
  *
  * References
  *
@@ -103,9 +99,7 @@
  * 3. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
  * 4. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
  * 5. http://drupal.org/project/echo
- * 6. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
- * 7. http://drupal.org/project/webform
- * 8. http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7
+ * 6. http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7
  *
  * =========================================================== End instructions.
  */

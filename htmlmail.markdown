@@ -84,12 +84,6 @@ The following variables available in this template:
 **`$debug`**
 :   `TRUE` to add some useful debugging info to the bottom of the message.
 
-The module calling
-[`drupal_mail()`](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7)
-may set other variables.  For instance, the
-[Webform module](http://drupal.org/project/webform)
-sets a `$node` variable which may be very useful.
-
 Other modules may also add or modify theme variables by implementing a
 `MODULENAME_preprocess_htmlmail(&$variables)`
 [hook function](http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7).
