@@ -50,7 +50,6 @@
 </div>
 <?php if ($debug):
   $message_template = 'htmlmail--user--password_reset.tpl.php';
-  $this_file = basename(__FILE__);
 ?>
 <hr />
 <div class="htmlmail-user-password-reset-debug htmlmail-user-debug htmlmail-debug">
