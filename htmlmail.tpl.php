@@ -103,6 +103,8 @@
  *
  * =========================================================== End instructions.
  */
+  $directory = preg_replace('#^' . realpath(NULL) . '/#', '', realpath(dirname(__FILE__)));
+  $template_url = url($directory, array('absolute' => TRUE));
 ?>
 <div class="htmlmail-body">
 <?php echo $body; ?>
@@ -125,7 +127,9 @@
     <u><?php echo ucfirst($theme); ?></u> theme.
   </p></li><li><?php endif;
 if ("$directory/$this_file" == "$theme_path/$message_template.tpl.php"): ?><p>
-    Edit your <u><code><?php echo "$directory/$this_file"; ?></code></u> file.
+    Edit your<br />
+    <u><code><?php echo "$directory/$this_file"; ?></code></u>
+    <br />file.
   </p></li><li><?php
 else:
   if ("$directory/$this_file" != "$theme_path/$module_template.tpl.php"): ?><p>
