@@ -76,13 +76,13 @@ function htmlmail_menu() {
 function htmlmail_theme() {
   $items = array();
   $files = file_scan_directory(
-    drupal_get_path('module', 'htmlmail'), '/^htmlmail.*\.tpl\.php$/',
+    drupal_get_path('module', 'htmlmail'), '^htmlmail.*\.tpl\.php$',
     array('key' => 'name')
   );
   if ($theme = htmlmail_get_selected_theme()) {
     $files = array_merge(
       $files, file_scan_directory(
-        drupal_get_path('theme', $theme), '/^htmlmail.*\.tpl\.php$/',
+        drupal_get_path('theme', $theme), '^htmlmail.*\.tpl\.php$',
         array('key' => 'name')
       )
     );

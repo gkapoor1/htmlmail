@@ -64,10 +64,13 @@
 <div class="htmlmail-simplenews-debug htmlmail-debug">
   <dl><dt><p>
     To customize your simplenews messages:
-  </p></dt><dd><ol><li><p><?php if (empty($theme_path)): ?>
-    Visit <u>admin/appearance</u> to enable your selected
-    <u><?php echo ucfirst($theme); ?></u> theme.
-  </p></dt><dd><ol><li><p><?php endif; ?>
+  </p></dt><dd><ol><li><p><?php if (empty($theme)): ?>
+    Visit <u>admin/config/system/htmlmail</u>
+    and select a theme to hold your custom email template files.
+  </p></li><li><p><?php elseif (empty($theme_path)): ?>
+    Visit <u>admin/appearance</u>
+    to enable your selected <u><?php echo ucfirst($theme); ?></u> theme.
+  </p></li><li><p><?php endif; ?>
     Copy the
     <a href="http://drupalcode.org/project/htmlmail.git/blob_plain/refs/heads/7.x-2.x:/htmlmail--simplenews.tpl.php"><code>htmlmail--simplenews.tpl.php</code></a>
     file to your <u><?php echo ucfirst($theme); ?></u> theme directory
@@ -91,9 +94,10 @@
   </p></dt><dd><p>
     Unsubscribe confirmation message.
   </p></dd></dl></li></ul></li><li><p>
-    Edit the renamed file.
+    Edit the renamed copy.
   </p></li></ul></dd><dt><p>
-    Simplenews sets the <u><code>$params</code></u> variable.  For this message,
+    The simplenews module sets the <u><code>$params</code></u> variable.
+    For this message,
   </p></dt><dd><p><code><pre>
 $params = <?php var_export($params); ?>
   </pre></code></p></dd></dl>
