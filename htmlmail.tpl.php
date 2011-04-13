@@ -109,7 +109,9 @@
 </div>
 <?php if ($debug):
   $module_template = "htmlmail--$module";
-  $message_template = "$module_template--$key"; ?>
+  $message_template = "$module_template--$key";
+  $this_file = basename(__FILE__);
+?>
 <hr />
 <div class="htmlmail-debug">
   <dl><dt><p>
@@ -121,20 +123,24 @@
     Visit <u>admin/appearance</u>
     to enable your selected
     <u><?php echo ucfirst($theme); ?></u> theme.
-  </p></li><li><p><?php endif; ?>
-    Copy the
-    <a href="http://drupalcode.org/project/htmlmail.git/blob_plain/refs/heads/7.x-2.x:/htmlmail.tpl.php"><code>html.tpl.php</code></a>
-    file to your <u><?php echo ucfirst($theme) ?></u> theme directory
-    <u><code><?php echo $theme_path; ?></code></u>.
+  </p></li><li><?php endif;
+if ("$directory/$this_file" == "$theme_path/$message_template.tpl.php"): ?><p>
+    Edit your <u><code><?php echo "$directory/$this_file"; ?></code></u> file.
+  </p></li><li><?php
+else:
+  if ("$directory/$this_file" != "$theme_path/$module_template.tpl.php"): ?><p>
+    For module-specific customization, copy
+    <u><code><?php echo "$directory/$this_file"; ?></code></u> to
+    <code><?php echo "$theme_path/$module_template"; ?>.tpl.php</code>
+  </p><?php
+  endif; ?><p>
+    For message-specific customization, copy
+    <u><code><?php echo "$directory/$this_file"; ?></code></u> to
+    <code><?php echo "$theme_path/$message_template"; ?>.tpl.php</code>
   </p></li><li><p>
-    For module-specific customization, rename your copy to
-    <code><?php echo $module_template; ?>.tpl.php</code>
-  </p><p>
-    For message-specific customization, rename your copy to
-    <code><?php echo $message_template; ?>.tpl.php</code>
-  </p></li><li><p>
-    Edit the renamed copy.
-  </p></li><li><p>
+    Edit the copied file.
+  </p></li><li><?php
+endif; ?><p>
     Send a test message to make sure your customizations worked.
   </p></li><li><p>
     If you think your customizations would be of use to others,
