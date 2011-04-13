@@ -103,8 +103,9 @@
  *
  * =========================================================== End instructions.
  */
-  $directory = preg_replace('#^' . realpath(NULL) . '/#', '', realpath(dirname(__FILE__)));
-  $template_url = url($directory, array('absolute' => TRUE));
+  $template_name = basename(__FILE__);
+  $template_path = preg_replace('#^' . realpath(NULL) . '/#', '', realpath(dirname(__FILE__)));
+  $template_url = url($template_path, array('absolute' => TRUE));
 ?>
 <div class="htmlmail-body">
 <?php echo $body; ?>
@@ -112,7 +113,6 @@
 <?php if ($debug):
   $module_template = "htmlmail--$module";
   $message_template = "$module_template--$key";
-  $this_file = basename(__FILE__);
 ?>
 <hr />
 <div class="htmlmail-debug">
@@ -126,24 +126,32 @@
     to enable your selected
     <u><?php echo ucfirst($theme); ?></u> theme.
   </p></li><li><?php endif;
-if ("$directory/$this_file" == "$theme_path/$message_template.tpl.php"): ?><p>
+if ("$template_path/$template_name" == "$theme_path/$message_template"): ?><p>
     Edit your<br />
-    <u><code><?php echo "$directory/$this_file"; ?></code></u>
+    <u><code><?php echo "$template_path/$template_name"; ?></code></u>
     <br />file.
   </p></li><li><?php
 else:
-  if ("$directory/$this_file" != "$theme_path/$module_template.tpl.php"): ?><p>
+  if (!file_exists("$theme_path/htmlmail.tpl.php")): ?><p>
+    Copy<br />
+    <u><code><?php echo "$module_path/htmlmail.tpl.php"; ?></code></u>
+    <br />to<br />
+    <u><code><?php echo "$theme_path/htmlmail.tpl.php"; ?></code></u>
+  </p></li><li><?php
+  endif;
+  if (!file_exists("$theme_path/$module_template")): ?><p>
     For module-specific customization, copy<br />
-    <u><code><?php echo "$directory/$this_file"; ?></code></u>
+    <u><code><?php echo "$module_path/htmlmail.tpl.php"; ?></code></u>
     <br />to<br />
-    <code><?php echo "$theme_path/$module_template"; ?>.tpl.php</code>
-  </p><?php
-  endif; ?><p>
+    <code><?php echo "$theme_path/$module_template"; ?></code>
+  </p></li><li><?php
+  endif;
+  if (!file_exists("$theme_path/$message_template")) ?><p>
     For message-specific customization, copy<br />
-    <u><code><?php echo "$directory/$this_file"; ?></code></u>
+    <u><code><?php echo "$module_path/htmlmail.tpl.php"; ?></code></u>
     <br />to<br />
-    <code><?php echo "$theme_path/$message_template"; ?>.tpl.php</code>
-  </p></li><li><p>
+    <code><?php echo "$theme_path/$message_template"; ?></code>
+  </p></li><li><?php endif; ?><p>
     Edit the copied file.
   </p></li><li><?php
 endif; ?><p>
