@@ -213,7 +213,7 @@ function htmlmail_get_selected_theme(&$message = array()) {
  *   The recipient email address.
  *
  * @return
- *   FALSE if the recipient prefers plaintext-only message; otherwise TRUE.
+ *   FALSE if the recipient prefers plaintext-only messages; otherwise TRUE.
  */
 function htmlmail_is_allowed($email) {
   return !($recipient = user_load_by_mail($email))
