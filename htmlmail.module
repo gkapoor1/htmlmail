@@ -9,7 +9,6 @@
  * Implements hook_init().
  */
 function htmlmail_init() {
-  // Guard against those who upgrade without reading the requirements.
   if (!module_exists('mailsystem')) {
     module_disable(array('htmlmail'));
     drupal_set_message(
@@ -76,13 +75,13 @@ function htmlmail_menu() {
 function htmlmail_theme() {
   $items = array();
   $files = file_scan_directory(
-    drupal_get_path('module', 'htmlmail'), '^htmlmail.*\.tpl\.php$',
+    drupal_get_path('module', 'htmlmail'), '/^htmlmail.*\.tpl\.php$/',
     array('key' => 'name')
   );
   if ($theme = htmlmail_get_selected_theme()) {
     $files = array_merge(
       $files, file_scan_directory(
-        drupal_get_path('theme', $theme), '^htmlmail.*\.tpl\.php$',
+        drupal_get_path('theme', $theme), '/^htmlmail.*\.tpl\.php$/',
         array('key' => 'name')
       )
     );
@@ -93,7 +92,7 @@ function htmlmail_theme() {
     $template = substr($file->name, 0, -4);
     $suggestion = str_replace('--', '__', $template);
     $items[$suggestion] = array(
-      'render element' => 'elements',
+      'arguments' => array('message' => array()),
       'template' => $template,
       'path' => $path,
     );
@@ -108,11 +107,6 @@ function htmlmail_theme() {
  */
 function template_preprocess_htmlmail(array &$variables) {
   $variables['debug'] = variable_get('htmlmail_debug', '0');
-  $variables['directory'] = $variables['template_path'] = (
-    empty($variables['theme'])
-    ? drupal_get_path('module', 'htmlmail')
-    : drupal_get_path('theme', $variables['theme'])
-  );
   $variables['theme'] = htmlmail_get_selected_theme($variables);
   $variables['theme_path'] = drupal_get_path('theme', $variables['theme']);
   $variables['theme_url'] = url(

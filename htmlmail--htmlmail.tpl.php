@@ -14,14 +14,19 @@
 <div class="htmlmail-debug">
   <dl><dt><p>
     To customize this test message:
-  </p></dt><dd><ol><li><p>
-    Copy
+  </p></dt><dd><ol><li><p><?php if (empty($theme)): ?>
+    Visit <u>admin/config/system/htmlmail</u>
+    and select a theme to hold your custom email template files.
+  </p></dt><dd><ol><li><p><?php elseif (empty($theme_path)): ?>
+    Visit <u>admin/appearance</u>
+    to enable your selected <u><?php echo ucfirst($theme); ?></u> theme.
+  </p></dt><dd><ol><li><p><?php endif; ?>
+    Copy the
     <a href="http://drupalcode.org/project/htmlmail.git/blob_plain/refs/heads/7.x-2.x:/htmlmail--htmlmail.tpl.php"><code>htmlmail--htmlmail.tpl.php</code></a>
-    to your <q><?php echo ucfirst($theme) ?> theme</q> directory
+    file to your <u><?php echo ucfirst($theme); ?></u> theme directory
     <u><code><?php echo $theme_path; ?></code></u>.
-  </p></li></ul></p></li><li><p>
-    Edit your copy of the <u><code>htmlmail--htmlmail.tpl.php</code></u> file.
-  </p></li><ol>
+  </p></li><li><p>
+    Edit the copied file.
+  </p></li></ol></dd></dl>
 </div>
-<?php endif; ?>
-<?php
+<?php endif;
