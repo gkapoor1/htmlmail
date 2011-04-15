@@ -52,7 +52,7 @@
    branch, but only 15% of its code with the [14]7.x-1.x branch, and a
    tiny 2.5% of its code with the [15]6.x-1.x branch.
 
-   Let your compatibility expectations be adjusted accordingly. and
+   Let your compatibility expectations be adjusted accordingly.
      * Check the module dependencies, as they have changed. The latest
        version of [16]HTML Mail depends on the [17]Mail System module and
        will not work without it.

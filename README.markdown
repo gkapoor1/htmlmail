@@ -44,7 +44,6 @@ its code with the [7.x-1.x](http://drupal.org/node/355250) branch, and a tiny
 2.5% of its code with the [6.x-1.x](http://drupal.org/node/329828) branch.
 
 Let your compatibility expectations be adjusted accordingly.
-and 
 
 *   Check the module dependencies, as they have changed.  The latest version of
     [HTML Mail](http://drupal.org/project/htmlmail) depends on the
