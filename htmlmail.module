@@ -77,7 +77,7 @@ function htmlmail_menu() {
 function htmlmail_theme() {
   $items = array();
   $module_path = drupal_get_path('module', 'htmlmail');
-  $pattern = '^htmlmail.*\.tpl\.php$';
+  $pattern = '/^htmlmail.*\.tpl\.php$/';
   $files = file_scan_directory($module_path, $pattern, array('key' => 'name'));
   if ($theme = htmlmail_get_selected_theme()) {
     $theme_path = drupal_get_path('theme', $theme);
