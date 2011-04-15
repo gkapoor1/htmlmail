@@ -41,7 +41,7 @@ The following additional modules, while not required, are highly recommended:
 The [7.x-2.x](http://drupal.org/node/1106064) branch shares 97% of its code
 with the [6.x-2.x](http://drupal.org/node/1119548) branch, but only 15% of
 its code with the [7.x-1.x](http://drupal.org/node/355250) branch, and a tiny
-2.5% of its code with the [6.x-1.x](http://drupal.org/node/329828) branch.
+8% of its code with the [6.x-1.x](http://drupal.org/node/329828) branch.
 
 Let your compatibility expectations be adjusted accordingly.
 
