@@ -172,19 +172,17 @@ The email message text goes through three transformations before sending:
 **Transliteration**
 :   http://drupal.org/project/transliteration
 
-## Documentation
+## [Documentation](http://drupal.org/project/documentation)
 
-**filter.module**
-:   D6: http://api.drupal.org/api/drupal/modules--filter--filter.module/6
-:   D7: http://api.drupal.org/api/drupal/modules--filter--filter.module/7
-:   D7: http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7
+**[filter.module](http://api.drupal.org/api/drupal/modules--filter--filter.module/6)**
+:   [api.drupal.org/api/drupal/modules--filter--filter.module](http://api.drupal.org/api/drupal/modules--filter--filter.module/7)
+:   [api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7](http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7)
 
-**Installing contributed modules**
-:   D6: http://drupal.org/documentation/install/modules-themes/modules-5-6
-:   D7: http://drupal.org/documentation/install/modules-themes/modules-7
+**[Installing contributed modules](http://drupal.org/documentation/install/modules-themes/modules-7)**
+:   [drupal.org/documentation/install/modules-themes/modules-7](http://drupal.org/documentation/install/modules-themes/modules-7)
 
-**Theming guide**
-:   http://drupal.org/documentation/theme
+**[Theming guide](http://drupal.org/documentation/theme)**
+:   [drupal.org/documentation/theme](http://drupal.org/documentation/theme)
 
 ## Original Author
 

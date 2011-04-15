@@ -146,36 +146,26 @@ Related Modules
    Transliteration
           http://drupal.org/project/transliteration
 
-Documentation
+[40]Documentation
 
-   filter.module
-          D6:
-          http://api.drupal.org/api/drupal/modules--filter--filter.module/
-          6
-          D7:
-          http://api.drupal.org/api/drupal/modules--filter--filter.module/
-          7
-          D7:
-          http://api.drupal.org/api/drupal/modules--filter--filter.module/
-          group/standard_filters/7
+   [41]filter.module
+          [42]api.drupal.org/api/drupal/modules--filter--filter.module
+          [43]api.drupal.org/api/drupal/modules--filter--filter.module/gro
+          up/standard_filters/7
 
-   Installing contributed modules
-          D6:
-          http://drupal.org/documentation/install/modules-themes/modules-5
-          -6
-          D7:
-          http://drupal.org/documentation/install/modules-themes/modules-7
+   [44]Installing contributed modules
+          [45]drupal.org/documentation/install/modules-themes/modules-7
 
-   Theming guide
-          http://drupal.org/documentation/theme
+   [46]Theming guide
+          [47]drupal.org/documentation/theme
 
 Original Author
 
-     * [40]Chris Herberte
+     * [48]Chris Herberte
 
 Current Maintainer
 
-     * [41]Bob Vincent
+     * [49]Bob Vincent
 
 References
 
@@ -218,5 +208,13 @@ References
   37. http://drupal.org/project/mailsystem
   38. http://drupal.org/project/htmlmail
   39. http://drupal.org/project/issues/htmlmail
-  40. http://drupal.org/user/1171
-  41. http://drupal.org/user/36148
+  40. http://drupal.org/project/documentation
+  41. http://api.drupal.org/api/drupal/modules--filter--filter.module/6
+  42. http://api.drupal.org/api/drupal/modules--filter--filter.module/7
+  43. http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7
+  44. http://drupal.org/documentation/install/modules-themes/modules-7
+  45. http://drupal.org/documentation/install/modules-themes/modules-7
+  46. http://drupal.org/documentation/theme
+  47. http://drupal.org/documentation/theme
+  48. http://drupal.org/user/1171
+  49. http://drupal.org/user/36148
