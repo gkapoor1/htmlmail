@@ -3,6 +3,6 @@ name = HTML Mail
 description = "Enables HTML in system emails."
 dependencies[] = mailsystem
 php = 5.0
-core = 7.x
+core = 8.x
 configure = admin/config/system/htmlmail
 files[] = htmlmail.mail.inc
