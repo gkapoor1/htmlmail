@@ -124,7 +124,9 @@ Troubleshooting
      * Try selecting the [ ] (Optional) Debug checkbox at the [43]HTML
        Mail module settings page and re-sending your message.
      * Clear your cache after changing any .tpl.php files.
-     * Visit the [44]issue queue for support and feature requests.
+     * If you use a post-filter, make sure your filter settings page looks
+       like [44]this.
+     * Visit the [45]issue queue for support and feature requests.
 
 Related Modules
 
@@ -152,26 +154,26 @@ Related Modules
    Transliteration
           http://drupal.org/project/transliteration
 
-[45]Documentation
+[46]Documentation
 
-   [46]filter.module
-          [47]api.drupal.org/api/drupal/modules--filter--filter.module
-          [48]api.drupal.org/api/drupal/modules--filter--filter.module/gro
+   [47]filter.module
+          [48]api.drupal.org/api/drupal/modules--filter--filter.module
+          [49]api.drupal.org/api/drupal/modules--filter--filter.module/gro
           up/standard_filters/7
 
-   [49]Installing contributed modules
-          [50]drupal.org/documentation/install/modules-themes/modules-7
+   [50]Installing contributed modules
+          [51]drupal.org/documentation/install/modules-themes/modules-7
 
-   [51]Theming guide
-          [52]drupal.org/documentation/theme
+   [52]Theming guide
+          [53]drupal.org/documentation/theme
 
 Original Author
 
-     * [53]Chris Herberte
+     * [54]Chris Herberte
 
 Current Maintainer
 
-     * [54]Bob Vincent
+     * [55]Bob Vincent
 
 References
 
@@ -218,14 +220,15 @@ References
   41. http://drupal.org/project/pathologic
   42. http://drupal.org/project/mailsystem
   43. http://drupal.org/project/htmlmail
-  44. http://drupal.org/project/issues/htmlmail
-  45. http://drupal.org/project/documentation
-  46. http://api.drupal.org/api/drupal/modules--filter--filter.module/6
-  47. http://api.drupal.org/api/drupal/modules--filter--filter.module/7
-  48. http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7
-  49. http://drupal.org/documentation/install/modules-themes/modules-7
+  44. http://drupal.org/node/1130960
+  45. http://drupal.org/project/issues/htmlmail
+  46. http://drupal.org/project/documentation
+  47. http://api.drupal.org/api/drupal/modules--filter--filter.module/6
+  48. http://api.drupal.org/api/drupal/modules--filter--filter.module/7
+  49. http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7
   50. http://drupal.org/documentation/install/modules-themes/modules-7
-  51. http://drupal.org/documentation/theme
+  51. http://drupal.org/documentation/install/modules-themes/modules-7
   52. http://drupal.org/documentation/theme
-  53. http://drupal.org/user/1171
-  54. http://drupal.org/user/36148
+  53. http://drupal.org/documentation/theme
+  54. http://drupal.org/user/1171
+  55. http://drupal.org/user/36148
