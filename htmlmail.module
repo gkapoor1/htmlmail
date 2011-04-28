@@ -6,6 +6,27 @@
  */
 
 /**
+ * Implements hook_permission().
+ *
+ * Defines a permission for setting the per-user plaintext option.
+ */
+function htmlmail_permission() {
+  $args = array(
+    '!htmlmail' => url('http://drupal.org/project/htmlmail'),
+    '%htmlmail' => 'HTML Mail',
+  );
+
+  return array(
+    'choose htmlmail_plaintext' => array(
+      'title' => t('Choose to receive plaintext emails via %htmlmail', $args),
+      'description' => t(
+        'Granting this permission allows users to choose whether to receive all their emails in plaintext, rather than the default format provided by the <a href="!htmlmail">%htmlmail</a> module.', $args
+      ),
+    ),
+  );
+}
+
+/**
  * Implements hook_help().
  */
 function htmlmail_help($path, $arg) {
