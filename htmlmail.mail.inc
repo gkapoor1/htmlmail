@@ -28,6 +28,7 @@ class HTMLMailSystem implements MailSystemInterface {
    *   The formatted $message, ready for sending.
    */
   public function format(array $message) {
+    $eol = variable_get('mail_line_endings', MAIL_LINE_ENDINGS);
     // @todo Remove this when issue #209672 gets resolved.
     if ( $message['headers']['From'] == variable_get('site_mail', ini_get('sendmail_from'))
       && valid_email_address($message['headers']['From'])
