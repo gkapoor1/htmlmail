@@ -64,7 +64,7 @@ Change Log Summary
 
 References
 
-   1. http://drupalcode.org/project/htmlmail.git/log/refs/heads/7.x-2.x
+   1. http://drupalcode.org/project/htmlmail.git/log/refs/heads/8.x-2.x
    2. http://drupalcode.org/project/htmlmail.git/commit/64a69aff375ffe42d311963d748866085281896e
    3. http://drupal.org/user/1171
    4. http://drupal.org/node/524718

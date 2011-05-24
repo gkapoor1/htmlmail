@@ -23,7 +23,7 @@ function htmlmail_admin_settings() {
     '#prefix' => '<strong>' . t('Template file') . ':</strong><br />'
     . t('A template file is applied to your message header, subject, and body text.  You may copy the <a href="!uri">!template</a> file to your default theme directory and use it to customize your messages.',
       array(
-        '!uri' => url('http://drupalcode.org/project/htmlmail.git/blob_plain/refs/heads/7.x-2.x:/htmlmail.tpl.php'),
+        '!uri' => url('http://drupalcode.org/project/htmlmail.git/blob_plain/refs/heads/8.x-2.x:/htmlmail.tpl.php'),
         '!template' => '<code>htmlmail.tpl.php</code>'
       )
     ),
@@ -61,11 +61,11 @@ function htmlmail_admin_settings() {
   </dd>
   <dt><strong><code>$module</code></strong></dt>
   <dd>
-    <p>The first argument to <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7"><code>drupal_mail()</code></a>, which is, by convention, the machine-readable name of the sending module.</p>
+    <p>The first argument to <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/8"><code>drupal_mail()</code></a>, which is, by convention, the machine-readable name of the sending module.</p>
   </dd>
   <dt><strong><code>$key</code></strong></dt>
   <dd>
-    <p>The second argument to <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7"><code>drupal_mail()</code></a>, which should give some indication of why this email is being sent.</p>
+    <p>The second argument to <a href="http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/8"><code>drupal_mail()</code></a>, which should give some indication of why this email is being sent.</p>
   </dd>
   <dt><strong><code>$message_id</code></strong></dt>
   <dd>
@@ -128,7 +128,7 @@ function htmlmail_admin_settings() {
     <p><code>TRUE</code> to add some useful debugging info to the bottom of the message.</p>
   </dd>
 </dl>
-<p>Other modules may also add or modify theme variables by implementing a <code>MODULENAME_preprocess_htmlmail(&amp;$variables)</code> <a href="http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7">hook function</a>.</p>',
+<p>Other modules may also add or modify theme variables by implementing a <code>MODULENAME_preprocess_htmlmail(&amp;$variables)</code> <a href="http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/8">hook function</a>.</p>',
       array('!Instructions' => '')
     ),
   );

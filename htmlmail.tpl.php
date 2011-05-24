@@ -99,10 +99,10 @@
  *
  * 1. http://drupal.org/project/htmlmail
  * 2. http://drupal.org/project/htmlmail
- * 3. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
- * 4. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/7
+ * 3. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/8
+ * 4. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail/8
  * 5. http://drupal.org/project/echo
- * 6. http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/7
+ * 6. http://api.drupal.org/api/drupal/modules--system--theme.api.php/function/hook_preprocess_HOOK/8
  *
  * =========================================================== End instructions.
  */
@@ -172,7 +172,7 @@ endif; ?><p>
     The <?php echo $module; ?> module sets the <u><code>$params</code></u>
     variable.  For this message,
   </p></dt><dd><p><code><pre>
-    $params = <?php echo check_plain(print_r($params, 1)); ?>
+$params = <?php echo check_plain(print_r($params, 1)); ?>
   </pre></code></p></dd><?php endif; ?></dl>
 </div>
 <?php endif;

@@ -4,7 +4,7 @@
  * Formats and sends mail using the MailMIME class.
  *
  * @see http://drupal.org/node/900794
- * @see http://api.drupal.org/api/drupal/includes--mail.inc/interface/MailSystemInterface/7
+ * @see http://api.drupal.org/api/drupal/includes--mail.inc/interface/MailSystemInterface/8
  * @see http://drupal.org/project/mailmime
  */
 

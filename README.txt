@@ -158,7 +158,7 @@ Related Modules
    [45]filter.module
           [46]api.drupal.org/api/drupal/modules--filter--filter.module
           [47]api.drupal.org/api/drupal/modules--filter--filter.module/gro
-          up/standard_filters/7
+          up/standard_filters/8
 
    [48]Installing contributed modules
           [49]drupal.org/documentation/install/modules-themes/modules-7
@@ -195,7 +195,7 @@ References
   17. http://drupal.org/project/modules/?filters=type%3Aproject_project%20tid%3A63%20hash%3A1hbejm%20-bs_project_sandbox%3A1%20bs_project_has_releases%3A1
   18. http://drupal.org/node/778976
   19. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_autop
-  20. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_url/7
+  20. http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_url/8
   21. http://drupal.org/project/rel_to_abs
   22. http://www.pelagodesign.com/sidecar/emogrifier/
   23. http://drupal.org/project/token
@@ -203,8 +203,8 @@ References
   25. http://drupal.org/files/images/htmlmail_settings_2.thumbnail.png
   26. http://drupal.org/project/mailsystem
   27. http://drupal.org/project/htmlmail
-  28. http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/7
-  29. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/7
+  28. http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/8
+  29. http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/8
   30. http://drupal.org/project/htmlmail
   31. http://drupal.org/documentation/theme
   32. http://drupal.org/project/echo
@@ -221,8 +221,8 @@ References
   43. http://drupal.org/project/issues/htmlmail
   44. http://drupal.org/project/documentation
   45. http://api.drupal.org/api/drupal/modules--filter--filter.module/6
-  46. http://api.drupal.org/api/drupal/modules--filter--filter.module/7
-  47. http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7
+  46. http://api.drupal.org/api/drupal/modules--filter--filter.module/8
+  47. http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/8
   48. http://drupal.org/documentation/install/modules-themes/modules-7
   49. http://drupal.org/documentation/install/modules-themes/modules-7
   50. http://drupal.org/documentation/theme

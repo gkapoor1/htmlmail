@@ -1,6 +1,6 @@
 ## Change Log Summary
 
--- *(Note: See the [git repository](http://drupalcode.org/project/htmlmail.git/log/refs/heads/7.x-2.x) for full version)*
+-- *(Note: See the [git repository](http://drupalcode.org/project/htmlmail.git/log/refs/heads/8.x-2.x) for full version)*
 
 November 4, 2008
 

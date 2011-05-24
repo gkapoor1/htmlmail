@@ -66,7 +66,7 @@ Let your compatibility expectations be adjusted accordingly.
     for post-template filtering.
 
     *   [Line break converter](http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_autop)
-    *   [URL Filter](http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_url/7)
+    *   [URL Filter](http://api.drupal.org/api/drupal/modules--filter--filter.module/function/_filter_url/8)
     *   [Relative Path to Absolute URLs](http://drupal.org/project/rel_to_abs)
     *   [Emogrifier](http://www.pelagodesign.com/sidecar/emogrifier/)
     *   [Token support](http://drupal.org/project/token)
@@ -83,8 +83,8 @@ Visit the [Mail System](http://drupal.org/project/mailsystem) settings page at
 to select which parts of Drupal will use
 [HTML Mail](http://drupal.org/project/htmlmail)
 instead of the
-[default](http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/7)
-[mail system](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/7).
+[default](http://api.drupal.org/api/drupal/modules--system--system.mail.inc/class/DefaultMailSystem/8)
+[mail system](http://api.drupal.org/api/drupal/includes--mail.inc/function/drupal_mail_system/8).
 
 Visit the [HTML Mail](http://drupal.org/project/htmlmail) settings page at
 <u>admin/config/system/htmlmail</u>
@@ -184,8 +184,8 @@ The email message text goes through three transformations before sending:
 ## [Documentation](http://drupal.org/project/documentation)
 
 **[filter.module](http://api.drupal.org/api/drupal/modules--filter--filter.module/6)**
-:   [api.drupal.org/api/drupal/modules--filter--filter.module](http://api.drupal.org/api/drupal/modules--filter--filter.module/7)
-:   [api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7](http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/7)
+:   [api.drupal.org/api/drupal/modules--filter--filter.module](http://api.drupal.org/api/drupal/modules--filter--filter.module/8)
+:   [api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/8](http://api.drupal.org/api/drupal/modules--filter--filter.module/group/standard_filters/8)
 
 **[Installing contributed modules](http://drupal.org/documentation/install/modules-themes/modules-7)**
 :   [drupal.org/documentation/install/modules-themes/modules-7](http://drupal.org/documentation/install/modules-themes/modules-7)
