@@ -47,7 +47,7 @@ class HTMLMailSystem implements MailSystemInterface {
         $message['body'] = implode("$eol$eol", $message['body']);
       }
       $body = theme('htmlmail', $message);
-      // @todo Changes to drupal_html_to_text when issue #299138 gets resolved.
+      // @todo Change to drupal_html_to_text when issue #299138 gets resolved.
       $plain = mailsystem_html_to_text($body);
     }
     // Check to see whether recipient allows non-plaintext.
@@ -167,7 +167,7 @@ class HTMLMailSystem implements MailSystemInterface {
       $mime = new MailMIME();
       $to = $mime->encodeHeader('to', $message['to']);
       $subject = $mime->encodeHeader('subject', $message['subject']);
-      $txt_headers = $mime->txtHeaders($headers);
+      $txt_headers = $mime->txtHeaders($message['headers']);
     }
     else {
       $to = mime_header_encode($message['to']);
