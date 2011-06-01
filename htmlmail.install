@@ -5,7 +5,6 @@
  * Installation for HTML Mail module.
  */
 
-
 /**
  * Implements hook_requirements().
  *
