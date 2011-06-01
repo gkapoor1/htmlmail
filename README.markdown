@@ -45,9 +45,9 @@ its code with the [7.x-1.x](http://drupal.org/node/355250) branch, and a tiny
 
 Let your compatibility expectations be adjusted accordingly.
 
-*   Run `update.php` *immediately* after uploading new code.
-
 *   Check the module dependencies, as they may have changed.
+
+*   Run `update.php` *immediately* after uploading new code.
 
 *   The user-interface for adding email header and footer text has been removed.
     Headers and footers may be added by template files and/or by enabling the
