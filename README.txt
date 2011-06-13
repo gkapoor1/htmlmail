@@ -3,11 +3,11 @@
    Lets you theme your messages the same way you theme the rest of your
    website.
 
-[2]Requirement
+  [2]Requirement
 
      * [3]Mail System
 
-[4]Installation
+  [4]Installation
 
    The following additional modules, while not required, are highly
    recommended:
@@ -46,7 +46,7 @@
 
                 Also available as a [10]patch.
 
-[11]Updating from previous versions
+  [11]Updating from previous versions
 
    The [12]8.x-2.x branch shares 94% of its code with the [13]6.x-2.x
    branch, but only 15% of its code with the [14]7.x-1.x branch, and a
@@ -76,7 +76,7 @@
        attachments, is available simply by enabling the [24]Mail MIME
        module.
 
-[25]Configuration
+  [25]Configuration
 
    Visit the [26]Mail System settings page at
    admin/config/system/mailsystem to select which parts of Drupal will use
@@ -85,7 +85,7 @@
    Visit the [30]HTML Mail settings page at admin/config/system/htmlmail
    to select a theme and post-filter for your messages.
 
-[31]Theming
+  [31]Theming
 
    The email message text goes through three transformations before
    sending:
@@ -116,7 +116,7 @@
           + [39]Pathologic Converts relative URLS to absolute URLS so that
             clickable links in your message will work as intended.
 
-Troubleshooting
+  Troubleshooting
 
      * Double-check the [40]Mail System module settings and and make sure
        you selected HTMLMailSystem for your Site-wide default mail system.
@@ -127,7 +127,7 @@ Troubleshooting
        like [42]this.
      * Visit the [43]issue queue for support and feature requests.
 
-Related Modules
+  Related Modules
 
    Echo
           http://drupal.org/project/echo
@@ -153,7 +153,7 @@ Related Modules
    Transliteration
           http://drupal.org/project/transliteration
 
-[44]Documentation
+  [44]Documentation
 
    [45]filter.module
           [46]api.drupal.org/api/drupal/modules--filter--filter.module
@@ -166,11 +166,11 @@ Related Modules
    [50]Theming guide
           [51]drupal.org/documentation/theme
 
-Original Author
+  Original Author
 
      * [52]Chris Herberte
 
-Current Maintainer
+  Current Maintainer
 
      * [53]Bob Vincent
 
