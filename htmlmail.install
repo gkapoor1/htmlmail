@@ -6,21 +6,6 @@
  */
 
 /**
- * Implements hook_requirements().
- *
- * Ensures HTML Mail uses its own MailSystemInterface class.
- */
-function htmlmail_requirements($phase) {
-  if ( $phase !== 'install' ) {
-    // Ensure that the HTMLMailSystem class is used by
-    // (at least) the htmlmail module, so that it always
-    // shows up on the admin/config/system/mailsystem page.
-    mailsystem_set(array('htmlmail' => 'HTMLMailSystem'));
-  }
-  return array();
-}
-
-/**
  * Implements hook_update_N().
  *
  * Removes variables that are no longer used.
