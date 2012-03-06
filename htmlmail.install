@@ -22,6 +22,8 @@ function htmlmail_update_7200() {
  * Rename HTMLMailMailSystem to HTMLMailSystem.
  */
 function htmlmail_update_7201() {
+  // Ensure that mailsystem.module is loaded.
+  drupal_load('module', 'mailsystem');
   foreach (mailsystem_get() as $name => $value) {
     if ($value == 'HTMLMailMailSystem') {
       mailsystem_set(array($name => 'HTMLMailSystem'));
