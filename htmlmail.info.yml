@@ -1,0 +1,7 @@
+name: HTML Mail
+description: Enables HTML in system emails.
+type: module
+package: Mail
+core: '8.x'
+dependencies:
+  - drupal:mailsystem
