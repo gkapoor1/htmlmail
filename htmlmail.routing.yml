@@ -1,0 +1,7 @@
+htmlmail.settings:
+  path: '/admin/config/system/htmlmail'
+  defaults:
+    _form: 'Drupal\htmlmail\Form\HTMLMailSettingsForm'
+    _title: 'HTML Mail'
+  requirements:
+    _permission: 'administer site configuration'
